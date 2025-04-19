@@ -18,20 +18,16 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: Listar estrutura de arquivos (para debug)
-        run: ls -R
-
       - name: Restaurar dependências
-        run: |
-          cd Backend
-          dotnet restore
+        run: dotnet restore Backend/PontoEstagio.sln
 
       - name: Compilar projeto
-        run: |
-          cd Backend
-          dotnet build --configuration Release --no-restore
+        run: dotnet build Backend/PontoEstagio.sln --configuration Release --no-restore
 
       - name: Rodar testes
         run: |
-          cd Backend
-          dotnet test --configuration Release --no-build --no-restore
+          dotnet test Backend/PontoEstagio.sln \
+            --configuration Release \
+            --no-build \
+            --logger "console;verbosity=normal"
+            --nologo 
