@@ -1,8 +1,6 @@
 name: CI
 
 on:
-  pull_request:
-    branches: [ main ]
   push:
     branches: [ main ]
 
@@ -10,10 +8,6 @@ jobs:
   build-and-test:
     name: Build & Test
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./backend
 
     steps:
       - name: Checkout do código
@@ -25,10 +19,10 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restaurar dependências
-        run: dotnet restore ./src
+        run: dotnet restore ./PontoEstagio.sln
 
       - name: Compilar projeto
-        run: dotnet build ./src --configuration Release --no-restore
+        run: dotnet build ./backend/src --configuration Release --no-restore
 
       - name: Rodar testes
-        run: dotnet test ./tests --configuration Release --no-build --no-restore
+        run: dotnet test ./backend/tests --configuration Release --no-build --no-restore
