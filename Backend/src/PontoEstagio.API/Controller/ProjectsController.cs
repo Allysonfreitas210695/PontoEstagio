@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
 using PontoEstagio.Application.UseCases.Projects.GetAllProjects;
 using PontoEstagio.Application.UseCases.Projects.GetProjectById;
 using PontoEstagio.Application.UseCases.Projects.Register;
@@ -63,6 +64,20 @@ public class ProjectsController : ControllerBase
     )
     {
         await useCase.Execute(id,request);
+        return NoContent();
+    } 
+    
+    [Authorize(Roles = nameof(UserType.Supervisor))]
+    [HttpPost("{projectId}/users")]
+    [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> AssignUserToProject(
+        [FromServices] IAssignUserToProjectUseCase useCase,
+        [FromBody] RequestAssignUserToProjectJson request,
+        [FromRoute] Guid projectId
+    )
+    {
+        await useCase.Execute(projectId, request);
         return NoContent();
     }
 

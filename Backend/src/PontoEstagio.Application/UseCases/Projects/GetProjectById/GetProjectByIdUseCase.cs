@@ -6,9 +6,9 @@ namespace PontoEstagio.Application.UseCases.Projects.GetProjectById;
 
 public class GetProjectByIdUseCase : IGetProjectByIdUseCase
 {
-    private readonly IProjectOnlyRepository _projectRepository;
+    private readonly IProjectReadOnlyRepository _projectRepository;
 
-    public GetProjectByIdUseCase(IProjectOnlyRepository projectRepository)
+    public GetProjectByIdUseCase(IProjectReadOnlyRepository projectRepository)
     {
         _projectRepository = projectRepository;
     }

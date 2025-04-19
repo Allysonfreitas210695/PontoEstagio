@@ -39,7 +39,7 @@ public static class DependencyInjection
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
         services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
 
-        services.AddScoped<IProjectOnlyRepository, ProjectRepository>();
+        services.AddScoped<IProjectReadOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectUpdateOnlyRepository, ProjectRepository>();
     }

@@ -8,11 +8,11 @@ using PontoEstagio.Exceptions.Exceptions;
 namespace PontoEstagio.Application.UseCases.Projects.GetAllProjects;
 public class GetAllProjectsByUserUseCase : IGetAllProjectsUseCase
 {
-    private readonly IProjectOnlyRepository _projectRepository;
+    private readonly IProjectReadOnlyRepository _projectRepository;
     private readonly ILoggedUser _loggedUser;
 
     public GetAllProjectsByUserUseCase(
-        IProjectOnlyRepository projectRepository,
+        IProjectReadOnlyRepository projectRepository,
         ILoggedUser loggedUser
     )
     {

@@ -5,7 +5,7 @@ using PontoEstagio.Infrastructure.Context;
 
 namespace PontoEstagio.Infrastructure.DataAccess.Repositories;
 
-public class ProjectRepository : IProjectOnlyRepository, IProjectWriteOnlyRepository, IProjectUpdateOnlyRepository
+public class ProjectRepository : IProjectReadOnlyRepository, IProjectWriteOnlyRepository, IProjectUpdateOnlyRepository
 {
     private readonly PontoEstagioDbContext _dbContext;
     public ProjectRepository(PontoEstagioDbContext dbContext)
@@ -16,6 +16,18 @@ public class ProjectRepository : IProjectOnlyRepository, IProjectWriteOnlyReposi
     public async Task AddAsync(Project project)
     {
         await _dbContext.Projects.AddAsync(project);
+    }
+
+    public async Task AddUserToProjectAsync(UserProject userProject)
+    {
+        await _dbContext.UserProjects.AddAsync(userProject);
+    }
+
+    public async Task<bool> ExistsProjectAssignedToUserAsync(Guid project_id, Guid userIdToAssign)
+    {
+        return await _dbContext.UserProjects
+                                .AsNoTracking()
+                                .AnyAsync(x => x.ProjectId == project_id && x.UserId == userIdToAssign);
     }
 
     public async Task<List<Project>> GetAllProjectsByInternAsync(User user)
@@ -38,12 +50,20 @@ public class ProjectRepository : IProjectOnlyRepository, IProjectWriteOnlyReposi
                             .ToListAsync();
     }
 
+    public async Task<Project?> GetCurrentProjectForUserAsync(Guid userId)
+    {
+        return await _dbContext.UserProjects
+                                .Where(up => up.UserId == userId && up.IsCurrent)
+                                .Select(up => up.Project)
+                                .FirstOrDefaultAsync();
+    }
+
     public void Update(Project project)
     {
         _dbContext.Projects.Update(project);
     }
 
-    async Task<Project?> IProjectOnlyRepository.GetProjectByIdAsync(Guid id)
+    async Task<Project?> IProjectReadOnlyRepository.GetProjectByIdAsync(Guid id)
     {
         return await _dbContext.Projects
                                 .Where(x => x.Id == id)

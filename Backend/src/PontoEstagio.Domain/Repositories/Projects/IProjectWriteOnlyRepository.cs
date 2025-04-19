@@ -2,4 +2,5 @@
 public interface IProjectWriteOnlyRepository
 {
     Task AddAsync(Entities.Project project);
+    Task AddUserToProjectAsync(Entities.UserProject userProject);
 }

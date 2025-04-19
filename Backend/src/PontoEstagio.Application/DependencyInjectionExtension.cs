@@ -3,6 +3,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
 using PontoEstagio.Application.UseCases.Login.DoLogin;
+using PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
 using PontoEstagio.Application.UseCases.Projects.GetAllProjects;
 using PontoEstagio.Application.UseCases.Projects.GetProjectById;
 using PontoEstagio.Application.UseCases.Projects.Register;
@@ -34,6 +35,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetAllUsersUseCase, GetAllUsersUseCase>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
 
+        services.AddScoped<IAssignUserToProjectUseCase, AssignUserToProjectUseCase>();
         services.AddScoped<IGetAllProjectsUseCase, GetAllProjectsByUserUseCase>();
         services.AddScoped<IGetProjectByIdUseCase, GetProjectByIdUseCase>();
         services.AddScoped<IRegisterProjectUseCase, RegisterProjectUseCase>();
