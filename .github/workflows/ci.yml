@@ -2,28 +2,27 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build-and-test:
+    name: Build & Test
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
-      - name: Setup .NET
+      - name: Instalar .NET SDK
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
 
-      - name: Verificar instalação
-        run: dotnet --info
-
       - name: Restaurar dependências
-        run: dotnet restore
+        run: dotnet restore Backend/PontoEstagio.sln
 
-      - name: Build
-        run: dotnet build --configuration Release --no-restore
+      - name: Compilar projeto
+        run: dotnet build Backend/PontoEstagio.sln --configuration Release --no-restore
 
-      - name: Testes com saída detalhada
-        run: dotnet test --no-build --logger "console;verbosity=detailed"
+      - name: Rodar testes
+        run: dotnet test Backend/PontoEstagio.sln --configuration Release --no-build --no-restore
