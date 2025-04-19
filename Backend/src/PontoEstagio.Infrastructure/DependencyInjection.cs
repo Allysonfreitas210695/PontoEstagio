@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Projects;
 using PontoEstagio.Domain.Repositories.User;
+using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Domain.Security.Cryptography;
 using PontoEstagio.Domain.Security.Token;
 using PontoEstagio.Infrastructure.Context;
@@ -42,6 +43,10 @@ public static class DependencyInjection
         services.AddScoped<IProjectReadOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectUpdateOnlyRepository, ProjectRepository>();
+
+        services.AddScoped<IUserProjectsReadOnlyRepository, UserProjectsRepository>();
+        services.AddScoped<IUserProjectsWriteOnlyRepository, UserProjectsRepository>();
+        services.AddScoped<IUserProjectsUpdateOnlyRepository, UserProjectsRepository>();
     }
 
     private static void AddDbContext(IServiceCollection services, IConfiguration configuration)

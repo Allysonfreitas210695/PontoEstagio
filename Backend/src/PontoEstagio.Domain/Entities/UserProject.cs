@@ -24,4 +24,6 @@ public class UserProject : Entity
         IsCurrent = true;
         Role = role;
     }
+
+    public void MarkAsInactive() => IsCurrent = false; 
 }

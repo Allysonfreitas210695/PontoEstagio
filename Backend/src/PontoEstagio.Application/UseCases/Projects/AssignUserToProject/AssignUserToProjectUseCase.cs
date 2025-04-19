@@ -4,6 +4,7 @@ using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Projects;
+using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Exceptions.Exceptions;
 
 namespace PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
@@ -13,22 +14,22 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
     private readonly ILoggedUser _loggedUser;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IProjectReadOnlyRepository _projectReadOnlyRepository;
-    private readonly IProjectWriteOnlyRepository _projectWriteOnlyRepository;
+    private readonly IUserProjectsReadOnlyRepository _userProjectsReadOnlyRepository;
+    private readonly IUserProjectsWriteOnlyRepository _userProjectsWriteOnlyRepository;
 
     public AssignUserToProjectUseCase(
         ILoggedUser loggedUser,
         IUserReadOnlyRepository userReadOnlyRepository,
         IUnitOfWork unitOfWork,
-        IProjectReadOnlyRepository projectReadOnlyRepository,
-        IProjectWriteOnlyRepository projectWriteOnlyRepository
+        IUserProjectsReadOnlyRepository userProjectsReadOnlyRepository,
+        IUserProjectsWriteOnlyRepository userProjectsWriteOnlyRepository
     )
     {
         _loggedUser = loggedUser;
         _userReadOnlyRepository = userReadOnlyRepository;
         _unitOfWork = unitOfWork;
-        _projectReadOnlyRepository = projectReadOnlyRepository;
-        _projectWriteOnlyRepository = projectWriteOnlyRepository;
+        _userProjectsReadOnlyRepository = userProjectsReadOnlyRepository;
+        _userProjectsWriteOnlyRepository = userProjectsWriteOnlyRepository;
     }
 
     public async Task Execute(Guid projectId, RequestAssignUserToProjectJson request)
@@ -45,19 +46,19 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (intern.Type != UserType.Intern)
             throw new ForbiddenException();
 
-        var alreadyAssignedToProject = await _projectReadOnlyRepository
+        var alreadyAssignedToProject = await _userProjectsReadOnlyRepository
             .ExistsProjectAssignedToUserAsync(projectId, intern.Id);
 
         if (alreadyAssignedToProject)
             throw new NotFoundException("User is already assigned to this project.");
 
-        var existingProject = await _projectReadOnlyRepository
+        var existingProject = await _userProjectsReadOnlyRepository
             .GetCurrentProjectForUserAsync(intern.Id);
 
         if (existingProject != null)
             throw new NotFoundException("User already has an ongoing project and cannot be assigned to another.");
 
-        var supervisorAssigned = await _projectReadOnlyRepository
+        var supervisorAssigned = await _userProjectsReadOnlyRepository
             .ExistsProjectAssignedToUserAsync(projectId, supervisor.Id);
 
         if (supervisorAssigned)
@@ -66,8 +67,8 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         var supervisorProject = new UserProject(supervisor.Id, projectId, supervisor.Type);
         var internProject = new UserProject(intern.Id, projectId, intern.Type);
 
-       await _projectWriteOnlyRepository.AddUserToProjectAsync(supervisorProject);
-       await _projectWriteOnlyRepository.AddUserToProjectAsync(internProject);
+       await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(supervisorProject);
+       await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(internProject);
 
         await _unitOfWork.CommitAsync();
     }

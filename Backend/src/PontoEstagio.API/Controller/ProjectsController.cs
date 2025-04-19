@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
+using PontoEstagio.Application.UseCases.Projects.DeleteUserFromProject;
 using PontoEstagio.Application.UseCases.Projects.GetAllProjects;
 using PontoEstagio.Application.UseCases.Projects.GetProjectById;
 using PontoEstagio.Application.UseCases.Projects.Register;
@@ -93,4 +94,19 @@ public class ProjectsController : ControllerBase
         await useCase.Execute(id, request.Status);
         return NoContent();
     }
+
+    [Authorize(Roles = nameof(UserType.Supervisor))]
+    [HttpDelete("{projectId}/users/{userId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RemoveUserFromProject(
+    [FromServices] IDeleteUserFromProjectUseCase useCase,
+    [FromRoute] Guid projectId,
+    [FromRoute] Guid userId
+)
+    {
+        await useCase.Execute(projectId, userId);
+        return NoContent();
+    }
+
 }

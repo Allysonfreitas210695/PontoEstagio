@@ -18,18 +18,6 @@ public class ProjectRepository : IProjectReadOnlyRepository, IProjectWriteOnlyRe
         await _dbContext.Projects.AddAsync(project);
     }
 
-    public async Task AddUserToProjectAsync(UserProject userProject)
-    {
-        await _dbContext.UserProjects.AddAsync(userProject);
-    }
-
-    public async Task<bool> ExistsProjectAssignedToUserAsync(Guid project_id, Guid userIdToAssign)
-    {
-        return await _dbContext.UserProjects
-                                .AsNoTracking()
-                                .AnyAsync(x => x.ProjectId == project_id && x.UserId == userIdToAssign);
-    }
-
     public async Task<List<Project>> GetAllProjectsByInternAsync(User user)
     {
         return await _dbContext.Projects
@@ -48,14 +36,6 @@ public class ProjectRepository : IProjectReadOnlyRepository, IProjectWriteOnlyRe
                             .Include(p => p.UserProjects)
                             .AsNoTracking()
                             .ToListAsync();
-    }
-
-    public async Task<Project?> GetCurrentProjectForUserAsync(Guid userId)
-    {
-        return await _dbContext.UserProjects
-                                .Where(up => up.UserId == userId && up.IsCurrent)
-                                .Select(up => up.Project)
-                                .FirstOrDefaultAsync();
     }
 
     public void Update(Project project)
