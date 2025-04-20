@@ -48,7 +48,6 @@ public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceUp
                                 .Include(x => x.Activities)
                                     .ThenInclude(y => y.Project)
                                     .ThenInclude(y => y.UserProjects)
-                                .AsNoTracking()
                                 .FirstOrDefaultAsync();
     }
 
