@@ -1,6 +1,7 @@
 
 
 using Microsoft.Extensions.DependencyInjection;
+using PontoEstagio.Application.UseCases.Attendance.GetAllAttendances;
 using PontoEstagio.Application.UseCases.Attendance.Register;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
 using PontoEstagio.Application.UseCases.Login.DoLogin;
@@ -37,6 +38,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetAllUsersUseCase, GetAllUsersUseCase>();
         services.AddScoped<IUpdateUserUseCase, UpdateUserUseCase>();
 
+        services.AddScoped<IGetAllAttendancesUseCase, GetAllAttendancesUseCase>();
         services.AddScoped<IRegisterAttendanceUseCase, RegisterAttendanceUseCase>();
 
         services.AddScoped<IAssignUserToProjectUseCase, AssignUserToProjectUseCase>();
