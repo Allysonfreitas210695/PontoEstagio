@@ -35,10 +35,32 @@ public class ActivityRepository : IActivityReadOnlyRepository
                             .FirstOrDefaultAsync();
     }
 
+    public async Task<List<Activity>> GetByInternIdAsync(Guid internId)
+    {
+        return await _dbContext.Activitys
+                            .Where(x => x.Project.UserProjects.Any(y => y.UserId == internId))
+                            .Include(x => x.Project)
+                                .ThenInclude(y => y.UserProjects)
+                            .Include(x => x.Attendance)
+                            .AsNoTracking()
+                            .ToListAsync();
+    }
+
     public async Task<List<Activity>> GetByProjectIdAsync(Guid projectId)
     {
         return await _dbContext.Activitys
                             .Where(x => x.ProjectId == projectId)
+                            .Include(x => x.Project)
+                                .ThenInclude(y => y.UserProjects)
+                            .Include(x => x.Attendance)
+                            .AsNoTracking()
+                            .ToListAsync();
+    }
+
+    public async Task<List<Activity>> GetBySupervisorIdAsync(Guid supervisorId)
+    {
+        return await _dbContext.Activitys
+                            .Where(x => x.Project.UserProjects.Any(y => y.UserId == supervisorId))
                             .Include(x => x.Project)
                                 .ThenInclude(y => y.UserProjects)
                             .Include(x => x.Attendance)
