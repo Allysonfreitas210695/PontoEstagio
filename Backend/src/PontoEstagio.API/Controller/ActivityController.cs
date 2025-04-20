@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PontoEstagio.Application.UseCases.Activity.ActivitiesByProject;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByAttendanceId;
 using PontoEstagio.Application.UseCases.Activity.GetActivityById;
 using PontoEstagio.Communication.Responses;
@@ -31,6 +32,18 @@ public class ActivityController : ControllerBase
     )
     {
         var response = await useCase.Execute(attendanceId);
+        return Ok(response);
+    }
+
+    [Authorize]
+    [HttpGet("{projectId}/project/")]
+    [ProducesResponseType(typeof(IEnumerable<ResponseActivityJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetActivitiesByProject(
+        [FromServices] IGetActivitiesByProjectUseCase useCase,
+        [FromRoute] Guid projectId
+    )
+    {
+        var response = await useCase.Execute(projectId);
         return Ok(response);
     }
 }

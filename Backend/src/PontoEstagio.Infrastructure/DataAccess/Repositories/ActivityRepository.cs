@@ -34,4 +34,15 @@ public class ActivityRepository : IActivityReadOnlyRepository
                             .AsNoTracking()
                             .FirstOrDefaultAsync();
     }
+
+    public async Task<List<Activity>> GetByProjectIdAsync(Guid projectId)
+    {
+        return await _dbContext.Activitys
+                            .Where(x => x.ProjectId == projectId)
+                            .Include(x => x.Project)
+                                .ThenInclude(y => y.UserProjects)
+                            .Include(x => x.Attendance)
+                            .AsNoTracking()
+                            .ToListAsync();
+    }
 }

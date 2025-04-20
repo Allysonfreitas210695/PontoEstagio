@@ -1,6 +1,7 @@
 
 
 using Microsoft.Extensions.DependencyInjection;
+using PontoEstagio.Application.UseCases.Activity.ActivitiesByProject;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByAttendanceId;
 using PontoEstagio.Application.UseCases.Activity.GetActivityById;
 using PontoEstagio.Application.UseCases.Attendance.GetAllAttendances;
@@ -44,6 +45,7 @@ public static class DependencyInjectionExtension
 
         services.AddScoped<IGetActivityByIdUseCase, GetActivityByIdUseCase>();
         services.AddScoped<IGetActivitiesByAttendanceIdUseCase, GetActivitiesByAttendanceIdUseCase>();
+        services.AddScoped<IGetActivitiesByProjectUseCase, GetActivitiesByProjectUseCase>();
 
         services.AddScoped<IGetAllAttendancesUseCase, GetAllAttendancesUseCase>();
         services.AddScoped<IRegisterAttendanceUseCase, RegisterAttendanceUseCase>();
