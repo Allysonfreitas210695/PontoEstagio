@@ -28,6 +28,7 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
             Status = _project.Status.ToString(),
             Activities = _project.Activities.Select(x => new ResponseActivityJson()
             {
+                Id = x.Id,
                 AttendanceId = x.AttendanceId,
                 UserId = x.UserId,
                 RecordedAt = x.RecordedAt,

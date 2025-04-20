@@ -2,6 +2,7 @@
 
 public class ResponseActivityJson
 {
+    public Guid Id { get;  set; }
     public Guid AttendanceId { get;  set; }
     public Guid UserId { get;  set; }
     public Guid ProjectId { get;  set; }

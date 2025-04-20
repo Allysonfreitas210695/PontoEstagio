@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PontoEstagio.Application.UseCases.Attendance.GetAllAttendances;
+using PontoEstagio.Application.UseCases.Attendance.GetAttendanceById;
 using PontoEstagio.Application.UseCases.Attendance.Register;
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
@@ -32,6 +33,18 @@ public class AttendanceController : ControllerBase
     )
     {
         var response = await useCase.Execute(request);
+        return Ok(response);
+    }
+
+    [Authorize]
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ResponseAttendanceJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetById(
+        [FromRoute] Guid id,
+        [FromServices] IGetAttendanceByIdUseCase useCase)
+    {
+        var response = await useCase.Execute(id);
         return Ok(response);
     }
 }

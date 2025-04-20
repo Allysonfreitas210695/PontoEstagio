@@ -29,6 +29,16 @@ public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceWr
                                 .ToListAsync();
     }
 
+    public async Task<Attendance?> GetByIdAsync(Guid id)
+    {
+        return await _dbContext.Attendances
+                                .Where(x => x.Id == id)
+                                .Include(x => x.User)
+                                .Include(x => x.Activities)
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync();
+    }
+
     public async Task<Attendance?> GetByUserIdAndDateAsync(Guid userId, DateTime date)
     {
         return await _dbContext.Attendances
