@@ -1,0 +1,26 @@
+using Microsoft.EntityFrameworkCore;
+using PontoEstagio.Domain.Entities;
+using PontoEstagio.Domain.Repositories.Activity;
+using PontoEstagio.Infrastructure.Context;
+
+namespace PontoEstagio.Infrastructure.DataAccess.Repositories;
+
+public class ActivityRepository : IActivityReadOnlyRepository
+{
+    private readonly PontoEstagioDbContext _dbContext;
+    public ActivityRepository(PontoEstagioDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public Task<Activity?> GetByIdAsync(Guid id)
+    {
+        return _dbContext.Activitys
+                            .Where(x => x.Id == id)
+                            .Include(x => x.Project)
+                                .ThenInclude(y => y.UserProjects)
+                            .Include(x => x.Attendance)
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync();
+    }
+}

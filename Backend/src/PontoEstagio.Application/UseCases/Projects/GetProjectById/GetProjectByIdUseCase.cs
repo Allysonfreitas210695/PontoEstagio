@@ -29,11 +29,27 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
             Activities = _project.Activities.Select(x => new ResponseActivityJson()
             {
                 Id = x.Id,
-                AttendanceId = x.AttendanceId,
+                Attendance = new ResponseAttendanceJson()
+                {
+                    Id = x.Attendance.Id,
+                    UserId = x.Attendance.UserId,
+                    CheckIn = x.Attendance.CheckIn,
+                    CheckOut = x.Attendance.CheckOut,
+                    Date = x.Attendance.Date,
+                    Status = x.Attendance.Status.ToString(),
+                },
                 UserId = x.UserId,
                 RecordedAt = x.RecordedAt,
                 ProofFilePath = x.ProofFilePath,
-                ProjectId = x.Id,
+                Project = new ResponseProjectJson()
+                {
+                    Id = x.Project.Id,
+                    Name = x.Project.Name,
+                    Description = x.Project.Description,
+                    Status = x.Project.Status.ToString(),
+                    StartDate = x.Project.StartDate,
+                    EndDate = x.Project.EndDate,
+                },
                 Description = x.Description,
             }).ToList()
         };

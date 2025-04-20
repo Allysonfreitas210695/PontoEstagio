@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Domain.Repositories;
+using PontoEstagio.Domain.Repositories.Activity;
 using PontoEstagio.Domain.Repositories.Attendance;
 using PontoEstagio.Domain.Repositories.Projects;
 using PontoEstagio.Domain.Repositories.User;
@@ -40,6 +41,8 @@ public static class DependencyInjection
         services.AddScoped<IUserReadOnlyRepository, UserRepository>();
         services.AddScoped<IUserWriteOnlyRepository, UserRepository>();
         services.AddScoped<IUserUpdateOnlyRepository, UserRepository>();
+
+        services.AddScoped<IActivityReadOnlyRepository, ActivityRepository>();
 
         services.AddScoped<IAttendanceReadOnlyRepository, AttendanceRepository>();
         services.AddScoped<IAttendanceWriteOnlyRepository, AttendanceRepository>();

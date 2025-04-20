@@ -34,8 +34,20 @@ public class GetAttendanceByIdUseCase : IGetAttendanceByIdUseCase
                 Id = a.Id,
                 UserId = a.Id,
                 Description = a.Description,
-                AttendanceId = a.AttendanceId,
-                ProjectId = a.ProjectId,
+                Attendance = new ResponseAttendanceJson()
+                {
+                    Id = a.Attendance.Id,
+                    UserId = a.Attendance.UserId,
+                    CheckIn = a.Attendance.CheckIn,
+                    CheckOut = a.Attendance.CheckOut,
+                    Date = a.Attendance.Date,
+                    Status = a.Attendance.Status.ToString(),
+                },
+                Project = new ResponseProjectJson()
+                {
+                    Id = a.Project.Id,
+                    Name = a.Project.Name
+                },
                 ProofFilePath = a.ProofFilePath,
                 RecordedAt = a.RecordedAt,
             }).ToList()
