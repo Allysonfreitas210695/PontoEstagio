@@ -27,5 +27,12 @@ public class Project : Entity
         EndDate = endDate;
         CreatedBy = createdBy;
     }
+
+    public void UpdateName(string name) => Name = name; 
+    public void UpdateDescription(string description) => Description = description; 
+    public void UpdateStatus(ProjectStatus status) => Status = status;
+    public void UpdateStartDate(DateTime startDate) => StartDate = startDate;
+    public void UpdateEndDate(DateTime? endDate) => EndDate = endDate;
+    public void UpdateCreatedBy(Guid createdBy) => CreatedBy = createdBy;
 }
 

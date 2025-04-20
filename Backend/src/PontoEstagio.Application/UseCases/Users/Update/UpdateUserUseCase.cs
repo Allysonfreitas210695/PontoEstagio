@@ -38,12 +38,16 @@ public class UpdateUserUseCase : IUpdateUserUseCase
             ? _user.Password
             : _passwordEncrypter.Encrypt(request.Password);
 
-        _user.Name = request.Name;
-        _user.Password = passwordHash;
-        _user.Email = Email.Criar(request.Email);
-        _user.Type = (UserType)request.Type;
-        _user.IsActive = request.isActive is null ? _user.IsActive : request.isActive.Value;
-
+        _user.UpdateName(request.Name);
+        _user.UpdatePassword(passwordHash);
+        _user.UpdateType((UserType)request.Type);
+        _user.UpdateEmail(request.Email);
+       
+        if (request.isActive == true)
+            _user.Activate();
+        else if (request.isActive == false)
+            _user.Inactivate();
+            
         _userUpdateOnlyRepository.Update(_user);
 
         await _unitOfWork.CommitAsync();

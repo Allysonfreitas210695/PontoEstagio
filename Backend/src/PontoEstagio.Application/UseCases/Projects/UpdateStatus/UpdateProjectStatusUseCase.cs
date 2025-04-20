@@ -42,7 +42,7 @@ public class UpdateProjectStatusUseCase : IUpdateProjectStatusUseCase
         if (_project.CreatedBy != user.Id && user.Type != Domain.Enum.UserType.Supervisor)
             throw new ForbiddenException();
 
-        _project.Status = (Domain.Enum.ProjectStatus)newStatus; 
+        _project.UpdateStatus((Domain.Enum.ProjectStatus)newStatus); 
 
         _projectUpdateOnlyRepository.Update(_project);
 

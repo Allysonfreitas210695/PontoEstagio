@@ -6,7 +6,7 @@ using PontoEstagio.Infrastructure.Context;
 
 namespace PontoEstagio.Infrastructure.DataAccess.Repositories;
 
-public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceWriteOnlyRepository
+public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceUpdateOnlyRepository, IAttendanceWriteOnlyRepository
 {
     private readonly PontoEstagioDbContext _dbContext;
     public AttendanceRepository(PontoEstagioDbContext dbContext)
@@ -29,7 +29,30 @@ public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceWr
                                 .ToListAsync();
     }
 
-    public async Task<Attendance?> GetByIdAsync(Guid id)
+    public Task<List<Attendance>> GetAllBySupervisorAsync(Guid supervisor_id)
+    {
+        return _dbContext.Attendances
+                                .Where(x => x.Activities.Any(y => y.Project.UserProjects.Any(z => z.UserId == supervisor_id)))
+                                .Include(x => x.Activities)
+                                    .ThenInclude(y => y.Project)
+                                    .ThenInclude(y => y.UserProjects)
+                                .AsNoTracking()
+                                .ToListAsync();
+    }
+
+    async Task<Attendance?> IAttendanceUpdateOnlyRepository.GetByIdAsync(Guid id)
+    {
+        return await _dbContext.Attendances
+                                .Where(x => x.Id == id)
+                                .Include(x => x.User)
+                                .Include(x => x.Activities)
+                                    .ThenInclude(y => y.Project)
+                                    .ThenInclude(y => y.UserProjects)
+                                .AsNoTracking()
+                                .FirstOrDefaultAsync();
+    }
+
+    async Task<Attendance?> IAttendanceReadOnlyRepository.GetByIdAsync(Guid id)
     {
         return await _dbContext.Attendances
                                 .Where(x => x.Id == id)
@@ -47,5 +70,10 @@ public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceWr
                                                         a.UserId == userId && 
                                                         a.Date.Date == date.Date
                                                     );
+    }
+
+    public void Update(Attendance attendance)
+    {
+        _dbContext.Attendances.Update(attendance);
     }
 }

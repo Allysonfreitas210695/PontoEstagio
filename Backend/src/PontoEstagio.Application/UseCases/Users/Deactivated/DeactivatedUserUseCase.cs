@@ -23,7 +23,7 @@ public class DeactivatedUserUseCase : IDeactivatedUserUseCase
         if (_user is null)
             throw new NotFoundException("user is not exist.");
 
-        _user!.IsActive = false;
+        _user!.Inactivate();
 
         _userUpdateOnlyRepository.Update(_user);
 

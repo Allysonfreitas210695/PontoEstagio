@@ -41,11 +41,15 @@ public class UpdateProjectUseCase : IUpdateProjectUseCase
         if (_project.CreatedBy != user.Id && user.Type != UserType.Supervisor)
             throw new ForbiddenException();
 
-        _project.Status = (ProjectStatus)request.Status;
-        _project.StartDate = request.StartDate;
-        _project.EndDate = request.EndDate;
-        _project.Description = request.Description;
-        _project.Name = request.Name;
+        _project.UpdateName(request.Name);
+
+        _project.UpdateStatus((ProjectStatus)request.Status);
+
+        _project.UpdateDescription(request.Description);
+
+        _project.UpdateStartDate(request.StartDate);
+
+        _project.UpdateEndDate(request.EndDate);
 
         _projectUpdateOnlyRepository.Update(_project);
 

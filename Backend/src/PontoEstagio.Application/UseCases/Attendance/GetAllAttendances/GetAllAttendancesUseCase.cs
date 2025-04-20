@@ -25,11 +25,14 @@ public class GetAllAttendancesUseCase : IGetAllAttendancesUseCase
          if(_user is null)
             throw new NotFoundException("user not exists.");
 
-        if(_user.Type != Domain.Enum.UserType.Intern)
-            throw new ForbiddenException();
+        var _attendances = new List<Domain.Entities.Attendance>();
 
-        var _attendances = await _attendanceReadOnlyRepository.GetAllByInternAsync(_user.Id);
+        if(_user.Type == Domain.Enum.UserType.Intern)
+            _attendances = await _attendanceReadOnlyRepository.GetAllByInternAsync(_user.Id);
         
+        if(_user.Type == Domain.Enum.UserType.Supervisor)
+            _attendances = await _attendanceReadOnlyRepository.GetAllBySupervisorAsync(_user.Id);
+
         return _attendances.Select(z => new ResponseAttendanceJson
         {
             Id = z.Id,

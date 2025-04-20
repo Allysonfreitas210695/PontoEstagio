@@ -7,11 +7,11 @@ namespace PontoEstagio.Domain.Entities;
 
 public class User : Entity
 {
-    public string Name { get;  set; } = string.Empty;
-    public Email Email { get;  set; } = default!;
-    public UserType Type { get;  set; } = UserType.Intern;
-    public bool IsActive { get;  set; }
-    public string Password { get;  set; } = string.Empty;
+    public string Name { get; private set; } = string.Empty;
+    public Email Email { get;  private set; } = default!;
+    public UserType Type { get; private set; } = UserType.Intern;
+    public bool IsActive { get; private set; }
+    public string Password { get;  private set; } = string.Empty;
 
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
@@ -28,5 +28,12 @@ public class User : Entity
         Password = password;
         IsActive = isActive;
     }
+
+    public void Inactivate() => IsActive = false; 
+    public void Activate() => IsActive = true; 
+    public void UpdateType(UserType type) => Type = type; 
+    public void UpdateName(string name)  => Name = name; 
+    public void UpdateEmail(string email) => Email = Email.Criar(email);
+    public void UpdatePassword(string password) => Password = password;
 }
 

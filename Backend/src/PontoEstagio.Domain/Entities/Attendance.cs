@@ -10,7 +10,7 @@ public class Attendance : Entity
     public DateTime Date { get; private set; }
     public TimeSpan CheckIn { get; private set; }
     public TimeSpan CheckOut { get; private set; }
-    public AttendanceStatus Status { get; private set; }
+    public AttendanceStatus Status { get; set; }
 
     public User User { get; private set; } = default!;
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
@@ -26,4 +26,6 @@ public class Attendance : Entity
         CheckOut = checkOut;
         Status = status;
     }
+
+    public void UpdateStatus(AttendanceStatus status) => Status = status; 
 }

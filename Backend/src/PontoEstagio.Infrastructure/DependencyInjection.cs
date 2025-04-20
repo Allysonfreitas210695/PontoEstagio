@@ -43,6 +43,7 @@ public static class DependencyInjection
 
         services.AddScoped<IAttendanceReadOnlyRepository, AttendanceRepository>();
         services.AddScoped<IAttendanceWriteOnlyRepository, AttendanceRepository>();
+        services.AddScoped<IAttendanceUpdateOnlyRepository, AttendanceRepository>();
 
         services.AddScoped<IProjectReadOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();

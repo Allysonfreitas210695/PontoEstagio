@@ -24,7 +24,7 @@ public class ActivateUserUseCase : IActivateUserUseCase
         if (_user is null)
             throw new NotFoundException("user is not exist.");
 
-        _user!.IsActive = true;
+        _user!.Activate();
 
         _userUpdateOnlyRepository.Update(_user);
 
