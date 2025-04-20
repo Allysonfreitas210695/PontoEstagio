@@ -2,5 +2,5 @@ using PontoEstagio.Domain.Entities;
 
 public interface ILoggedUser
 {
-    Task<User> Get();
+    Task<User?> Get();
 }

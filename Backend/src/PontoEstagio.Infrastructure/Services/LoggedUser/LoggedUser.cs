@@ -18,7 +18,7 @@ public class LoggedUser : ILoggedUser
         _tokenProvider = tokenProvider;
     } 
 
-    public async Task<User> Get()
+    public async Task<User?> Get()
     {
         var token = _tokenProvider.TokenOnRequest();
 
@@ -30,6 +30,6 @@ public class LoggedUser : ILoggedUser
 
         return await _dbContext.Users
                                 .AsNoTracking()
-                                .FirstAsync(user => user.Id == Guid.Parse(id));
+                                .FirstOrDefaultAsync(user => user.Id == Guid.Parse(id));
     }
 }
