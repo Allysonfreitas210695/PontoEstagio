@@ -4,9 +4,11 @@ namespace PontoEstagio.Domain.ValueObjects;
 
 public class Email
 {
-    public string Endereco { get; private set; }
+    public string Endereco { get; private set; } 
 
-    private Email() { }
+    public Email() {
+        Endereco = string.Empty;
+    }
 
     private Email(string endereco)
     {

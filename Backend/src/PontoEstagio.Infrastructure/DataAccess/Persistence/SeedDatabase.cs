@@ -109,7 +109,8 @@ public static class SeedDatabaseInitial
                     intern.Id,
                     DateTime.Today,
                     new TimeSpan(8, 0, 0),
-                    new TimeSpan(17, 0, 0)
+                    new TimeSpan(17, 0, 0),
+                    faker.PickRandom<AttendanceStatus>()
                 );
                 attendances.Add(attendance);
 
