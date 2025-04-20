@@ -13,6 +13,17 @@ public class ActivityRepository : IActivityReadOnlyRepository
         _dbContext = dbContext;
     }
 
+    public async Task<List<Activity>> GetByAttendanceIdAsync(Guid attendanceId)
+    {
+        return await _dbContext.Activitys
+                            .Where(x => x.AttendanceId == attendanceId)
+                            .Include(x => x.Project)
+                                .ThenInclude(y => y.UserProjects)
+                            .Include(x => x.Attendance)
+                            .AsNoTracking()
+                            .ToListAsync();
+    }
+    
     public Task<Activity?> GetByIdAsync(Guid id)
     {
         return _dbContext.Activitys
