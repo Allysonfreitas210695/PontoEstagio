@@ -3,7 +3,7 @@
 namespace PontoEstagio.Exceptions.Exceptions;
 public class ForbiddenException : PontoEstagioException
 {
-    public ForbiddenException() : base("You do not have permission to perform this action.")
+    public ForbiddenException(string Message) : base(Message)
     {
     }
 

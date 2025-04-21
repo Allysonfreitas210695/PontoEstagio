@@ -3,8 +3,9 @@ using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
-using PontoEstagio.Domain.Repositories.Projects;
+using PontoEstagio.Domain.Repositories.Projects; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Projects.Register;
 public class RegisterProjectUseCase : IRegisterProjectUseCase
@@ -29,10 +30,10 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
         var user = await _loggedUser.Get();
 
         if (user is null)
-            throw new NotFoundException("user not exists.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         if (user.Type != UserType.Supervisor)
-            throw new ForbiddenException();
+            throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
 
         var _project = new Project(
             request.Name, 

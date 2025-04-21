@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using FluentValidation;
 using FluentValidation.Validators;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 public class PasswordValidator<T> : PropertyValidator<T, string>
 {
@@ -12,37 +13,37 @@ public class PasswordValidator<T> : PropertyValidator<T, string>
     {
         if (string.IsNullOrWhiteSpace(password))
         {
-            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, "Password cannot be empty.");
+            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, ErrorMessages.PasswordEmpty);
             return false;
         }
 
         if (password.Length < 8)
         {
-            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, "Password must be at least 8 characters long.");
+            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, ErrorMessages.PasswordTooShort);
             return false;
         }
 
         if (!Regex.IsMatch(password, "[A-Z]"))
         {
-            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, "Password must contain at least one uppercase letter.");
+            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, ErrorMessages.PasswordMissingUppercase);
             return false;
         }
 
         if (!Regex.IsMatch(password, "[a-z]"))
         {
-            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, "Password must contain at least one lowercase letter.");
+            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, ErrorMessages.PasswordMissingLowercase);
             return false;
         }
 
         if (!Regex.IsMatch(password, "[0-9]"))
         {
-            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, "Password must contain at least one number.");
+            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, ErrorMessages.PasswordMissingNumber);
             return false;
         }
 
         if (!Regex.IsMatch(password, @"[\W_]"))
         {
-            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, "Password must contain at least one special character.");
+            context.MessageFormatter.AppendArgument(ERROR_MESSAGE_KEY, ErrorMessages.PasswordMissingSpecialCharacter);
             return false;
         }
 

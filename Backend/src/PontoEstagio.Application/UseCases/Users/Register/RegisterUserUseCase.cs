@@ -7,8 +7,9 @@ using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Security.Cryptography;
 using PontoEstagio.Domain.Security.Token;
-using PontoEstagio.Domain.ValueObjects;
+using PontoEstagio.Domain.ValueObjects; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Users.Register;
 
@@ -86,7 +87,7 @@ public class RegisterUserUseCase : IRegisterUserUseCase
         var emailExist = await _userReadOnlyRepository.ExistActiveUserWithEmailAsync(request.Email);
 
         if (emailExist)
-            result.Errors.Add(new ValidationFailure(string.Empty, "Email is already in use."));
+            result.Errors.Add(new ValidationFailure(string.Empty, ErrorMessages.EmailAlreadyInUse));
 
         if (result.IsValid == false)
         {

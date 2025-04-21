@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PontoEstagio.Application.UseCases.Reports.Monthly;
 using PontoEstagio.Communication.Responses;
 
@@ -7,6 +8,7 @@ namespace PontoEstagio.API.Controller;
 [ApiController]
 public class ReportController : ControllerBase
 {
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(typeof(ResponseReportMonthlyJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]

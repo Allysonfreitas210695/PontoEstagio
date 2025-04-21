@@ -1,7 +1,8 @@
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Repositories.Activity;
-using PontoEstagio.Domain.Repositories.Projects;
+using PontoEstagio.Domain.Repositories.Projects; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Activity.ActivitiesByProject;
 
@@ -23,7 +24,7 @@ public class GetActivitiesByProjectUseCase : IGetActivitiesByProjectUseCase
     {
         var project = await _projectReadOnlyRepository.GetProjectByIdAsync(projectId);
         if (project is null) 
-            throw new NotFoundException("Project not found.");
+            throw new NotFoundException(ErrorMessages.ProjectNotFound);
 
         var activities = await _activityReadOnlyRepository.GetByProjectIdAsync(projectId);
         

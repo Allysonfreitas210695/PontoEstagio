@@ -3,6 +3,8 @@ using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories.UserProjects;
+using PontoEstagio.Exceptions.ResourcesErrors;
+
 
 namespace PontoEstagio.Application.UseCases.Projects.DeleteUserFromProject;
 public class DeleteUserFromProjectUseCase : IDeleteUserFromProjectUseCase
@@ -26,20 +28,20 @@ public class DeleteUserFromProjectUseCase : IDeleteUserFromProjectUseCase
         var supervisor = await _loggedUser.Get();
 
         if (supervisor is null || supervisor.Type != UserType.Supervisor)
-            throw new ForbiddenException();
+            throw new ForbiddenException(ErrorMessages.SupervisorNotFoundOrNotSupervisor);
 
         if (supervisor.Id == userId)
-            throw new BusinessRuleException("Você não pode remover a si mesmo deste projeto.");
+            throw new BusinessRuleException(ErrorMessages.CannotRemoveSelfFromProject);
 
         var userProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, userId);
         if (userProject is null)
-            throw new NotFoundException("Associação não encontrada ou já está inativa.");
+            throw new NotFoundException(ErrorMessages.AssociationNotFoundOrInactive);
 
         userProject.MarkAsInactive();
 
         var supervisorProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, supervisor.Id);
         if (supervisorProject is null)
-            throw new NotFoundException("Associação não encontrada ou já está inativa.");
+            throw new NotFoundException(ErrorMessages.SupervisorAssociationNotFound);
 
         supervisorProject.MarkAsInactive();
 

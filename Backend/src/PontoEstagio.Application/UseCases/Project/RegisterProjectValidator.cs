@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using PontoEstagio.Communication.Request;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Projects;
 
@@ -8,16 +9,16 @@ public class RegisterProjectValidator : AbstractValidator<RequestRegisterProject
     public RegisterProjectValidator()
     {
         RuleFor(project => project.Name)
-            .NotEmpty()
-            .WithMessage("Project name is required.");
+           .NotEmpty()
+           .WithMessage(ErrorMessages.ProjectNameRequired);
 
         RuleFor(project => project.StartDate)
             .Must(date => date.Date >= DateTime.UtcNow.Date)
-            .WithMessage("Start date must be today or a future date.");
+            .WithMessage(ErrorMessages.StartDateMustBeTodayOrFuture);
 
         RuleFor(project => project.EndDate)
             .Must((project, endDate) => endDate == null || endDate.Value.Date > project.StartDate.Date)
-            .WithMessage("End date must be later than start date.")
+            .WithMessage(ErrorMessages.EndDateMustBeLaterThanStartDate)
             .When(project => project.EndDate.HasValue);
     }
 }

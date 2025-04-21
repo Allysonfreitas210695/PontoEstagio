@@ -1,6 +1,7 @@
 using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Repositories.Activity;
+using PontoEstagio.Domain.Repositories.Activity; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Activity.GetActivityById;
 
@@ -18,7 +19,7 @@ public class GetActivityByIdUseCase : IGetActivityByIdUseCase
         var activity = await _activityReadOnlyRepository.GetByIdAsync(id);
 
         if (activity is null)
-            throw new NotFoundException("Activity not found.");
+            throw new NotFoundException(ErrorMessages.ActivityNotFound);
             
         return new ResponseActivityJson() {
             Id = activity.Id,

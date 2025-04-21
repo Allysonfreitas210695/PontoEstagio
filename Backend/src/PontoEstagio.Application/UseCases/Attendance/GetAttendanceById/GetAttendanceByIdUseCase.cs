@@ -1,6 +1,7 @@
 using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Repositories;
+using PontoEstagio.Domain.Repositories; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Attendance.GetAttendanceById;
 
@@ -20,7 +21,7 @@ public class GetAttendanceByIdUseCase : IGetAttendanceByIdUseCase
         var _attendance = await _attendanceReadOnlyRepository.GetByIdAsync(id);
 
         if (_attendance == null)
-            throw new NotFoundException("Attendance not found");
+            throw new NotFoundException(ErrorMessages.AttendanceNotFound);
 
         return new ResponseAttendanceJson() {
             Id = _attendance.Id,

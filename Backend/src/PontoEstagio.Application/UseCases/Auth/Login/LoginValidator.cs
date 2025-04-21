@@ -1,5 +1,6 @@
 using FluentValidation;
 using PontoEstagio.Communication.Request;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Login.DoLogin;
 
@@ -9,13 +10,13 @@ public class LoginValidator : AbstractValidator<RequestLoginUserJson>
     {
         RuleFor(user => user.Email)
             .NotEmpty()
-            .WithMessage("Email cannot be empty.")
+            .WithMessage(ErrorMessages.EmailCannotBeEmpty)
             .EmailAddress()
             .When(user => string.IsNullOrWhiteSpace(user.Email) == false, ApplyConditionTo.CurrentValidator)
-            .WithMessage("Email format is invalid.");
+            .WithMessage(ErrorMessages.InvalidEmailFormat);
 
         RuleFor(user => user.Password)
             .NotEmpty()
-            .WithMessage("Password cannot be empty.");
+            .WithMessage(ErrorMessages.PasswordCannotBeEmpty);
     }
 }

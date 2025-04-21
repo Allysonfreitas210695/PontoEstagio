@@ -1,10 +1,11 @@
 using System.Net;
- 
-namespace PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
+
 
 public class InvalidLoginException : PontoEstagioException
 {
-    public InvalidLoginException() : base("Invalid login. Please check your email and password.") 
+    public InvalidLoginException() : base(ErrorMessages.InvalidLogin) 
     {
 
     }

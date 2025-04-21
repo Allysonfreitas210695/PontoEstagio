@@ -2,7 +2,8 @@
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Domain.Enum;
-using PontoEstagio.Domain.Repositories.Projects; 
+using PontoEstagio.Domain.Repositories.Projects;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Projects.Update;
 public class UpdateProjectUseCase : IUpdateProjectUseCase
@@ -29,17 +30,17 @@ public class UpdateProjectUseCase : IUpdateProjectUseCase
         var user = await _loggedUser.Get();
 
         if (user is null)
-            throw new NotFoundException("user not exists.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         if (user.Type != UserType.Supervisor)
-            throw new ForbiddenException();
+            throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
 
         var _project = await _projectUpdateOnlyRepository.GetProjectByIdAsync(projectId);
         if (_project is null)
-            throw new NotFoundException("Project not found.");
+            throw new NotFoundException(ErrorMessages.ProjectNotFound);
 
         if (_project.CreatedBy != user.Id && user.Type != UserType.Supervisor)
-            throw new ForbiddenException();
+            throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
 
         _project.UpdateName(request.Name);
 

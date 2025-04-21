@@ -2,6 +2,7 @@
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Users.Deactivated;
 
@@ -21,7 +22,7 @@ public class DeactivatedUserUseCase : IDeactivatedUserUseCase
     {
         var _user = await _userUpdateOnlyRepository.GetUserByIdAsync(id);
         if (_user is null)
-            throw new NotFoundException("user is not exist.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         _user!.Inactivate();
 

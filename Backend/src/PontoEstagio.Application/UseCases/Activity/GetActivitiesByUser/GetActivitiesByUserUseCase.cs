@@ -2,6 +2,7 @@ using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories.Activity;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Activity.GetActivitiesByUser;
 
@@ -23,16 +24,16 @@ public class GetActivitiesByUserUseCase : IGetActivitiesByUserUseCase
     {
         var user = await _loggedUser.Get();
         if (user is null)
-            throw new NotFoundException("Usuário não encontrado.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         if (!user.IsActive)
-            throw new ForbiddenException();
+            throw new ForbiddenException(ErrorMessages.UserNotActive);
 
         var activities = user.Type switch
         {
             UserType.Intern => await _activityReadOnlyRepository.GetByInternIdAsync(userId),
             UserType.Supervisor => await _activityReadOnlyRepository.GetBySupervisorIdAsync(userId),
-            _ => throw new BusinessRuleException("Tipo de usuário inválido para listagem de atividades.")
+            _ => throw new BusinessRuleException(ErrorMessages.InvalidUserTypeForListing)
         };
 
         return activities.Select(activity => new ResponseActivityJson

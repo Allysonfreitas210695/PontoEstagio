@@ -4,6 +4,7 @@ using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Attendance;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Attendance.Register;
 
@@ -30,23 +31,23 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
     public async Task<ResponseShortAttendanceJson> Execute(RequestRegisterAttendanceJson request)
     {
         if (!Enum.IsDefined(typeof(Communication.Enum.AttendanceStatus), request.Status))
-            throw new ErrorOnValidationException(new List<string> { "Status is invalid." }); 
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidStatus }); 
 
         Validator(request);
 
         var _user = await _loggedUser.Get();
 
         if(_user is null)
-            throw new NotFoundException("user not exists.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         if (_user.Type != UserType.Intern)
-            throw new ForbiddenException();
+            throw new ForbiddenException(ErrorMessages.InvalidUserType);
 
         var existingAttendance = await _attendanceReadOnlyRepository
                 .GetByUserIdAndDateAsync(_user.Id, request.Date);
 
         if (existingAttendance != null)
-            throw new BusinessRuleException("The user already has an attendance registered for this date.");
+            throw new BusinessRuleException(ErrorMessages.AttendanceAlreadyExists);
 
         var newAttendance = new Domain.Entities.Attendance(
             _user.Id,

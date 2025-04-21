@@ -1,6 +1,7 @@
 ﻿using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Repositories;
+using PontoEstagio.Domain.Repositories; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Users.GetUserById;
 public class GetUserByIdUseCase : IGetUserByIdUseCase
@@ -18,7 +19,7 @@ public class GetUserByIdUseCase : IGetUserByIdUseCase
     { 
         var result = await _userReadOnlyRepository.GetUserByIdAsync(id);
         if (result is null)
-            throw new NotFoundException("User is not exists");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         return new ResponseUserJson()
         {

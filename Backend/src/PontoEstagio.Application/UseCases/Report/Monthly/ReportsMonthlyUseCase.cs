@@ -1,7 +1,8 @@
 ﻿
 using PontoEstagio.Communication.Responses;
- using PontoEstagio.Domain.Repositories.Report;
+ using PontoEstagio.Domain.Repositories.Report; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Reports.Monthly;
 
@@ -21,13 +22,13 @@ public class ReportsMonthlyUseCase : IReportsMonthlyUseCase
     public async Task<List<ResponseReportMonthlyJson>> Executar(string periodo)
     {
         if (!DateTime.TryParseExact($"{periodo}-01", "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out var startDate))
-            throw new ErrorOnValidationException(new List<string> { "Período inválido. Use o formato 'yyyy-MM'." });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidPeriodFormat });
 
         var endDate = startDate.AddMonths(1).AddDays(-1);
 
         var _user = await _loggedUser.Get();
         if (_user is null)
-            throw new NotFoundException("User not found.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         List<Domain.Entities.Attendance> attendances = new();
 

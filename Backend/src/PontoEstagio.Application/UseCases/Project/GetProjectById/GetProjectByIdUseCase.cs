@@ -1,6 +1,7 @@
 using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Repositories.Projects;
+using PontoEstagio.Domain.Repositories.Projects; 
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Projects.GetProjectById;
 
@@ -17,7 +18,7 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
     {
         var _project = await _projectRepository.GetProjectByIdAsync(id);
         if(_project is null)
-             throw new NotFoundException("Project not found");
+             throw new NotFoundException(ErrorMessages.ProjectNotFound);
 
         return new ResponseProjectJson(){
             Id = _project.Id,

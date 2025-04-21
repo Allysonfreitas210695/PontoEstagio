@@ -1,11 +1,10 @@
-﻿using PontoEstagio.Communication.Request; 
-using PontoEstagio.Domain.Entities;
+﻿using PontoEstagio.Communication.Request;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Security.Cryptography;
-using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Users.Update;
 public class UpdateUserUseCase : IUpdateUserUseCase
@@ -32,7 +31,7 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         var _user = await _userUpdateOnlyRepository.GetUserByIdAsync(id);
 
         if (_user is null)
-            throw new NotFoundException("User is not exists.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         string passwordHash = string.IsNullOrWhiteSpace(request.Password)
             ? _user.Password

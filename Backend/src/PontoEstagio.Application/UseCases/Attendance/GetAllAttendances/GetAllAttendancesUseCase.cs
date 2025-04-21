@@ -1,6 +1,7 @@
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Attendance.GetAllAttendances;
 
@@ -23,7 +24,7 @@ public class GetAllAttendancesUseCase : IGetAllAttendancesUseCase
         var _user = await _loggedUser.Get();
 
          if(_user is null)
-            throw new NotFoundException("user not exists.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         var _attendances = new List<Domain.Entities.Attendance>();
 

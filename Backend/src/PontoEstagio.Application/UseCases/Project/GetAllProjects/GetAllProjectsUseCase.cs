@@ -1,9 +1,9 @@
 ﻿
 using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories.Projects;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Projects.GetAllProjects;
 public class GetAllProjectsByUserUseCase : IGetAllProjectsUseCase
@@ -25,7 +25,7 @@ public class GetAllProjectsByUserUseCase : IGetAllProjectsUseCase
         var _user = await _loggedUser.Get();
 
         if(_user is null) 
-            throw new NotFoundException("user not exists.");
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         var listaProjects = new List<ResponseShortProjectJson>();
 
