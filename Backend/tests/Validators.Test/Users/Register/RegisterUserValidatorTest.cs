@@ -1,5 +1,6 @@
 ﻿using CommonTestUltilities.Request;
 using FluentAssertions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace Validators.Test.Users.Register;
 public class RegisterUserValidatorTest
@@ -29,9 +30,9 @@ public class RegisterUserValidatorTest
         var result = validator.Validate(request);
         // ASSERT
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == "Name cannot be empty.");
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.NameCannotBeEmpty);
     }
-
+ 
     [Fact]
     public void Validate_ShouldReturnError_WhenEmailIsInvalid()
     {
@@ -43,7 +44,7 @@ public class RegisterUserValidatorTest
         var result = validator.Validate(request);
         // ASSERT
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == "Email format is invalid.");
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidEmailFormat);
     }
 
     [Fact]
@@ -57,6 +58,6 @@ public class RegisterUserValidatorTest
         var result = validator.Validate(request);
         // ASSERT
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == "Email cannot be empty.");
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.EmailCannotBeEmpty);
     }
 }
