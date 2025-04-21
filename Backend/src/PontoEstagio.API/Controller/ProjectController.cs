@@ -45,6 +45,7 @@ public class ProjectController : ControllerBase
     [HttpPost] 
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> Register(
         [FromServices] IRegisterProjectUseCase useCase,
         [FromBody] RequestRegisterProjectJson request
@@ -58,6 +59,7 @@ public class ProjectController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> Update(
         [FromServices] IUpdateProjectUseCase useCase,
         [FromBody] RequestRegisterProjectJson request,
@@ -72,6 +74,7 @@ public class ProjectController : ControllerBase
     [HttpPost("{projectId}/users")]
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> AssignUserToProject(
         [FromServices] IAssignUserToProjectUseCase useCase,
         [FromBody] RequestAssignUserToProjectJson request,
@@ -85,6 +88,7 @@ public class ProjectController : ControllerBase
     [HttpPatch("{id}/status")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> UpdateProjectStatus(
     [FromRoute] Guid id,
     [FromBody] RequestUpdateProjectStatusJson request,
@@ -99,6 +103,8 @@ public class ProjectController : ControllerBase
     [HttpDelete("{projectId}/users/{userId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> RemoveUserFromProject(
     [FromServices] IDeleteUserFromProjectUseCase useCase,
     [FromRoute] Guid projectId,
