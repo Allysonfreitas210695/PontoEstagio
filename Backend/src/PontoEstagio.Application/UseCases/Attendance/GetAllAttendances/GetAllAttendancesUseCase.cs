@@ -42,6 +42,7 @@ public class GetAllAttendancesUseCase : IGetAllAttendancesUseCase
             CheckIn = z.CheckIn,
             CheckOut = z.CheckOut,
             Status = z.Status.ToString(),
+            CreatedAt = z.CreatedAt
         }).ToList();
     }
 }   

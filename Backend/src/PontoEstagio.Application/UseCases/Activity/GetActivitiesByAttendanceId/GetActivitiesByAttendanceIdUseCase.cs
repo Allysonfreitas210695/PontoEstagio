@@ -22,6 +22,7 @@ public class GetActivitiesByAttendanceIdUseCase : IGetActivitiesByAttendanceIdUs
         {
             Id = activity.Id,
             Description = activity.Description,
+            CreatedAt = activity.CreatedAt,
             Project = new ResponseProjectJson
             {
                 Id = activity.Project.Id,

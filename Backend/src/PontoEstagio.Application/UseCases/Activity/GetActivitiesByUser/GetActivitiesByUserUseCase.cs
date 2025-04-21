@@ -42,6 +42,7 @@ public class GetActivitiesByUserUseCase : IGetActivitiesByUserUseCase
             Description = activity.Description,
             UserId = activity.UserId,
             RecordedAt = activity.RecordedAt,
+            CreatedAt = activity.CreatedAt,
             ProofFilePath = activity.ProofFilePath,
             Project =  new ResponseProjectJson
             {

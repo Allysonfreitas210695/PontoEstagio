@@ -55,7 +55,8 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
             Name = _project.Name,
             Status = _project.Status.ToString(),
             StartDate = _project.StartDate,
-            EndDate = _project.EndDate
+            EndDate = _project.EndDate,
+            CreatedAt = _project.CreatedAt
         };
     }
 

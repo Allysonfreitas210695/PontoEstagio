@@ -30,6 +30,7 @@ public class GetAttendanceByIdUseCase : IGetAttendanceByIdUseCase
             CheckIn = _attendance.CheckIn,
             CheckOut = _attendance.CheckOut,
             Status = _attendance.Status.ToString(),
+            CreatedAt = _attendance.CreatedAt,
             Activities = _attendance.Activities.Select(a => new ResponseActivityJson()
             {
                 Id = a.Id,

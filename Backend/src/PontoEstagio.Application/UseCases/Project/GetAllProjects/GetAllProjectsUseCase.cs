@@ -39,7 +39,8 @@ public class GetAllProjectsByUserUseCase : IGetAllProjectsUseCase
                Description = z.Description,
                Status = z.Status.ToString(),
                StartDate = z.StartDate,
-               EndDate = z.EndDate
+               EndDate = z.EndDate,
+               CreatedAt = z.CreatedAt
            }).ToList());
         }
 
@@ -53,7 +54,8 @@ public class GetAllProjectsByUserUseCase : IGetAllProjectsUseCase
                 Description = z.Description,
                 Status = z.Status.ToString(),
                 StartDate = z.StartDate,
-                EndDate = z.EndDate
+                EndDate = z.EndDate,
+                CreatedAt = z.CreatedAt
             }).ToList());
         }
 

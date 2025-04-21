@@ -68,6 +68,7 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
             Date = newAttendance.Date,
             CheckIn = newAttendance.CheckIn,
             CheckOut = newAttendance.CheckOut,
+            CreatedAt = newAttendance.CreatedAt,
         };
     }
 

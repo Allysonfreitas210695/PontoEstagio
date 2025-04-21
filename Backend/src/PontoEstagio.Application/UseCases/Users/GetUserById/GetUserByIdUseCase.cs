@@ -27,6 +27,7 @@ public class GetUserByIdUseCase : IGetUserByIdUseCase
             Name = result.Name,
             IsActive = result.IsActive,
             Type = result.Type.ToString(), 
+            CreatedAt = result.CreatedAt 
         };
     }
 }

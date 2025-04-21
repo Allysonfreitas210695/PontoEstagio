@@ -10,5 +10,6 @@ public class ResponseProjectJson
     public string Status { get; set; } = string.Empty;
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
+    public DateTime CreatedAt { get; set; }
     public List<ResponseActivityJson> Activities { get; set; } = new List<ResponseActivityJson>();
 }

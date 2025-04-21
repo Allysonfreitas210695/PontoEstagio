@@ -66,8 +66,8 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         var supervisorProject = new UserProject(supervisor.Id, projectId, supervisor.Type);
         var internProject = new UserProject(intern.Id, projectId, intern.Type);
 
-       await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(supervisorProject);
-       await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(internProject);
+        await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(supervisorProject);
+        await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(internProject);
 
         await _unitOfWork.CommitAsync();
     }

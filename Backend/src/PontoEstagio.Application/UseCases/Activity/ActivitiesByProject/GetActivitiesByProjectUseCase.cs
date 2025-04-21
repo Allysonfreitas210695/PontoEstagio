@@ -48,7 +48,8 @@ public class GetActivitiesByProjectUseCase : IGetActivitiesByProjectUseCase
                 Status = activity.Attendance.Status.ToString(),
             },
             ProofFilePath = activity.ProofFilePath,
-            RecordedAt = activity.RecordedAt
+            RecordedAt = activity.RecordedAt,
+            CreatedAt = activity.CreatedAt,
         }).ToList();
     }
 }

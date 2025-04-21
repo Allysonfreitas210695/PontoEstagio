@@ -27,6 +27,7 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
             StartDate = _project.StartDate,
             EndDate = _project.EndDate,
             Status = _project.Status.ToString(),
+            CreatedAt = _project.CreatedAt,
             Activities = _project.Activities.Select(x => new ResponseActivityJson()
             {
                 Id = x.Id,

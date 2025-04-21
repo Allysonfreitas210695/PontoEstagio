@@ -18,7 +18,8 @@ public class GetAllUsersUseCase : IGetAllUsersUseCase
             Id = z.Id,
             Name = z.Name,
             IsActive = z.IsActive,
-            Type = z.Type.ToString()
+            Type = z.Type.ToString(),
+            CreatedAt = z.CreatedAt 
         }).ToList();
     }
 }
