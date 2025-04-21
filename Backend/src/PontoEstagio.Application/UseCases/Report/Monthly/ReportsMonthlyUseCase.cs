@@ -1,7 +1,6 @@
 ﻿
 using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Entities;
-using PontoEstagio.Domain.Repositories.Report;
+ using PontoEstagio.Domain.Repositories.Report;
 using PontoEstagio.Exceptions.Exceptions;
 
 namespace PontoEstagio.Application.UseCases.Reports.Monthly;
@@ -22,7 +21,7 @@ public class ReportsMonthlyUseCase : IReportsMonthlyUseCase
     public async Task<List<ResponseReportMonthlyJson>> Executar(string periodo)
     {
         if (!DateTime.TryParseExact($"{periodo}-01", "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out var startDate))
-            throw new ArgumentException("Período inválido. Use o formato 'yyyy-MM'.");
+            throw new ErrorOnValidationException(new List<string> { "Período inválido. Use o formato 'yyyy-MM'." });
 
         var endDate = startDate.AddMonths(1).AddDays(-1);
 
