@@ -16,7 +16,7 @@ namespace PontoEstagio.API.Controller;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class ProjectsController : ControllerBase
+public class ProjectController : ControllerBase
 {
     [HttpGet] 
     [ProducesResponseType(typeof(List<ResponseShortProjectJson>), StatusCodes.Status200OK)]

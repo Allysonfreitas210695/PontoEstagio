@@ -18,6 +18,7 @@ using PontoEstagio.Application.UseCases.Projects.GetProjectById;
 using PontoEstagio.Application.UseCases.Projects.Register;
 using PontoEstagio.Application.UseCases.Projects.Update;
 using PontoEstagio.Application.UseCases.Projects.UpdateStatus;
+using PontoEstagio.Application.UseCases.Reports.Monthly;
 using PontoEstagio.Application.UseCases.Users.Deactivated;
 using PontoEstagio.Application.UseCases.Users.Delete;
 using PontoEstagio.Application.UseCases.Users.GetAllUsers;
@@ -62,5 +63,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IRegisterProjectUseCase, RegisterProjectUseCase>();
         services.AddScoped<IUpdateProjectUseCase, UpdateProjectUseCase>();
         services.AddScoped<IUpdateProjectStatusUseCase, UpdateProjectStatusUseCase>();
+        
+        services.AddScoped<IReportsMonthlyUseCase, ReportsMonthlyUseCase>();
     }
 }

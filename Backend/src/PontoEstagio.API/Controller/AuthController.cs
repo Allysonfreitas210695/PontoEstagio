@@ -15,6 +15,7 @@ public class AuthController : ControllerBase
     [Route("login")]
     [ProducesResponseType(typeof(ResponseLoggedUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Register( 
         [FromServices] ILoginUserUseCase useCase,     
         [FromBody] RequestLoginUserJson request)
@@ -25,7 +26,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("refresh")]
     [ProducesResponseType(typeof(ResponseLoggedUserJson), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> RefreshToken(
         [FromServices] IRefreshTokenUseCase useCase,
         [FromBody] RequestRefreshTokenJson request)

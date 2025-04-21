@@ -16,7 +16,8 @@ public class AttendanceController : ControllerBase
 {
     [Authorize]
     [HttpGet]
-    [ProducesResponseType(typeof(List<ResponseAttendanceJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ResponseAttendanceJson>), StatusCodes.Status200OK)] 
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)] 
     public async Task<IActionResult> GetAllAttendances(
         [FromServices] IGetAllAttendancesUseCase useCase)
     {
@@ -28,6 +29,8 @@ public class AttendanceController : ControllerBase
     [HttpPost] 
     [ProducesResponseType(typeof(ResponseShortAttendanceJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Register(
         [FromServices] IRegisterAttendanceUseCase useCase,
         [FromBody] RequestRegisterAttendanceJson request
@@ -53,6 +56,8 @@ public class AttendanceController : ControllerBase
     [HttpPatch("{id}/status")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status409Conflict)]
     public async Task<IActionResult> UpdateProjectStatus(
     [FromRoute] Guid id,
     [FromBody] RequestUpdateAttendanceStatusJson request,

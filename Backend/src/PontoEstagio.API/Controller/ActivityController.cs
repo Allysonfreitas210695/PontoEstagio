@@ -15,6 +15,7 @@ public class ActivityController : ControllerBase
     [Authorize]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ResponseActivityJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)] 
     public async Task<IActionResult> GetActivityById(
         [FromServices] IGetActivityByIdUseCase useCase,
         [FromRoute] Guid id
@@ -26,7 +27,7 @@ public class ActivityController : ControllerBase
 
     [Authorize]
     [HttpGet("{attendanceId}/attendance/")]
-    [ProducesResponseType(typeof(IEnumerable<ResponseActivityJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ResponseActivityJson>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetActivitiesByAttendanceId(
         [FromServices] IGetActivitiesByAttendanceIdUseCase useCase,
         [FromRoute] Guid attendanceId
@@ -38,7 +39,8 @@ public class ActivityController : ControllerBase
 
     [Authorize]
     [HttpGet("{projectId}/project/")]
-    [ProducesResponseType(typeof(IEnumerable<ResponseActivityJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ResponseActivityJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)] 
     public async Task<IActionResult> GetActivitiesByProject(
         [FromServices] IGetActivitiesByProjectUseCase useCase,
         [FromRoute] Guid projectId
@@ -50,7 +52,9 @@ public class ActivityController : ControllerBase
 
     [Authorize]
     [HttpGet("{userId}/user/")]
-    [ProducesResponseType(typeof(IEnumerable<ResponseActivityJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<ResponseActivityJson>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
     public async Task<IActionResult> GetActivitiesByUser(
         [FromServices] IGetActivitiesByUserUseCase useCase,
         [FromRoute] Guid userId

@@ -1,8 +1,10 @@
+using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Security.Token;
+using PontoEstagio.Exceptions.Exceptions;
 
 namespace PontoEstagio.Application.UseCases.Auth.Refresh;
 
@@ -31,11 +33,11 @@ public class RefreshTokenUseCase : IRefreshTokenUseCase
          var userId = _tokenRefreshToken.ValidateRefreshToken(request.RefreshToken);
 
         if (userId == null)
-            throw new UnauthorizedAccessException("Refresh token inválido ou expirado.");
+            throw new InvalidLoginException();
 
         var user = await _userReadOnlyRepository.GetUserByIdAsync(userId.Value);
         if (user == null)
-            throw new UnauthorizedAccessException("Usuário não encontrado.");
+            throw new InvalidLoginException();
 
         var newAccessToken = _tokenGenerateAccessToken.GenerateAccessToken(user);
         var newRefreshToken = _tokenRefreshToken.GenerateRefreshToken();

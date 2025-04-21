@@ -18,9 +18,6 @@ public class GetActivitiesByAttendanceIdUseCase : IGetActivitiesByAttendanceIdUs
     {
         var activities = await _activityReadOnlyRepository.GetByAttendanceIdAsync(attendanceId);
 
-        if (!activities.Any())
-            throw new NotFoundException("No activities found for the given attendance.");
-
         return activities.Select(activity => new ResponseActivityJson
         {
             Id = activity.Id,

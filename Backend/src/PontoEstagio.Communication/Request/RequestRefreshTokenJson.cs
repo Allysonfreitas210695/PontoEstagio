@@ -1,4 +1,4 @@
-namespace PontoEstagio.Communication.Responses;
+namespace PontoEstagio.Communication.Request;
 
 public class RequestRefreshTokenJson
 {
