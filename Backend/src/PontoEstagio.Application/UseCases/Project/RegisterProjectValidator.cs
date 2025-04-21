@@ -9,12 +9,18 @@ public class RegisterProjectValidator : AbstractValidator<RequestRegisterProject
     public RegisterProjectValidator()
     {
         RuleFor(project => project.Name)
-           .NotEmpty()
-           .WithMessage(ErrorMessages.ProjectNameRequired);
+            .NotEmpty()
+            .WithMessage(ErrorMessages.ProjectNameRequired)
+            .MinimumLength(3)
+            .WithMessage(ErrorMessages.invalidProjectNameLength);
 
         RuleFor(project => project.StartDate)
             .Must(date => date.Date >= DateTime.UtcNow.Date)
             .WithMessage(ErrorMessages.StartDateMustBeTodayOrFuture);
+
+        RuleFor(project => project.TotalHours)
+            .GreaterThan(0)
+            .WithMessage(ErrorMessages.invalidTotalHours);
 
         RuleFor(project => project.EndDate)
             .Must((project, endDate) => endDate == null || endDate.Value.Date > project.StartDate.Date)
