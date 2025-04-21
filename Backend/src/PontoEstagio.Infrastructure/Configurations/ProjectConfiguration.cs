@@ -30,6 +30,9 @@ namespace PontoEstagio.Infrastructure.Configurations
             builder.Property(p => p.EndDate)
                    .IsRequired(false);
 
+            builder.Property(p => p.TotalHours)
+                     .IsRequired();
+
             builder.HasOne(p => p.Creator)
                    .WithMany()
                    .HasForeignKey(p => p.CreatedBy)

@@ -1,4 +1,5 @@
 using PontoEstagio.Domain.Common;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.Entities;
 
@@ -19,6 +20,7 @@ public class Activity : Entity
     protected Activity() { }
 
     public Activity(
+        Guid? id,
         Guid attendanceId,
         Guid userId,
         Guid projectId,
@@ -27,7 +29,23 @@ public class Activity : Entity
         string? proofFilePath = null
     )
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
+
+        if (attendanceId == Guid.Empty)
+            throw new ArgumentException(ErrorMessages.invalidAttendanceId);
+
+        if (userId == Guid.Empty)
+            throw new ArgumentException(ErrorMessages.invalidUserId);
+
+        if (projectId == Guid.Empty)
+            throw new ArgumentException(ErrorMessages.invalidProjectId);
+
+        if (recordedAt > DateTime.Now)
+            throw new ArgumentException(ErrorMessages.invalidRecordedAtDate);
+
+        if (proofFilePath != null && string.IsNullOrWhiteSpace(proofFilePath))
+            throw new ArgumentException(ErrorMessages.invalidProofFilePath);
+
         AttendanceId = attendanceId;
         UserId = userId;
         ProjectId = projectId;

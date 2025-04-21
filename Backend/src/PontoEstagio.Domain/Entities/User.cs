@@ -1,7 +1,7 @@
-using System;
-using PontoEstagio.Domain.Common;
+ using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.ValueObjects;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.Entities;
 
@@ -22,6 +22,16 @@ public class User : Entity
     public User(Guid? id, string name, Email email, UserType type, string password, bool isActive)
     {
         Id = id is null ? Guid.NewGuid() : id.Value;
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException(ErrorMessages.invalidUserName);
+
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ArgumentException(ErrorMessages.invalidPassword);
+
+        if (!UserType.IsDefined(typeof(UserType), type))
+            throw new ArgumentException(ErrorMessages.InvalidUserType);
+
         Name = name;
         Email = email;
         Type = type;

@@ -63,8 +63,8 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (supervisorAssigned)
             throw new NotFoundException(ErrorMessages.SupervisorAlreadyAssignedToProject);
 
-        var supervisorProject = new UserProject(supervisor.Id, projectId, supervisor.Type);
-        var internProject = new UserProject(intern.Id, projectId, intern.Type);
+        var supervisorProject = new UserProject(Guid.NewGuid(), supervisor.Id, projectId, supervisor.Type);
+        var internProject = new UserProject(Guid.NewGuid(), intern.Id, projectId, intern.Type);
 
         await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(supervisorProject);
         await _userProjectsWriteOnlyRepository.AddUserToProjectAsync(internProject);

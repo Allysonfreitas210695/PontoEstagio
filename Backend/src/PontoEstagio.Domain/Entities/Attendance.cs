@@ -1,6 +1,8 @@
 
+using System;
 using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.Entities;
 
@@ -17,9 +19,19 @@ public class Attendance : Entity
 
     public Attendance() { }
 
-    public Attendance(Guid userId, DateTime date, TimeSpan checkIn, TimeSpan checkOut, AttendanceStatus status)
+    public Attendance(Guid? id, Guid userId, DateTime date, TimeSpan checkIn, TimeSpan checkOut, AttendanceStatus status)
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
+
+        if (userId == Guid.Empty)
+            throw new ArgumentException(ErrorMessages.invalidUserId);
+
+        if (date > DateTime.Now.Date)
+            throw new ArgumentException(ErrorMessages.invalidAttendanceDate);
+
+        if (checkOut <= checkIn)
+            throw new ArgumentException(ErrorMessages.invalidCheckOutTime);
+
         UserId = userId;
         Date = date.Date;
         CheckIn = checkIn;

@@ -243,4 +243,40 @@
   <data name="NameCannotBeEmpty" xml:space="preserve">
     <value>Nome não pode ser vazio.</value>
   </data>
+  <data name="invalidTotalHours" xml:space="preserve">
+    <value>O valor de TotalHours deve ser maior que 0.</value>
+  </data>
+  <data name="invalidProjectNameLength" xml:space="preserve">
+    <value>O nome do projeto deve ter pelo menos 3 caracteres.</value>
+  </data>
+  <data name="invalidProjectName" xml:space="preserve">
+    <value>O nome do projeto não pode ser vazio.</value>
+  </data>
+  <data name="invalidUserId" xml:space="preserve">
+    <value>O ID do usuário não pode ser vazio.</value>
+  </data>
+  <data name="invalidAttendanceDate" xml:space="preserve">
+    <value>A data de registro de ponto não pode ser no futuro.</value>
+  </data>
+  <data name="invalidCheckOutTime" xml:space="preserve">
+    <value>O horário de saída não pode ser anterior ao horário de entrada.</value>
+  </data>
+  <data name="invalidAttendanceId" xml:space="preserve">
+    <value>O ID de presença não pode ser vazio.</value>
+  </data>
+  <data name="invalidProjectId" xml:space="preserve">
+    <value>O ID do projeto não pode ser vazio.</value>
+  </data>
+  <data name="invalidRecordedAtDate" xml:space="preserve">
+    <value>A data de registro da atividade não pode ser no futuro.</value>
+  </data>
+  <data name="invalidProofFilePath" xml:space="preserve">
+    <value>O caminho do arquivo de comprovação não pode ser vazio.</value>
+  </data>
+  <data name="invalidUserName" xml:space="preserve">
+    <value>O nome do usuário não pode ser vazio.</value>
+  </data>
+  <data name="invalidPassword" xml:space="preserve">
+    <value>A senha do usuário não pode ser vazia.</value>
+  </data>
 </root>
