@@ -1,0 +1,80 @@
+// Base: Tabelas principais do sistema
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table users {
+  id uuid [primary key]
+  name varchar
+  email varchar
+  type varchar [note: 'UserType: Intern, Mentor, etc.']
+  is_active boolean
+  password varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table attendance {
+  id uuid [primary key]
+  user_id uuid [not null]
+  date date
+  check_in time
+  check_out time
+  status varchar [note: 'AttendanceStatus enum']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table projects {
+  id uuid [primary key]
+  name varchar
+  description varchar
+  status varchar [note: 'ProjectStatus enum']
+  start_date timestamp
+  end_date timestamp
+  total_hours integer [note: 'Carga horária total do projeto em horas']
+  created_by uuid [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table activities {
+  id uuid [primary key]
+  attendance_id uuid [not null]
+  user_id uuid [not null]
+  project_id uuid [not null]
+  description varchar
+  recorded_at timestamp
+  proof_file_path varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_projects {
+  id uuid [primary key]
+  user_id uuid [not null]
+  project_id uuid [not null]
+  assigned_at timestamp
+  is_current boolean
+  role varchar [note: 'UserType on project']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table user_refresh_tokens {
+  id uuid [primary key]
+  user_id uuid [not null]
+  token varchar
+  expiration_date timestamp
+}
+
+Ref: attendance.user_id > users.id
+
+Ref: activities.attendance_id > attendance.id
+Ref: activities.user_id > users.id
+Ref: activities.project_id > projects.id
+
+Ref: projects.created_by > users.id
+
+Ref: user_projects.user_id > users.id
+Ref: user_projects.project_id > projects.id
+
+Ref: user_refresh_tokens.user_id > users.id

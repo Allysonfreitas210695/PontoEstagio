@@ -205,6 +205,33 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A data de registro de ponto não pode ser no futuro..
+        /// </summary>
+        public static string invalidAttendanceDate {
+            get {
+                return ResourceManager.GetString("invalidAttendanceDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID de presença não pode ser vazio..
+        /// </summary>
+        public static string invalidAttendanceId {
+            get {
+                return ResourceManager.GetString("invalidAttendanceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O horário de saída não pode ser anterior ao horário de entrada..
+        /// </summary>
+        public static string invalidCheckOutTime {
+            get {
+                return ResourceManager.GetString("invalidCheckOutTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O formato do email é inválido..
         /// </summary>
         public static string InvalidEmailFormat {
@@ -223,6 +250,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A senha do usuário não pode ser vazia..
+        /// </summary>
+        public static string invalidPassword {
+            get {
+                return ResourceManager.GetString("invalidPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Período inválido. Use o formato &apos;yyyy-MM&apos;..
         /// </summary>
         public static string InvalidPeriodFormat {
@@ -232,11 +268,83 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID do projeto não pode ser vazio..
+        /// </summary>
+        public static string invalidProjectId {
+            get {
+                return ResourceManager.GetString("invalidProjectId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do projeto não pode ser vazio..
+        /// </summary>
+        public static string invalidProjectName {
+            get {
+                return ResourceManager.GetString("invalidProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do projeto deve ter pelo menos 3 caracteres..
+        /// </summary>
+        public static string invalidProjectNameLength {
+            get {
+                return ResourceManager.GetString("invalidProjectNameLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O caminho do arquivo de comprovação não pode ser vazio..
+        /// </summary>
+        public static string invalidProofFilePath {
+            get {
+                return ResourceManager.GetString("invalidProofFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A data de registro da atividade não pode ser no futuro..
+        /// </summary>
+        public static string invalidRecordedAtDate {
+            get {
+                return ResourceManager.GetString("invalidRecordedAtDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Status inválido..
         /// </summary>
         public static string InvalidStatus {
             get {
                 return ResourceManager.GetString("InvalidStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O valor de TotalHours deve ser maior que 0..
+        /// </summary>
+        public static string invalidTotalHours {
+            get {
+                return ResourceManager.GetString("invalidTotalHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID do usuário não pode ser vazio..
+        /// </summary>
+        public static string invalidUserId {
+            get {
+                return ResourceManager.GetString("invalidUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do usuário não pode ser vazio..
+        /// </summary>
+        public static string invalidUserName {
+            get {
+                return ResourceManager.GetString("invalidUserName", resourceCulture);
             }
         }
         

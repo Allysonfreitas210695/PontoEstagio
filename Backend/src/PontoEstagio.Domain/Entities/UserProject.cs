@@ -1,5 +1,6 @@
 ﻿using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.Entities;
 public class UserProject : Entity
@@ -15,13 +16,25 @@ public class UserProject : Entity
 
     protected UserProject() { }
 
-    public UserProject(Guid userId, Guid projectId, UserType role)
+    public UserProject(Guid? id, Guid userId, Guid projectId, UserType role)
     {
-        Id = Guid.NewGuid();
+        Id = id ?? Guid.NewGuid();
+
+        if (userId == Guid.Empty)
+            throw new ArgumentException(ErrorMessages.invalidUserId);
+
         UserId = userId;
+
+        if (projectId == Guid.Empty)
+            throw new ArgumentException(ErrorMessages.invalidProjectId);
+
         ProjectId = projectId;
         AssignedAt = DateTime.UtcNow;
         IsCurrent = true;
+
+        if (!UserType.IsDefined(typeof(UserType), role))
+            throw new ArgumentException(ErrorMessages.InvalidUserType);
+
         Role = role;
     }
 

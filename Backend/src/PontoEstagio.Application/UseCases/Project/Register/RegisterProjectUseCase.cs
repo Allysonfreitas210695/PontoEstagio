@@ -36,8 +36,10 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
             throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
 
         var _project = new Project(
+            Guid.NewGuid(),
             request.Name, 
             request.Description, 
+            request.TotalHours,
             ProjectStatus.Planning, 
             request.StartDate,
             request.EndDate,

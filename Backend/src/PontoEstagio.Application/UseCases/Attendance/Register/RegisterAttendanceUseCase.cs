@@ -50,6 +50,7 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
             throw new BusinessRuleException(ErrorMessages.AttendanceAlreadyExists);
 
         var newAttendance = new Domain.Entities.Attendance(
+            Guid.NewGuid(),
             _user.Id,
             request.Date,
             request.CheckIn,

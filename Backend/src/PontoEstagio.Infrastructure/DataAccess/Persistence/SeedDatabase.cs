@@ -65,8 +65,10 @@ public static class SeedDatabaseInitial
             var supervisor = faker.PickRandom(supervisors); 
 
             var project = new Project(
+                Guid.NewGuid(),
                 faker.Commerce.ProductName(),          
-                faker.Lorem.Sentence(),                 
+                faker.Lorem.Sentence(),  
+                faker.Internet.Random.Number(200, 480),               
                 faker.PickRandom<ProjectStatus>(),       
                 faker.Date.Past(1, DateTime.UtcNow),     
                 faker.Date.Soon(3, DateTime.UtcNow),     
@@ -99,13 +101,14 @@ public static class SeedDatabaseInitial
 
             if (intern != null && supervisor != null)
             {
-                var userProjectIntern = new UserProject(intern.Id, project.Id, UserType.Intern);
+                var userProjectIntern = new UserProject(null, intern.Id, project.Id, UserType.Intern);
                 userProjects.Add(userProjectIntern);
 
-                var userProjectSupervisor = new UserProject(supervisor.Id, project.Id, UserType.Supervisor);
+                var userProjectSupervisor = new UserProject(null, supervisor.Id, project.Id, UserType.Supervisor);
                 userProjects.Add(userProjectSupervisor);
 
                 var attendance = new Attendance(
+                    Guid.NewGuid(),
                     intern.Id,
                     DateTime.Today,
                     new TimeSpan(8, 0, 0),
@@ -115,6 +118,7 @@ public static class SeedDatabaseInitial
                 attendances.Add(attendance);
 
                 var activity = new Activity(
+                    Guid.NewGuid(),
                     attendance.Id,
                     intern.Id,
                     project.Id,
