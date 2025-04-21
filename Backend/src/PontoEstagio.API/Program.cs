@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using PontoEstagio.API.Token;
 using PontoEstagio.Infrastructure.Security.Tokens;
+using PontoEstagio.API.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -108,6 +109,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
+
+app.UseMiddleware<CultureMiddleware>();
 
 app.UseHttpsRedirection();
 
