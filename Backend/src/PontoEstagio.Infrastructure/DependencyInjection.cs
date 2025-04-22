@@ -52,6 +52,7 @@ public static class DependencyInjection
 
         services.AddScoped<ICompanyWriteOnlyRepository, CompanyRepository>();
         services.AddScoped<ICompanyReadOnlyRepository, CompanyRepository>();
+        services.AddScoped<ICompanyUpdateOnlyRepository, CompanyRepository>();
 
         services.AddScoped<IProjectReadOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();

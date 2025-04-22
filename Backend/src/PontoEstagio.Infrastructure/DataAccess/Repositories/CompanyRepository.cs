@@ -5,7 +5,7 @@ using PontoEstagio.Infrastructure.Context;
 
 namespace PontoEstagio.Infrastructure.DataAccess.Repositories;
 
-public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRepository
+public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRepository, ICompanyUpdateOnlyRepository
 {
     private readonly PontoEstagioDbContext _dbContext;
 
@@ -25,6 +25,16 @@ public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRe
     }
 
     public async Task<Company?> GetByIdAsync(Guid id)
+    {
+        return await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == id);
+    }
+
+    public void Update(Company company)
+    {
+        _dbContext.Companies.Update(company);
+    }
+
+    async Task<Company?> ICompanyReadOnlyRepository.GetByIdAsync(Guid id)
     {
         return await _dbContext.Companies.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
     }

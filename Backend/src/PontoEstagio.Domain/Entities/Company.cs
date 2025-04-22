@@ -100,6 +100,8 @@ public class Company : Entity
         UpdateTimestamp();
     }
 
+    
+
     private bool ValidateCNPJ(string cnpj)
     {
         cnpj = cnpj.Trim().Replace(".", "").Replace("-", "").Replace("/", "");

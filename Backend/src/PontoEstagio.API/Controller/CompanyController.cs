@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PontoEstagio.Application.UseCases.Company.GetAllCompany;
 using PontoEstagio.Application.UseCases.Company.GetCompanyById;
-using PontoEstagio.Application.UseCases.Company.Register; 
+using PontoEstagio.Application.UseCases.Company.Register;
+using PontoEstagio.Application.UseCases.Company.Update;
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Enum;
@@ -16,9 +17,7 @@ public class CompanyController : ControllerBase
 {
     [Authorize(Roles = nameof(UserType.Admin))]
     [HttpPost]
-    [ProducesResponseType(typeof(ResponseCompanyJson), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ResponseCompanyJson), StatusCodes.Status200OK)] 
     public async Task<IActionResult> Register(
          [FromServices] IRegisterCompanyUseCase useCase,
          [FromBody] RequestRegisterCompanytJson request
@@ -30,9 +29,7 @@ public class CompanyController : ControllerBase
 
     [Authorize(Roles = nameof(UserType.Admin))]
     [HttpGet]
-    [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(List<ResponseShortProjectJson>), StatusCodes.Status200OK)] 
     public async Task<IActionResult> GetAllCompany(
          [FromServices] IGetAllCompanyUseCase useCase
      )
@@ -44,14 +41,27 @@ public class CompanyController : ControllerBase
     [Authorize(Roles = nameof(UserType.Admin))]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)] 
     public async Task<IActionResult> GetCompanyById(
          [FromServices] IGetCompanyByIdUseCase useCase,
          [FromRoute] Guid id
-     )
+    )
     {
         var response = await useCase.Execute(id);
         return Ok(response);
+    }
+
+    [Authorize(Roles = nameof(UserType.Admin))]
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)] 
+    public async Task<IActionResult> Update(
+         [FromServices] ICompanyUpdateUseCase useCase,
+         [FromBody] RequestRegisterCompanytJson request,
+         [FromRoute] Guid id
+    )
+    {
+        await useCase.Execute(id, request);
+        return NoContent();
     }
 }
