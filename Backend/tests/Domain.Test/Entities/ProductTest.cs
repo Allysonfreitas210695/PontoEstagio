@@ -8,7 +8,7 @@ namespace Domain.Test.Entities;
 public class ProjectTest
 {
     [Fact]
-    public void Should_Create_Valid_Project()
+    public void Success()
     {
         // Arrange & Act
         var project = ProjectBuilder.Build();
