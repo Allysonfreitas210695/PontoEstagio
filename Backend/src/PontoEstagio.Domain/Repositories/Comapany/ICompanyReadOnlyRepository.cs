@@ -2,5 +2,6 @@ namespace PontoEstagio.Domain.Repositories.Comapany;
 
 public interface ICompanyReadOnlyRepository
 {
+    Task<Domain.Entities.Company?> GetByIdAsync(Guid id);
     Task<List<Domain.Entities.Company>> GetAllCompanyAsync();
 }

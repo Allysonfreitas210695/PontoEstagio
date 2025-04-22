@@ -11,6 +11,7 @@ using PontoEstagio.Application.UseCases.Attendance.Register;
 using PontoEstagio.Application.UseCases.Attendance.UpdateStatus;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
 using PontoEstagio.Application.UseCases.Company.GetAllCompany;
+using PontoEstagio.Application.UseCases.Company.GetCompanyById;
 using PontoEstagio.Application.UseCases.Company.Register;
 using PontoEstagio.Application.UseCases.Login.DoLogin;
 using PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
@@ -62,6 +63,7 @@ public static class DependencyInjectionExtension
 
         services.AddScoped<IRegisterCompanyUseCase, RegisterCompanyUseCase>();
         services.AddScoped<IGetAllCompanyUseCase, GetAllCompanyUseCase>();
+        services.AddScoped<IGetCompanyByIdUseCase, GetCompanyByIdUseCase>();
 
         services.AddScoped<IGetAllProjectsUseCase, GetAllProjectsByUserUseCase>();
         services.AddScoped<IGetProjectByIdUseCase, GetProjectByIdUseCase>();

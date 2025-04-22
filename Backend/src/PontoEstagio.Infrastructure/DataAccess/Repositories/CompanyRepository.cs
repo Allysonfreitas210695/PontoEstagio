@@ -23,4 +23,9 @@ public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRe
     {
         return await _dbContext.Companies.AsNoTracking().ToListAsync();
     }
+
+    public async Task<Company?> GetByIdAsync(Guid id)
+    {
+        return await _dbContext.Companies.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
+    }
 }

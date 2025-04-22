@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization; 
 using Microsoft.AspNetCore.Mvc;
 using PontoEstagio.Application.UseCases.Company.GetAllCompany;
+using PontoEstagio.Application.UseCases.Company.GetCompanyById;
 using PontoEstagio.Application.UseCases.Company.Register; 
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
@@ -37,6 +38,20 @@ public class CompanyController : ControllerBase
      )
     {
         var response = await useCase.Execute();
+        return Ok(response);
+    }
+
+    [Authorize(Roles = nameof(UserType.Admin))]
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
+    public async Task<IActionResult> GetCompanyById(
+         [FromServices] IGetCompanyByIdUseCase useCase,
+         [FromRoute] Guid id
+     )
+    {
+        var response = await useCase.Execute(id);
         return Ok(response);
     }
 }
