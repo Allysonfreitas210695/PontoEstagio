@@ -8,7 +8,7 @@ public class Company : Entity
 {
     public string Name { get; private set; } = string.Empty;
     public string CNPJ { get; private set; } = string.Empty;
-     public string Phone { get; private set; } = string.Empty;
+    public string Phone { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public bool IsActive { get; private set; }
     

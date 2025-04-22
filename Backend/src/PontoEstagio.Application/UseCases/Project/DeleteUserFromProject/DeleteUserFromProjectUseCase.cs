@@ -27,7 +27,7 @@ public class DeleteUserFromProjectUseCase : IDeleteUserFromProjectUseCase
     {
         var admin = await _loggedUser.Get();
          
-        if (admin.Id == Intern_Id || admin.Id == Supervisor_Id)
+        if (admin!.Id == Intern_Id || admin!.Id == Supervisor_Id)
             throw new BusinessRuleException(ErrorMessages.CannotRemoveSelfFromProject);
 
         var userProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, Intern_Id);

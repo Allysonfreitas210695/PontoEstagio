@@ -14,8 +14,8 @@ public class Project : Entity
     public long TotalHours { get; set; } 
     public Guid CreatedBy { get; private set; }
     public User Creator { get; private set; } = default!;
-    public Guid CompanyId { get; private set; }
-    public virtual Company Company { get; private set; }
+    public Guid CompanyId { get; private set; } 
+    public virtual Company Company { get; private set; }  = default!;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
 

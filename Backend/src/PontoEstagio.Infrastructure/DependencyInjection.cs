@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Activity;
 using PontoEstagio.Domain.Repositories.Attendance;
+using PontoEstagio.Domain.Repositories.Comapany;
 using PontoEstagio.Domain.Repositories.Projects;
 using PontoEstagio.Domain.Repositories.Report;
 using PontoEstagio.Domain.Repositories.User;
@@ -48,6 +49,8 @@ public static class DependencyInjection
         services.AddScoped<IAttendanceReadOnlyRepository, AttendanceRepository>();
         services.AddScoped<IAttendanceWriteOnlyRepository, AttendanceRepository>();
         services.AddScoped<IAttendanceUpdateOnlyRepository, AttendanceRepository>();
+
+        services.AddScoped<ICompanyWriteOnlyRepository, CompanyRepository>();
 
         services.AddScoped<IProjectReadOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();
