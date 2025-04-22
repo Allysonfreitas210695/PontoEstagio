@@ -2,6 +2,7 @@
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Comapany;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Company.Update;
 
@@ -21,8 +22,8 @@ public class CompanyUpdateUseCase : ICompanyUpdateUseCase
         Validate(request);
         
         var _company = await _companyUpdateOnlyRepository.GetByIdAsync(id);
-        if (_company == null) 
-            throw new NotFoundException("Company not found."); 
+        if (_company == null)
+            throw new NotFoundException(ErrorMessages.Company_NotFound);
 
         _company.UpdateCNPJ(request.CNPJ);
         _company.UpdateName(request.Name);

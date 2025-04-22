@@ -9,6 +9,17 @@ public class RegisterAttendanceValidatorTest
 {
     private readonly RegisterAttendanceValidator _validator = new();
 
+
+    [Fact]
+    public void Success()
+    {
+        var request = RequestRegisterAttendanceJsonBuilder.Build(); 
+
+        var result = _validator.Validate(request);
+
+        result.IsValid.Should().BeTrue(); 
+    }
+
     [Fact]
     public void Should_Return_Error_When_Date_Is_Empty()
     {

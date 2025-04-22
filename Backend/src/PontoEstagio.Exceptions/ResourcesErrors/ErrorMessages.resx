@@ -294,4 +294,31 @@
   <data name="UserNotAdmin" xml:space="preserve">
     <value>O usuário não é um adiministrador.</value>
   </data>
+  <data name="Company_Name_Required" xml:space="preserve">
+    <value>Nome da empresa é obrigatório.</value>
+  </data>
+  <data name="Company_Name_MinLength" xml:space="preserve">
+    <value>Nome da empresa deve ter no mínimo 3 caracteres.</value>
+  </data>
+  <data name="Company_CNPJ_Required" xml:space="preserve">
+    <value>CNPJ é obrigatório.</value>
+  </data>
+  <data name="Company_CNPJ_InvalidFormat" xml:space="preserve">
+    <value>CNPJ deve estar no formato XX.XXX.XXX/XXXX-XX.</value>
+  </data>
+  <data name="Company_Email_Required" xml:space="preserve">
+    <value>E-mail é obrigatório.</value>
+  </data>
+  <data name="Company_Email_Invalid" xml:space="preserve">
+    <value>Formato de e-mail inválido.</value>
+  </data>
+  <data name="Company_Phone_Required" xml:space="preserve">
+    <value>Número de telefone é obrigatório.</value>
+  </data>
+  <data name="Company_Phone_InvalidFormat" xml:space="preserve">
+    <value>Número de telefone deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.</value>
+  </data>
+  <data name="Company_NotFound" xml:space="preserve">
+    <value>Empresa não encontrada.</value>
+  </data>
 </root>

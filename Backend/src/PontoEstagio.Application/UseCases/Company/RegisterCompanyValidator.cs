@@ -1,5 +1,6 @@
 using FluentValidation;
 using PontoEstagio.Communication.Request;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Company;
 
@@ -9,26 +10,26 @@ public class RegisterCompanyValidator : AbstractValidator<RequestRegisterCompany
     {
         RuleFor(company => company.Name)
             .NotEmpty()
-            .WithMessage("Company name is required.")
+            .WithMessage(ErrorMessages.Company_Name_Required)
             .MinimumLength(3)
-            .WithMessage("Company name must be at least 3 characters long.");
+            .WithMessage(ErrorMessages.Company_Name_MinLength);
 
         RuleFor(company => company.CNPJ)
             .NotEmpty()
-            .WithMessage("CNPJ is required.")
+            .WithMessage(ErrorMessages.Company_CNPJ_Required)
             .Matches(@"^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$")
-            .WithMessage("CNPJ must be in the format XX.XXX.XXX/XXXX-XX.");
+            .WithMessage(ErrorMessages.Company_CNPJ_InvalidFormat);
 
         RuleFor(company => company.Email)
             .NotEmpty()
-            .WithMessage("Email is required.")
+            .WithMessage(ErrorMessages.Company_Email_Required)
             .EmailAddress()
-            .WithMessage("Invalid email format.");
+            .WithMessage(ErrorMessages.Company_Email_Invalid);
 
         RuleFor(company => company.Phone)
             .NotEmpty()
-            .WithMessage("Phone number is required.")
+            .WithMessage(ErrorMessages.Company_Phone_Required)
             .Matches(@"^\(\d{2}\) \d{4,5}-\d{4}$")
-            .WithMessage("Phone number must be in the format (XX) XXXX-XXXX or (XX) XXXXX-XXXX.");
+            .WithMessage(ErrorMessages.Company_Phone_InvalidFormat);
     }
 }

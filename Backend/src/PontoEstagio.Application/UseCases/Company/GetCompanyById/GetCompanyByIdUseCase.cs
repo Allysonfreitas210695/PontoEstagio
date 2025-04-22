@@ -1,6 +1,7 @@
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Repositories.Comapany;
 using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.Company.GetCompanyById;
 
@@ -16,7 +17,7 @@ public class GetCompanyByIdUseCase : IGetCompanyByIdUseCase
     {
         var company = await _companyReadOnlyRepository.GetByIdAsync(id);    
         if(company == null)
-            throw new NotFoundException("Company not found");
+            throw new NotFoundException(ErrorMessages.Company_NotFound);
 
         return new ResponseCompanyJson() {
             Id  = company.Id,

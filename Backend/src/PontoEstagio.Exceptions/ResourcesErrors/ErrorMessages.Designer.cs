@@ -178,6 +178,87 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CNPJ deve estar no formato XX.XXX.XXX/XXXX-XX..
+        /// </summary>
+        public static string Company_CNPJ_InvalidFormat {
+            get {
+                return ResourceManager.GetString("Company_CNPJ_InvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CNPJ é obrigatório..
+        /// </summary>
+        public static string Company_CNPJ_Required {
+            get {
+                return ResourceManager.GetString("Company_CNPJ_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Formato de e-mail inválido..
+        /// </summary>
+        public static string Company_Email_Invalid {
+            get {
+                return ResourceManager.GetString("Company_Email_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a E-mail é obrigatório..
+        /// </summary>
+        public static string Company_Email_Required {
+            get {
+                return ResourceManager.GetString("Company_Email_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da empresa deve ter no mínimo 3 caracteres..
+        /// </summary>
+        public static string Company_Name_MinLength {
+            get {
+                return ResourceManager.GetString("Company_Name_MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da empresa é obrigatório..
+        /// </summary>
+        public static string Company_Name_Required {
+            get {
+                return ResourceManager.GetString("Company_Name_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Empresa não encontrada..
+        /// </summary>
+        public static string Company_NotFound {
+            get {
+                return ResourceManager.GetString("Company_NotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Número de telefone deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX..
+        /// </summary>
+        public static string Company_Phone_InvalidFormat {
+            get {
+                return ResourceManager.GetString("Company_Phone_InvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Número de telefone é obrigatório..
+        /// </summary>
+        public static string Company_Phone_Required {
+            get {
+                return ResourceManager.GetString("Company_Phone_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data não pode ser no futuro..
         /// </summary>
         public static string DateCannotBeInTheFuture {
