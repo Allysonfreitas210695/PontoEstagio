@@ -1,13 +1,39 @@
 // Base: Tabelas principais do sistema
 // Docs: https://dbml.dbdiagram.io/docs
 
+Table companies {
+  id uuid [primary key]
+  name varchar
+  cnpj varchar [unique]
+  address varchar
+  phone varchar
+  email varchar
+  is_active boolean [default: true]
+  created_at timestamp
+  updated_at timestamp
+}
+
 Table users {
   id uuid [primary key]
   name varchar
-  email varchar
-  type varchar [note: 'UserType: Intern, Mentor, etc.']
-  is_active boolean
+  email varchar [unique]
+  type varchar [note: 'UserType: Intern, Mentor, Admin, etc.']
+  is_active boolean [default: true]
   password varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table projects {
+  id uuid [primary key]
+  company_id uuid [not null]
+  name varchar
+  description varchar
+  status varchar [note: 'ProjectStatus: Planning, InProgress, Completed, etc.']
+  start_date timestamp
+  end_date timestamp [null]
+  total_hours integer [note: 'Carga horária total do projeto em horas']
+  created_by uuid [not null]
   created_at timestamp
   updated_at timestamp
 }
@@ -17,21 +43,8 @@ Table attendance {
   user_id uuid [not null]
   date date
   check_in time
-  check_out time
-  status varchar [note: 'AttendanceStatus enum']
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table projects {
-  id uuid [primary key]
-  name varchar
-  description varchar
-  status varchar [note: 'ProjectStatus enum']
-  start_date timestamp
-  end_date timestamp
-  total_hours integer [note: 'Carga horária total do projeto em horas']
-  created_by uuid [not null]
+  check_out time [null]
+  status varchar [note: 'AttendanceStatus: Pending, Approved, Rejected']
   created_at timestamp
   updated_at timestamp
 }
@@ -43,7 +56,7 @@ Table activities {
   project_id uuid [not null]
   description varchar
   recorded_at timestamp
-  proof_file_path varchar
+  proof_file_path varchar [null]
   created_at timestamp
   updated_at timestamp
 }
@@ -53,8 +66,8 @@ Table user_projects {
   user_id uuid [not null]
   project_id uuid [not null]
   assigned_at timestamp
-  is_current boolean
-  role varchar [note: 'UserType on project']
+  is_current boolean [default: true]
+  role varchar [note: 'UserType no projeto: Intern, Mentor, etc.']
   created_at timestamp
   updated_at timestamp
 }
@@ -64,8 +77,10 @@ Table user_refresh_tokens {
   user_id uuid [not null]
   token varchar
   expiration_date timestamp
+  created_at timestamp
 }
 
+// Relacionamentos
 Ref: attendance.user_id > users.id
 
 Ref: activities.attendance_id > attendance.id
@@ -73,6 +88,7 @@ Ref: activities.user_id > users.id
 Ref: activities.project_id > projects.id
 
 Ref: projects.created_by > users.id
+Ref: projects.company_id > companies.id
 
 Ref: user_projects.user_id > users.id
 Ref: user_projects.project_id > projects.id
