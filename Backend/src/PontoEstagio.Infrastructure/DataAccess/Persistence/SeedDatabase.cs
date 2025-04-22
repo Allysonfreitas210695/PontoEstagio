@@ -6,14 +6,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Infrastructure.Context;
 using Bogus.Extensions.Brazil;
+using PontoEstagio.Domain.Security.Cryptography;
 
 namespace PontoEstagio.Infrastructure.DataAccess.Persistence;
 
 public static class SeedDatabaseInitial
 {
+
     public static async Task Seed(IServiceProvider serviceProvider)
     {
         var dbContext = serviceProvider.GetRequiredService<PontoEstagioDbContext>();
+
+        if(!await dbContext.Users.AnyAsync(x => x.Type == UserType.Admin))
+            await SeedAdminUser(dbContext);
 
         if (await dbContext.Users.AnyAsync())
             return;
@@ -22,6 +27,21 @@ public static class SeedDatabaseInitial
         await SeedCompanies(dbContext);
         await SeedProjects(dbContext);
         await SeedUserProjectsAndRelatedData(dbContext);
+    }
+
+    private static async Task SeedAdminUser(PontoEstagioDbContext dbContext)
+    {
+
+        var adminUser = new User(
+                                    Guid.NewGuid(), 
+                                    "Admin", 
+                                    Email.Criar("admin@admin.com"), 
+                                    UserType.Admin,
+                                    BCrypt.Net.BCrypt.HashPassword("!Aa1234567"),
+                                    true
+                                );
+        await dbContext.Users.AddAsync(adminUser);
+        await dbContext.SaveChangesAsync();
     }
 
     private static async Task SeedUsers(PontoEstagioDbContext dbContext)
@@ -69,8 +89,6 @@ public static class SeedDatabaseInitial
         await dbContext.SaveChangesAsync();
     }
 
-
-
     private static async Task SeedProjects(PontoEstagioDbContext dbContext)
     {
         var supervisors = await dbContext.Users
@@ -112,8 +130,6 @@ public static class SeedDatabaseInitial
         await dbContext.Projects.AddRangeAsync(projects);
         await dbContext.SaveChangesAsync();
     }
-
-
 
     private static async Task SeedUserProjectsAndRelatedData(PontoEstagioDbContext dbContext)
     {
