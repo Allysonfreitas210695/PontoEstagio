@@ -6,6 +6,7 @@
 # Visual Studio (>=2015) project-specific, machine local files
 .vs/
 
+coveragereport/
 
 # User-specific files
 *.suo

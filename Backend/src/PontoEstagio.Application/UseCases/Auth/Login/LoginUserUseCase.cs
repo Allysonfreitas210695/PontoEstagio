@@ -56,12 +56,13 @@ public class LoginUserUseCase : ILoginUserUseCase
         var accessToken = _tokenGenerateAccessToken.GenerateAccessToken(_user);
         var refreshToken = _tokenRefreshToken.GenerateRefreshToken();
 
-        await _userRefreshTokenRepository.InsertAsync(new Domain.Entities.UserRefreshToken
-        {
-            UserId = _user.Id,
-            Token = refreshToken,
-            ExpirationDate = DateTime.UtcNow.AddDays(2)
-        });
+        var _userRefreshToken = new Domain.Entities.UserRefreshToken(
+            Guid.NewGuid(),
+            _user.Id,
+            refreshToken,
+            DateTime.UtcNow.AddDays(2)
+        );
+        await _userRefreshTokenRepository.InsertAsync(_userRefreshToken);
 
         await _unitOfWork.CommitAsync();
 

@@ -70,4 +70,9 @@
 
 ---
 
-
+## 📊 Gerar o relatório de cobertura (excluindo Exceptions e Communication)
+> dotnet tool run reportgenerator ^
+    -reports:"**/coverage.cobertura.xml" ^
+    -targetdir:coveragereport ^
+    -reporttypes:Html ^
+    -classfilters:"-PontoEstagio.Exceptions*;-PontoEstagio.Communication*;-PontoEstagio.Exceptions"

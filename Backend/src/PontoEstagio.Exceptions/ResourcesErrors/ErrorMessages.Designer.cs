@@ -358,6 +358,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A data não pode ser anterior ao dia de hoje..
+        /// </summary>
+        public static string invalidExpirationDate {
+            get {
+                return ResourceManager.GetString("invalidExpirationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Login inválido. Verifique seu email e senha..
         /// </summary>
         public static string InvalidLogin {
@@ -435,6 +444,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string InvalidStatus {
             get {
                 return ResourceManager.GetString("InvalidStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O token não pode ser vazio..
+        /// </summary>
+        public static string invalidToken {
+            get {
+                return ResourceManager.GetString("invalidToken", resourceCulture);
             }
         }
         
