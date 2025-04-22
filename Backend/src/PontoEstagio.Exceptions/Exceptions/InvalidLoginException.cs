@@ -1,7 +1,7 @@
 using System.Net;
-using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
+namespace PontoEstagio.Exceptions.Exceptions;
 
 public class InvalidLoginException : PontoEstagioException
 {
