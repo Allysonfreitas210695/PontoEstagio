@@ -23,23 +23,20 @@ public class DeleteUserFromProjectUseCase : IDeleteUserFromProjectUseCase
         _userProjectsUpdateOnlyRepository = userProjectsUpdateOnlyRepository;
         _unitOfWork = unitOfWork;
     }
-    public async Task Execute(Guid projectId, Guid userId)
+    public async Task Execute(Guid projectId, Guid Intern_Id, Guid Supervisor_Id)
     {
-        var supervisor = await _loggedUser.Get();
-
-        if (supervisor is null || supervisor.Type != UserType.Supervisor)
-            throw new ForbiddenException(ErrorMessages.SupervisorNotFoundOrNotSupervisor);
-
-        if (supervisor.Id == userId)
+        var admin = await _loggedUser.Get();
+         
+        if (admin.Id == Intern_Id || admin.Id == Supervisor_Id)
             throw new BusinessRuleException(ErrorMessages.CannotRemoveSelfFromProject);
 
-        var userProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, userId);
+        var userProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, Intern_Id);
         if (userProject is null)
             throw new NotFoundException(ErrorMessages.AssociationNotFoundOrInactive);
 
         userProject.MarkAsInactive();
 
-        var supervisorProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, supervisor.Id);
+        var supervisorProject = await _userProjectsUpdateOnlyRepository.GetActiveUserProjectAsync(projectId, Supervisor_Id);
         if (supervisorProject is null)
             throw new NotFoundException(ErrorMessages.SupervisorAssociationNotFound);
 

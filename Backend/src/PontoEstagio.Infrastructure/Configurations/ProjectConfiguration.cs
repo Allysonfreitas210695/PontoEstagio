@@ -47,6 +47,11 @@ namespace PontoEstagio.Infrastructure.Configurations
                    .WithOne(a => a.Project)
                    .HasForeignKey(a => a.ProjectId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.Company)
+                    .WithMany(c => c.Projects) 
+                    .HasForeignKey(p => p.CompanyId)
+                    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
