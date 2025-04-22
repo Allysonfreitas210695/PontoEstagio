@@ -1,5 +1,6 @@
 using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
+using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.Entities;
@@ -26,13 +27,13 @@ public class Project : Entity
         Id = id ?? Guid.NewGuid();
 
         if (string.IsNullOrEmpty(name))
-            throw new ArgumentException(ErrorMessages.invalidProjectName); 
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectName });
 
         if (name.Length < 3)
-            throw new ArgumentException(ErrorMessages.invalidProjectNameLength);
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectNameLength });
 
         if (companyId == Guid.Empty)
-            throw new ArgumentException(ErrorMessages.InvalidCompanyId);
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCompanyId });
 
         Name = name;
         Description = description;

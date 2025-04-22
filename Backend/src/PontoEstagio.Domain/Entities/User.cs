@@ -1,6 +1,7 @@
  using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.ValueObjects;
+using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.Entities;
@@ -24,13 +25,13 @@ public class User : Entity
         Id = id is null ? Guid.NewGuid() : id.Value;
 
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException(ErrorMessages.invalidUserName);
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserName });
 
         if (string.IsNullOrWhiteSpace(password))
-            throw new ArgumentException(ErrorMessages.invalidPassword);
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidPassword });
 
         if (!UserType.IsDefined(typeof(UserType), type))
-            throw new ArgumentException(ErrorMessages.InvalidUserType);
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserType });
 
         Name = name;
         Email = email;
@@ -43,28 +44,42 @@ public class User : Entity
         IsActive = false;
         UpdateTimestamp();
     }
+    
     public void Activate()
     {
         IsActive = true;
         UpdateTimestamp();
     }
+
     public void UpdateType(UserType type)
     {
+        if (!UserType.IsDefined(typeof(UserType), type))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserType });
+
         Type = type;
         UpdateTimestamp();
     }
+
     public void UpdateName(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserName });
+
         Name = name;
         UpdateTimestamp();
     }
+
     public void UpdateEmail(string email)
     {
         Email = Email.Criar(email);
         UpdateTimestamp();
     }
+
     public void UpdatePassword(string password)
     {
+        if (string.IsNullOrWhiteSpace(password))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidPassword });
+
         Password = password;
         UpdateTimestamp();
     }
