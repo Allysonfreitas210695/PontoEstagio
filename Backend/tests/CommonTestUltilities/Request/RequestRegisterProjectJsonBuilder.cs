@@ -8,6 +8,7 @@ public class RequestRegisterProjectJsonBuilder
     public static RequestRegisterProjectJson Build()
     {
         return new Faker<RequestRegisterProjectJson>()
+            .RuleFor(x => x.CompanyId, f => f.Random.Guid())
             .RuleFor(x => x.Name, f => f.Company.CatchPhrase())
             .RuleFor(x => x.Description, f => f.Lorem.Paragraph())
             .RuleFor(x => x.Status, f => f.PickRandom<ProjectStatus>())
