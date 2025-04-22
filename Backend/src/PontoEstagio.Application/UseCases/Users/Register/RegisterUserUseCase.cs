@@ -64,12 +64,13 @@ public class RegisterUserUseCase : IRegisterUserUseCase
         var newAccessToken = _tokenGenerateAccessToken.GenerateAccessToken(user);
         var newRefreshToken = _tokenRefreshToken.GenerateRefreshToken();
 
-        await _userRefreshTokenRepository.InsertAsync(new UserRefreshToken
-        {
-            UserId = user.Id,
-            Token = newRefreshToken,
-            ExpirationDate = DateTime.UtcNow.AddDays(2)
-        });
+        var _userRefreshToken = new UserRefreshToken(
+            Guid.NewGuid(),
+            user.Id,
+            newRefreshToken,
+            DateTime.UtcNow.AddDays(2)
+        );
+        await _userRefreshTokenRepository.InsertAsync(_userRefreshToken);
 
         return new ResponseLoggedUserJson()
         {

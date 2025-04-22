@@ -321,4 +321,10 @@
   <data name="Company_NotFound" xml:space="preserve">
     <value>Empresa não encontrada.</value>
   </data>
+  <data name="invalidToken" xml:space="preserve">
+    <value>O token não pode ser vazio.</value>
+  </data>
+  <data name="invalidExpirationDate" xml:space="preserve">
+    <value>A data não pode ser anterior ao dia de hoje.</value>
+  </data>
 </root>
