@@ -18,6 +18,7 @@ namespace PontoEstagio.API.Controller;
 [ApiController]
 public class ProjectController : ControllerBase
 {
+
     [HttpGet] 
     [ProducesResponseType(typeof(List<ResponseShortProjectJson>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -41,7 +42,7 @@ public class ProjectController : ControllerBase
         return Ok(response);
     }
 
-    [Authorize(Roles = nameof(UserType.Supervisor))]
+    [Authorize(Roles = nameof(UserType.Admin))]
     [HttpPost] 
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -55,7 +56,7 @@ public class ProjectController : ControllerBase
         return Ok(response);
     }
 
-    [Authorize(Roles = nameof(UserType.Supervisor))]
+    [Authorize(Roles = nameof(UserType.Admin))]
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -68,9 +69,9 @@ public class ProjectController : ControllerBase
     {
         await useCase.Execute(id,request);
         return NoContent();
-    } 
-    
-    [Authorize(Roles = nameof(UserType.Supervisor))]
+    }
+
+    [Authorize(Roles = nameof(UserType.Admin))]
     [HttpPost("{projectId}/users")]
     [ProducesResponseType(typeof(ResponseShortProjectJson), StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -99,8 +100,8 @@ public class ProjectController : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = nameof(UserType.Supervisor))]
-    [HttpDelete("{projectId}/users/{userId}")]
+    [Authorize(Roles = nameof(UserType.Admin))]
+    [HttpDelete("{projectId}/intern/{Intern_Id}/supervisor/{Supervisor_Id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status403Forbidden)]
@@ -108,10 +109,11 @@ public class ProjectController : ControllerBase
     public async Task<IActionResult> RemoveUserFromProject(
     [FromServices] IDeleteUserFromProjectUseCase useCase,
     [FromRoute] Guid projectId,
-    [FromRoute] Guid userId
+    [FromRoute] Guid Intern_Id,
+    [FromRoute] Guid Supervisor_Id
 )
-    {
-        await useCase.Execute(projectId, userId);
+    { 
+        await useCase.Execute(projectId, Intern_Id, Supervisor_Id);
         return NoContent();
     }
 

@@ -39,11 +39,34 @@ public class User : Entity
         IsActive = isActive;
     }
 
-    public void Inactivate() => IsActive = false; 
-    public void Activate() => IsActive = true; 
-    public void UpdateType(UserType type) => Type = type; 
-    public void UpdateName(string name)  => Name = name; 
-    public void UpdateEmail(string email) => Email = Email.Criar(email);
-    public void UpdatePassword(string password) => Password = password;
+    public void Inactivate() {
+        IsActive = false;
+        UpdateTimestamp();
+    }
+    public void Activate()
+    {
+        IsActive = true;
+        UpdateTimestamp();
+    }
+    public void UpdateType(UserType type)
+    {
+        Type = type;
+        UpdateTimestamp();
+    }
+    public void UpdateName(string name)
+    {
+        Name = name;
+        UpdateTimestamp();
+    }
+    public void UpdateEmail(string email)
+    {
+        Email = Email.Criar(email);
+        UpdateTimestamp();
+    }
+    public void UpdatePassword(string password)
+    {
+        Password = password;
+        UpdateTimestamp();
+    }
 }
 

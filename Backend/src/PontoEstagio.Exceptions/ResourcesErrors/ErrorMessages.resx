@@ -279,4 +279,19 @@
   <data name="invalidPassword" xml:space="preserve">
     <value>A senha do usuário não pode ser vazia.</value>
   </data>
+  <data name="InvalidCompanyId" xml:space="preserve">
+    <value>O ID da empresa não pode ser vazio.</value>
+  </data>
+  <data name="CnpjCannotBeEmpty" xml:space="preserve">
+    <value>CNPJ não pode ser vazio.</value>
+  </data>
+  <data name="InvalidCnpjFormat" xml:space="preserve">
+    <value>Formato de CNPJ inválido.</value>
+  </data>
+  <data name="CnpjAlreadyExists" xml:space="preserve">
+    <value>CNPJ já cadastrado</value>
+  </data>
+  <data name="UserNotAdmin" xml:space="preserve">
+    <value>O usuário não é um adiministrador.</value>
+  </data>
 </root>

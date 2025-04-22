@@ -1,5 +1,7 @@
 ﻿namespace PontoEstagio.Communication.Request;
 public class RequestAssignUserToProjectJson
 {
-    public Guid User_Id { get; set; }
+    public Guid Intern_Id { get; set; }
+    public Guid Supervisor_Id { get; set; }
+
 }

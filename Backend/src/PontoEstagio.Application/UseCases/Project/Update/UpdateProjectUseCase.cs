@@ -32,15 +32,15 @@ public class UpdateProjectUseCase : IUpdateProjectUseCase
         if (user is null)
             throw new NotFoundException(ErrorMessages.UserNotFound);
 
-        if (user.Type != UserType.Supervisor)
-            throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
+        if (user.Type != UserType.Admin)
+            throw new ForbiddenException(ErrorMessages.UserNotAdmin);
 
         var _project = await _projectUpdateOnlyRepository.GetProjectByIdAsync(projectId);
         if (_project is null)
             throw new NotFoundException(ErrorMessages.ProjectNotFound);
 
-        if (_project.CreatedBy != user.Id && user.Type != UserType.Supervisor)
-            throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
+        if (_project.CreatedBy != user.Id || user.Type != UserType.Admin)
+            throw new ForbiddenException(ErrorMessages.UserNotAdmin);
 
         _project.UpdateName(request.Name);
 
@@ -51,6 +51,8 @@ public class UpdateProjectUseCase : IUpdateProjectUseCase
         _project.UpdateStartDate(request.StartDate);
 
         _project.UpdateEndDate(request.EndDate);
+
+        _project.UpdateComapany_Id(request.CompanyId);
 
         _projectUpdateOnlyRepository.Update(_project);
 

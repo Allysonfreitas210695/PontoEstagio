@@ -32,11 +32,12 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
         if (user is null)
             throw new NotFoundException(ErrorMessages.UserNotFound);
 
-        if (user.Type != UserType.Supervisor)
-            throw new ForbiddenException(ErrorMessages.UserNotSupervisor);
+        if (user.Type != UserType.Admin)
+            throw new ForbiddenException(ErrorMessages.UserNotAdmin);
 
         var _project = new Project(
             Guid.NewGuid(),
+            request.CompanyId,
             request.Name, 
             request.Description, 
             request.TotalHours,

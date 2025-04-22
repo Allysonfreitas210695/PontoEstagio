@@ -9,6 +9,7 @@ public class PontoEstagioDbContext : DbContext
     public DbSet<Activity> Activitys { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Company> Companies { get; set; }
     public DbSet<UserProject> UserProjects { get; set; }
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 

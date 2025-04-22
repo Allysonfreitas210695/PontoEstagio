@@ -39,5 +39,8 @@ public class Attendance : Entity
         Status = status;
     }
 
-    public void UpdateStatus(AttendanceStatus status) => Status = status; 
+    public void UpdateStatus(AttendanceStatus status) {
+        Status = status;
+        UpdateTimestamp();
+    }
 }

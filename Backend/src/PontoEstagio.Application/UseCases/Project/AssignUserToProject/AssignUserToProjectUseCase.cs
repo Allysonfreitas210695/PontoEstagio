@@ -33,12 +33,9 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
 
     public async Task Execute(Guid projectId, RequestAssignUserToProjectJson request)
     {
-        var supervisor = await _loggedUser.Get();
+        var admin = await _loggedUser.Get(); 
 
-        if (supervisor is null || supervisor.Type != UserType.Supervisor)
-            throw new ForbiddenException(ErrorMessages.SupervisorNotFoundOrNotSupervisor);
-
-        var intern = await _userReadOnlyRepository.GetUserByIdAsync(request.User_Id);
+        var intern = await _userReadOnlyRepository.GetUserByIdAsync(request.Intern_Id);
         if (intern is null)
             throw new NotFoundException(ErrorMessages.UserNotFound);
 
@@ -47,6 +44,13 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
 
         var alreadyAssignedToProject = await _userProjectsReadOnlyRepository
             .ExistsProjectAssignedToUserAsync(projectId, intern.Id);
+
+        var supervisor = await _userReadOnlyRepository.GetUserByIdAsync(request.Supervisor_Id);
+        if (supervisor is null)
+            throw new NotFoundException(ErrorMessages.UserNotFound);
+
+        if (supervisor.Type != UserType.Supervisor)
+            throw new ForbiddenException(ErrorMessages.UserNotIntern);
 
         if (alreadyAssignedToProject)
             throw new NotFoundException(ErrorMessages.UserAlreadyAssignedToProject);

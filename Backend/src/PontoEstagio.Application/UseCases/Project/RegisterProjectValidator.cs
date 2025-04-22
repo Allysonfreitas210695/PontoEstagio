@@ -14,6 +14,10 @@ public class RegisterProjectValidator : AbstractValidator<RequestRegisterProject
             .MinimumLength(3)
             .WithMessage(ErrorMessages.invalidProjectNameLength);
 
+        RuleFor(project => project.CompanyId)
+            .NotEqual(Guid.Empty)
+            .WithMessage(ErrorMessages.InvalidCompanyId);
+
         RuleFor(project => project.StartDate)
             .Must(date => date.Date >= DateTime.UtcNow.Date)
             .WithMessage(ErrorMessages.StartDateMustBeTodayOrFuture);

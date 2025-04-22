@@ -160,6 +160,24 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CNPJ já cadastrado.
+        /// </summary>
+        public static string CnpjAlreadyExists {
+            get {
+                return ResourceManager.GetString("CnpjAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CNPJ não pode ser vazio..
+        /// </summary>
+        public static string CnpjCannotBeEmpty {
+            get {
+                return ResourceManager.GetString("CnpjCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data não pode ser no futuro..
         /// </summary>
         public static string DateCannotBeInTheFuture {
@@ -228,6 +246,24 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string invalidCheckOutTime {
             get {
                 return ResourceManager.GetString("invalidCheckOutTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Formato de CNPJ inválido..
+        /// </summary>
+        public static string InvalidCnpjFormat {
+            get {
+                return ResourceManager.GetString("InvalidCnpjFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID da empresa não pode ser vazio..
+        /// </summary>
+        public static string InvalidCompanyId {
+            get {
+                return ResourceManager.GetString("InvalidCompanyId", resourceCulture);
             }
         }
         
@@ -516,6 +552,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string UserNotActive {
             get {
                 return ResourceManager.GetString("UserNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O usuário não é um adiministrador..
+        /// </summary>
+        public static string UserNotAdmin {
+            get {
+                return ResourceManager.GetString("UserNotAdmin", resourceCulture);
             }
         }
         
