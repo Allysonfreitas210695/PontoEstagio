@@ -8,15 +8,14 @@
 
 ### 🧑‍💼 Cadastro de Usuários
 - [x] Registro de **estagiários** e **supervisores**
-- [] Associação de usuários com **projetos** ou **empresas**
 
 ### 🏗️ Cadastro de Projetos
-- [ ] Criação de **projetos**
-- [ ] Associação de estagiários/supervisores ao projeto
+- [x] Criação de **projetos**
+- [x] Associação de estagiários/supervisores ao projeto
 
 ### 🕒 Registro de Frequência
-- [ ] Registro de **entrada e saída** com data/hora
-- [ ] Frequência salva com status "**pendente**"
+- [x] Registro de **entrada e saída** com data/hora
+- [x] Frequência salva com status "**pendente**"
 
 ### 📋 Registro de Atividades
 - [] Adição de **descrição das atividades realizadas**
@@ -29,8 +28,8 @@
 - [ ] Aprovação ou reprovação de presença e atividade
 
 ### 📊 Relatórios
-- [] Geração de relatório **mensal** por estagiário
-- [] Cálculo de **horas totais** de presença
+- [x] Geração de relatório **mensal** por estagiário
+- [x] Cálculo de **horas totais** de presença
 
 ---
 
@@ -71,8 +70,4 @@
 ---
 
 ## 📊 Gerar o relatório de cobertura (excluindo Exceptions e Communication)
-> dotnet tool run reportgenerator ^
-    -reports:"**/coverage.cobertura.xml" ^
-    -targetdir:coveragereport ^
-    -reporttypes:Html ^
-    -classfilters:"-PontoEstagio.Exceptions*;-PontoEstagio.Communication*;-PontoEstagio.Exceptions"
+> dotnet tool run reportgenerator -reports:"**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html  -classfilters:"-PontoEstagio.Exceptions*;-PontoEstagio.Communication*"
