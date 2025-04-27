@@ -22,7 +22,17 @@ public class Project : Entity
 
     public Project() { }
 
-    public Project(Guid? id, Guid companyId, string name, string description, long totalHours, ProjectStatus status, DateTime startDate, DateTime? endDate, Guid createdBy)
+    public Project(
+        Guid? id, 
+        Guid companyId, 
+        string name, 
+        string description, 
+        long totalHours, 
+        ProjectStatus status, 
+        DateTime startDate, 
+        DateTime? endDate,
+        Guid createdBy
+)
     {
         Id = id ?? Guid.NewGuid();
 
