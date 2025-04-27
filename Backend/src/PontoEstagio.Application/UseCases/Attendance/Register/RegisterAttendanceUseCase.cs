@@ -49,13 +49,16 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
         if (existingAttendance != null)
             throw new BusinessRuleException(ErrorMessages.AttendanceAlreadyExists);
 
+        //TODO: salvar imagem no servidor
+
         var newAttendance = new Domain.Entities.Attendance(
             Guid.NewGuid(),
             _user.Id,
             request.Date,
             request.CheckIn,
             request.CheckOut,
-            (AttendanceStatus)request.Status
+            (AttendanceStatus)request.Status,
+            request.ProofImageBase64
         );
 
         await _attendanceWriteOnlyRepository.AddAsync(newAttendance);

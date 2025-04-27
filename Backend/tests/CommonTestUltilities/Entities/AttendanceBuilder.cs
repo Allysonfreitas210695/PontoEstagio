@@ -12,7 +12,8 @@ public class AttendanceBuilder
         DateTime? date = null,  
         TimeSpan? checkIn = null, 
         TimeSpan? checkOut = null, 
-        AttendanceStatus? status = null
+        AttendanceStatus? status = null,
+        string? proofImageBase64 = null
     )
     {
         var faker = new Faker();
@@ -26,7 +27,8 @@ public class AttendanceBuilder
             date: date ?? faker.Date.Past(1).Date,
             checkIn: fakeCheckIn,
             checkOut: fakeCheckOut,
-            status: status ?? faker.PickRandom<AttendanceStatus>()
+            status: status ?? faker.PickRandom<AttendanceStatus>(),
+            proofImageBase64: proofImageBase64 ?? faker.Image.PicsumUrl(200, 200)
         );
     }
 }

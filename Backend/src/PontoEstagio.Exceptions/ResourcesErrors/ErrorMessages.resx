@@ -327,4 +327,7 @@
   <data name="invalidExpirationDate" xml:space="preserve">
     <value>A data não pode ser anterior ao dia de hoje.</value>
   </data>
+  <data name="InvalidProofImage" xml:space="preserve">
+    <value>A imagem de comprovação é inválida.</value>
+  </data>
 </root>

@@ -161,7 +161,8 @@ public static class SeedDatabaseInitial
                     DateTime.Today,
                     new TimeSpan(8, 0, 0),
                     new TimeSpan(17, 0, 0),
-                    faker.PickRandom<AttendanceStatus>()
+                    faker.PickRandom<AttendanceStatus>(),
+                    faker.Image.PicsumUrl(200, 200)
                 );
                 attendances.Add(attendance);
 

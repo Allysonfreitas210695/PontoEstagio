@@ -14,13 +14,14 @@ public class Attendance : Entity
     public TimeSpan CheckIn { get; private set; }
     public TimeSpan CheckOut { get; private set; }
     public AttendanceStatus Status { get; set; }
+    public string ProofImageBase64 { get; private set; }
 
     public User User { get; private set; } = default!;
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
 
     public Attendance() { }
 
-    public Attendance(Guid? id, Guid userId, DateTime date, TimeSpan checkIn, TimeSpan checkOut, AttendanceStatus status)
+    public Attendance(Guid? id, Guid userId, DateTime date, TimeSpan checkIn, TimeSpan checkOut, AttendanceStatus status, string proofImageBase64)
     {
         Id = id ?? Guid.NewGuid();
 
@@ -38,6 +39,18 @@ public class Attendance : Entity
         CheckIn = checkIn;
         CheckOut = checkOut;
         Status = status;
+
+        AddProofImageBase64(proofImageBase64);
+    }
+
+
+    public void AddProofImageBase64(string base64Image)
+    {
+        if (string.IsNullOrWhiteSpace(base64Image))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProofImage });
+
+        ProofImageBase64 = base64Image;
+        UpdateTimestamp();
     }
 
     public void UpdateStatus(AttendanceStatus status) {
