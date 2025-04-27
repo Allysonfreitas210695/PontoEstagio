@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PontoEstagio.Application.UseCases.Auth.ForgotPassword;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
 using PontoEstagio.Application.UseCases.Login.DoLogin;
 using PontoEstagio.Communication.Request;
@@ -33,5 +34,16 @@ public class AuthController : ControllerBase
     {
         var response = await useCase.Execute(request);
         return Ok(response);
+    }
+
+    [HttpPost("forgot-password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ForgotPassword(
+        [FromServices] IForgotPasswordUseCase useCase,
+        [FromBody] RequestForgotPasswordJson request)
+    {
+        await useCase.Execute(request);
+        return NoContent();
     }
 }
