@@ -79,7 +79,7 @@ public static class SeedDatabaseInitial
                 faker.Company.CompanyName(),
                 faker.Company.Cnpj(),
                 faker.Phone.PhoneNumber(),
-                faker.Internet.Email()
+                Email.Criar(faker.Internet.Email())
             );
 
             companies.Add(company);

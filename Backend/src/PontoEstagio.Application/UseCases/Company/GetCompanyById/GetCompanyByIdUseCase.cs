@@ -23,7 +23,7 @@ public class GetCompanyByIdUseCase : IGetCompanyByIdUseCase
             Id  = company.Id,
             Name = company.Name,
             CNPJ = company.CNPJ,
-            Email = company.Email,
+            Email = company.Email.Endereco,
             Phone = company.Phone,
             CreatedAt = company.CreatedAt
         };

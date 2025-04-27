@@ -330,4 +330,10 @@
   <data name="InvalidProofImage" xml:space="preserve">
     <value>A imagem de comprovação é inválida.</value>
   </data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve">
+    <value>Email já registrado.</value>
+  </data>
+  <data name="CNPJAlreadyRegistered" xml:space="preserve">
+    <value>CNPJ já registrado.</value>
+  </data>
 </root>

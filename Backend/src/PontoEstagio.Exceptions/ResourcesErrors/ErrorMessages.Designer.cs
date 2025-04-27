@@ -169,6 +169,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CNPJ já registrado..
+        /// </summary>
+        public static string CNPJAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("CNPJAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a CNPJ não pode ser vazio..
         /// </summary>
         public static string CnpjCannotBeEmpty {
@@ -282,6 +291,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string EmailAlreadyInUse {
             get {
                 return ResourceManager.GetString("EmailAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Email já registrado..
+        /// </summary>
+        public static string EmailAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("EmailAlreadyRegistered", resourceCulture);
             }
         }
         

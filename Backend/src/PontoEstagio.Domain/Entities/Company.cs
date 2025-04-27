@@ -1,4 +1,5 @@
 using PontoEstagio.Domain.Common;
+using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +10,7 @@ public class Company : Entity
     public string Name { get; private set; } = string.Empty;
     public string CNPJ { get; private set; } = string.Empty;
     public string Phone { get; private set; } = string.Empty;
-    public string Email { get; private set; } = string.Empty;
+    public Email Email { get; private set; } = default!;
     public bool IsActive { get; private set; }
     
     public virtual ICollection<Project> Projects { get; private set; } = new List<Project>();
@@ -21,7 +22,7 @@ public class Company : Entity
         string name, 
         string cnpj,  
         string phone, 
-        string email
+        Email email
     )
     {
         Id = id ?? Guid.NewGuid();
@@ -38,13 +39,6 @@ public class Company : Entity
 
         CNPJ = cnpj; 
         Phone = phone;
-
-        if (string.IsNullOrWhiteSpace(email))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.EmailCannotBeEmpty });
-
-        if (!new EmailAddressAttribute().IsValid(email))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidEmailFormat });
-
         Email = email;
         IsActive = true;
     }
@@ -78,13 +72,7 @@ public class Company : Entity
 
     public void UpdateEmail(string email)
     {
-        if (string.IsNullOrWhiteSpace(email))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.EmailCannotBeEmpty });
-
-        if (!new EmailAddressAttribute().IsValid(email))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidEmailFormat }); 
-
-        Email = email;
+        Email = Email.Criar(email);
         UpdateTimestamp();
     }
 

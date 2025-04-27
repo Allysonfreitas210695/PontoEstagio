@@ -23,9 +23,15 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             .IsRequired(false)
             .HasMaxLength(20);
 
-        builder.Property(c => c.Email)
-            .IsRequired()
-            .HasMaxLength(150);
+        builder.OwnsOne(u => u.Email, email =>
+        {
+            email.Property(e => e.Endereco)
+                 .HasColumnName("Email")
+                 .IsRequired() 
+                 .HasMaxLength(100);  
+             email.HasIndex(e => e.Endereco)
+                 .IsUnique(); 
+        });
 
         builder.Property(c => c.IsActive)
             .IsRequired();
