@@ -10,9 +10,12 @@ using Newtonsoft.Json;
 using PontoEstagio.API.Token;
 using PontoEstagio.Infrastructure.Security.Tokens;
 using PontoEstagio.API.Middleware;
+using PontoEstagio.Domain.Services.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +30,7 @@ builder.Services.AddApplication();
 builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddCors(options =>
 {
