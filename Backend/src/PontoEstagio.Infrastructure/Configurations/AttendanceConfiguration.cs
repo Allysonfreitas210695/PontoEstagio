@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PontoEstagio.Domain.Entities;
-using PontoEstagio.Domain.Enum;
 
 namespace PontoEstagio.Infrastructure.Configurations
 {
@@ -20,6 +19,9 @@ namespace PontoEstagio.Infrastructure.Configurations
                    .IsRequired();
 
             builder.Property(f => f.CheckOut)
+                   .IsRequired();
+
+            builder.Property(f => f.ProofImageBase64)
                    .IsRequired();
 
             builder.Property(u => u.Status)

@@ -430,6 +430,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A imagem de comprovação é inválida..
+        /// </summary>
+        public static string InvalidProofImage {
+            get {
+                return ResourceManager.GetString("InvalidProofImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data de registro da atividade não pode ser no futuro..
         /// </summary>
         public static string invalidRecordedAtDate {

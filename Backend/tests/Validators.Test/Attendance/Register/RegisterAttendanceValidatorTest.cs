@@ -105,4 +105,16 @@ public class RegisterAttendanceValidatorTest
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.CheckOutMustBeLaterThanCheckIn);
     }
+
+    [Fact]
+    public void Validate_ShouldFail_When_ProofImageBase64_IsEmpty()
+    {
+        var request = RequestRegisterAttendanceJsonBuilder.Build();
+        request.ProofImageBase64 = String.Empty;
+
+        var result = _validator.Validate(request);
+
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidProofImage);
+    }
 }
