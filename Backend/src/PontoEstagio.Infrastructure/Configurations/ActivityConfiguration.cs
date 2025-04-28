@@ -36,7 +36,7 @@ namespace PontoEstagio.Infrastructure.Configurations
 
             // Relacionamento com Attendance
             builder.HasOne(a => a.Attendance)
-                   .WithMany()
+                   .WithMany(a => a.Activities)
                    .HasForeignKey(a => a.AttendanceId)
                    .OnDelete(DeleteBehavior.Restrict);
 
