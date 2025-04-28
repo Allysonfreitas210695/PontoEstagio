@@ -32,6 +32,8 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        services.AddScoped<ICreateActivityUseCase, CreateActivityUseCase>();
+
         AddRepositories(services);
         AddDbContext(services, configuration);
     }
