@@ -19,6 +19,9 @@ namespace PontoEstagio.Infrastructure.Configurations
             builder.Property(a => a.RecordedAt)
                    .IsRequired();
 
+            builder.Property(a => a.Status)
+                   .IsRequired();
+
             // Relacionamento com User
             builder.HasOne(a => a.User)
                    .WithMany(u => u.Activities)
@@ -29,6 +32,12 @@ namespace PontoEstagio.Infrastructure.Configurations
             builder.HasOne(a => a.Project)
                    .WithMany(p => p.Activities)
                    .HasForeignKey(a => a.ProjectId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            // Relacionamento com Attendance
+            builder.HasOne(a => a.Attendance)
+                   .WithMany()
+                   .HasForeignKey(a => a.AttendanceId)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(a => a.ProofFilePath)
