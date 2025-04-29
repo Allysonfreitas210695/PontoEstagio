@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+```bash
+# Instala o react-hook-form
+npm install react-hook-form
+
+# Instala o Zod
+npm install zod
+
+# Instala o integrador entre react-hook-form e zod
+npm install @hookform/resolvers
+
+# Instala o axios para requisições HTTP
+npm install axios
+# Instala lucide para ver senha
+npm install lucide-react
+
+```

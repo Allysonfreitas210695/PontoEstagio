@@ -9,22 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.0.1",
-    "axios": "^1.9.0",
-    "lucide-react": "^0.503.0",
-    "next": "15.3.1",
-    "ponto-estagio": "file:",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hook-form": "^7.56.1",
-    "react-hot-toast": "^2.5.2",
-    "sonner": "^2.0.3",
-    "zod": "^3.24.3"
+    "next": "15.3.1"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
-    "@types/axios": "^0.9.36",
+    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

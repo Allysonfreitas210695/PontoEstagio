@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PontoEstagio.API", "PontoEstagio.API.csproj", "{91959E94-2EE3-A00C-217E-E84C4993289F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91959E94-2EE3-A00C-217E-E84C4993289F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91959E94-2EE3-A00C-217E-E84C4993289F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91959E94-2EE3-A00C-217E-E84C4993289F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91959E94-2EE3-A00C-217E-E84C4993289F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4E5B139F-546E-4DB7-BA62-8E40CCF4D6F2}
+	EndGlobalSection
+EndGlobal
