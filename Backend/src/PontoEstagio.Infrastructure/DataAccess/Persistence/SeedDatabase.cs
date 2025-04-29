@@ -17,8 +17,11 @@ public static class SeedDatabaseInitial
     {
         var dbContext = serviceProvider.GetRequiredService<PontoEstagioDbContext>();
 
-        if(!await dbContext.Users.AnyAsync(x => x.Type == UserType.Admin))
+        if(!await dbContext.Users.AsNoTracking().AnyAsync(x => x.Type == UserType.Admin))
             await SeedAdminUser(dbContext);
+
+        if (!await dbContext.EmailTemplates.AsNoTracking().AnyAsync())
+            await SeedEmailTemplates(dbContext);
 
         if (await dbContext.Users.AnyAsync())
             return;
@@ -27,6 +30,7 @@ public static class SeedDatabaseInitial
         await SeedCompanies(dbContext);
         await SeedProjects(dbContext);
         await SeedUserProjectsAndRelatedData(dbContext);
+        
     }
 
     private static async Task SeedAdminUser(PontoEstagioDbContext dbContext)
@@ -184,4 +188,26 @@ public static class SeedDatabaseInitial
         await dbContext.SaveChangesAsync();
     }
 
+    private static async Task SeedEmailTemplates(PontoEstagioDbContext dbContext)
+    {
+        
+
+        var verificationCodeTemplate = new EmailTemplates
+        {
+            Title = "Redefinição de Senha",
+            Subject = "Código de verificação para redefinição de senha",
+            Body = @"
+            <h2>Olá, {{UserName}}!</h2>
+            <p>Recebemos uma solicitação para redefinir sua senha.</p>
+            <p>Seu código de verificação é: <strong>{{VerificationCode}}</strong></p>
+            <p>Use este código no aplicativo para confirmar sua identidade e redefinir sua senha.</p>
+            <p><strong>O código é válido por até 3 minutos</strong> e deve ser usado apenas por você.</p>
+            <p>Se você não solicitou isso, ignore este e-mail ou entre em contato conosco.</p>
+            <br />
+            <p>Atenciosamente,<br />Equipe Ponto Estágio</p>"
+        };
+
+        dbContext.EmailTemplates.Add(verificationCodeTemplate);
+        await dbContext.SaveChangesAsync();
+    }
 }

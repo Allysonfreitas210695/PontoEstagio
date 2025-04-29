@@ -14,7 +14,7 @@ public class Attendance : Entity
     public TimeSpan CheckIn { get; private set; }
     public TimeSpan CheckOut { get; private set; }
     public AttendanceStatus Status { get; set; }
-    public string ProofImageBase64 { get; private set; }
+    public string ProofImageBase64 { get; private set; } = string.Empty;
 
     public User User { get; private set; } = default!;
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();

@@ -2,7 +2,6 @@ using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
-using System.ComponentModel.DataAnnotations;
 namespace PontoEstagio.Domain.Entities;
 
 public class Company : Entity

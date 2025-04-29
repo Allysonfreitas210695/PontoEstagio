@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using PontoEstagio.API.Extensions;
+using System.Text; 
 using PontoEstagio.API.Filters;
 using PontoEstagio.Infrastructure;
 using PontoEstagio.Infrastructure.DataAccess.Persistence;
@@ -11,6 +10,7 @@ using PontoEstagio.API.Token;
 using PontoEstagio.Infrastructure.Security.Tokens;
 using PontoEstagio.API.Middleware;
 using PontoEstagio.Domain.Services.Configuration;
+using PontoEstagio.Infrastructure.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);

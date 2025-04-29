@@ -6,34 +6,37 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PontoEstagio.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTableUserRefreshToken : Migration
+    public partial class AddTablePasswordRecoveries : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserRefreshTokens",
+                name: "PasswordRecoveries",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ExpirationDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Used = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRefreshTokens", x => x.Id);
+                    table.PrimaryKey("PK_PasswordRecoveries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserRefreshTokens_Usuarios_UserId",
+                        name: "FK_PasswordRecoveries_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Usuarios",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRefreshTokens_UserId",
-                table: "UserRefreshTokens",
+                name: "IX_PasswordRecoveries_UserId",
+                table: "PasswordRecoveries",
                 column: "UserId");
         }
 
@@ -41,7 +44,7 @@ namespace PontoEstagio.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserRefreshTokens");
+                name: "PasswordRecoveries");
         }
     }
 }

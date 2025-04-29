@@ -8,7 +8,7 @@ namespace PontoEstagio.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Usuarios");
+            builder.ToTable("Users");
 
             builder.HasKey(u => u.Id);
 

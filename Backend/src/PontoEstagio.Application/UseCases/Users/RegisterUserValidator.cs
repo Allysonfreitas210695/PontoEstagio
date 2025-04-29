@@ -16,8 +16,5 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
             .EmailAddress()
             .When(user => string.IsNullOrWhiteSpace(user.Email) == false, ApplyConditionTo.CurrentValidator)
             .WithMessage(ErrorMessages.InvalidEmailFormat);
-
-        RuleFor(user => user.Password)
-            .SetValidator(new PasswordValidator<RequestRegisterUserJson>());
     }
 }

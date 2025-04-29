@@ -12,8 +12,8 @@ using PontoEstagio.Infrastructure.Context;
 namespace PontoEstagio.Infrastructure.Migrations
 {
     [DbContext(typeof(PontoEstagioDbContext))]
-    [Migration("20250416230805_UpdateUserTableAndUserProject")]
-    partial class UpdateUserTableAndUserProject
+    [Migration("20250429124102_AddTablePasswordRecoveries")]
+    partial class AddTablePasswordRecoveries
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,39 @@ namespace PontoEstagio.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("PasswordRecovery", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Used")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordRecoveries", (string)null);
+                });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Activity", b =>
                 {
@@ -66,7 +99,7 @@ namespace PontoEstagio.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Atividades", (string)null);
+                    b.ToTable("Activities", (string)null);
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Attendance", b =>
@@ -87,8 +120,14 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<string>("ProofImageBase64")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -100,7 +139,72 @@ namespace PontoEstagio.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Frequencias", (string)null);
+                    b.ToTable("Frequencies", (string)null);
+                });
+
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CNPJ")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companies", (string)null);
+                });
+
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.EmailTemplates", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailTemplates", (string)null);
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Project", b =>
@@ -109,25 +213,49 @@ namespace PontoEstagio.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<long>("TotalHours")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Projetos", (string)null);
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CreatedBy");
+
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.User", b =>
@@ -162,7 +290,7 @@ namespace PontoEstagio.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Usuarios", (string)null);
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.UserProject", b =>
@@ -203,6 +331,41 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.ToTable("UserProjects", (string)null);
                 });
 
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.UserRefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRefreshTokens", (string)null);
+                });
+
+            modelBuilder.Entity("PasswordRecovery", b =>
+                {
+                    b.HasOne("PontoEstagio.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Activity", b =>
                 {
                     b.HasOne("PontoEstagio.Domain.Entities.Attendance", "Attendance")
@@ -241,6 +404,53 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.Company", b =>
+                {
+                    b.OwnsOne("PontoEstagio.Domain.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<Guid>("CompanyId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("Endereco")
+                                .IsRequired()
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("CompanyId");
+
+                            b1.HasIndex("Endereco")
+                                .IsUnique();
+
+                            b1.ToTable("Companies");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CompanyId");
+                        });
+
+                    b.Navigation("Email")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.Project", b =>
+                {
+                    b.HasOne("PontoEstagio.Domain.Entities.Company", "Company")
+                        .WithMany("Projects")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PontoEstagio.Domain.Entities.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatedBy")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("Creator");
+                });
+
             modelBuilder.Entity("PontoEstagio.Domain.Entities.User", b =>
                 {
                     b.OwnsOne("PontoEstagio.Domain.ValueObjects.Email", "Email", b1 =>
@@ -259,7 +469,7 @@ namespace PontoEstagio.Infrastructure.Migrations
                             b1.HasIndex("Endereco")
                                 .IsUnique();
 
-                            b1.ToTable("Usuarios");
+                            b1.ToTable("Users");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
@@ -288,9 +498,25 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.UserRefreshToken", b =>
+                {
+                    b.HasOne("PontoEstagio.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Attendance", b =>
                 {
                     b.Navigation("Activities");
+                });
+
+            modelBuilder.Entity("PontoEstagio.Domain.Entities.Company", b =>
+                {
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Project", b =>
