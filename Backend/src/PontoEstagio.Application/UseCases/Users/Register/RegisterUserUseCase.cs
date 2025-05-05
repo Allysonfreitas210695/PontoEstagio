@@ -3,6 +3,7 @@ using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
+using PontoEstagio.Domain.Helpers;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Security.Cryptography;
@@ -46,7 +47,9 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     {
         await Validate(request);
 
-        var _passwordHash = _passwordEncrypter.Encrypt(request.Password);
+        var _passwordGenerate = PasswordHelper.GenerateRandomPassword();
+
+        var _passwordHash = _passwordEncrypter.Encrypt(_passwordGenerate);
 
         var user = new User(
             Guid.NewGuid(),

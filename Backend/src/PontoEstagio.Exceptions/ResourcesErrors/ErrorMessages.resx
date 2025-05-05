@@ -327,4 +327,40 @@
   <data name="invalidExpirationDate" xml:space="preserve">
     <value>A data não pode ser anterior ao dia de hoje.</value>
   </data>
+  <data name="InvalidProofImage" xml:space="preserve">
+    <value>A imagem de comprovação é inválida.</value>
+  </data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve">
+    <value>Email já registrado.</value>
+  </data>
+  <data name="CNPJAlreadyRegistered" xml:space="preserve">
+    <value>CNPJ já registrado.</value>
+  </data>
+  <data name="EmailTemplatePasswordResetNotFound" xml:space="preserve">
+    <value>Template de e-mail para redefinição de senha não encontrado.</value>
+  </data>
+  <data name="CodeRequired" xml:space="preserve">
+    <value>Código de recuperação é obrigatório.</value>
+  </data>
+  <data name="ExpirationInPast" xml:space="preserve">
+    <value>Data de expiração deve ser futura.</value>
+  </data>
+  <data name="AlreadyUsed" xml:space="preserve">
+    <value>Este código já foi utilizado.</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Este código de recuperação está expirado.</value>
+  </data>
+  <data name="InvalidUser" xml:space="preserve">
+    <value>Usuário inválido.</value>
+  </data>
+  <data name="ResetPassword_Code_Required" xml:space="preserve">
+    <value>O código de recuperação é obrigatório.</value>
+  </data>
+  <data name="ResetPassword_Code_Length" xml:space="preserve">
+    <value>O código deve ter exatamente 6 caracteres.</value>
+  </data>
+  <data name="PasswordRecovery_Code_Invalid" xml:space="preserve">
+    <value>Código de recuperação inválido ou expirado.</value>
+  </data>
 </root>

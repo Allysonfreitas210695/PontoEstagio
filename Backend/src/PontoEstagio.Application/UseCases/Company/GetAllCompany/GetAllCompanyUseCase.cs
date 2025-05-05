@@ -22,7 +22,7 @@ public class GetAllCompanyUseCase : IGetAllCompanyUseCase
                 Name = company.Name,
                 CNPJ = company.CNPJ,
                 Phone = company.Phone,
-                Email = company.Email,
+                Email = company.Email.Endereco,
                 CreatedAt = company.CreatedAt
             }).ToList();   
     }

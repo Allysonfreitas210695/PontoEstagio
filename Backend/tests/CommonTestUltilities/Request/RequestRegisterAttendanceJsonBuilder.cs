@@ -18,6 +18,7 @@ public class RequestRegisterAttendanceJsonBuilder
                 return new TimeSpan(Math.Min(checkOutHour, 23), checkOutMinute, 0);
             })
             .RuleFor(x => x.Status, f => f.PickRandom<AttendanceStatus>())
+            .RuleFor(x => x.ProofImageBase64, f => f.Image.PicsumUrl(200,200))
             .Generate();
     }
 }

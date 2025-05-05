@@ -19,6 +19,16 @@ public class CompanyRepository : ICompanyWriteOnlyRepository, ICompanyReadOnlyRe
         await _dbContext.Companies.AddAsync(company);
     }
 
+    public async Task<bool> ExistsByCNPJAsync(string cnpj)
+    {
+        return await _dbContext.Companies.AsNoTracking().AnyAsync(c => c.CNPJ == cnpj);
+    }
+
+    public Task<bool> ExistsByEmailAsync(string email)
+    {
+        return _dbContext.Companies.AsNoTracking().AnyAsync(c => c.Email.Endereco == email);
+    }
+
     public async Task<List<Company>> GetAllCompanyAsync()
     {
         return await _dbContext.Companies.AsNoTracking().ToListAsync();

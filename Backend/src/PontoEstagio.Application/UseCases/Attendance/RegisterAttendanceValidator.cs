@@ -20,5 +20,8 @@ public class RegisterAttendanceValidator : AbstractValidator<RequestRegisterAtte
             .NotEmpty().WithMessage(ErrorMessages.CheckOutTimeIsRequired)
             .GreaterThan(TimeSpan.Zero).WithMessage(ErrorMessages.CheckOutTimeMustBeValid)
             .GreaterThan(x => x.CheckIn).WithMessage(ErrorMessages.CheckOutMustBeLaterThanCheckIn);
+
+        RuleFor(x => x.ProofImageBase64)
+           .NotEmpty().WithMessage(ErrorMessages.InvalidProofImage);
     }
 }

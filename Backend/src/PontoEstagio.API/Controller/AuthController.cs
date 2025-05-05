@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using PontoEstagio.Application.UseCases.Auth.ForgotPassword;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
+using PontoEstagio.Application.UseCases.Auth.ResetPassword;
 using PontoEstagio.Application.UseCases.Login.DoLogin;
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
@@ -34,4 +36,28 @@ public class AuthController : ControllerBase
         var response = await useCase.Execute(request);
         return Ok(response);
     }
+
+    [HttpPost("forgot-password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ForgotPassword(
+        [FromServices] IForgotPasswordUseCase useCase,
+        [FromBody] RequestForgotPasswordJson request)
+    {
+        await useCase.Execute(request);
+        return NoContent();
+    }
+
+    [HttpPost("reset-password")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ResetPassword(
+    [FromServices] IResetPasswordUseCase useCase,
+    [FromBody] RequestResetPasswordJson request)
+    {
+        await useCase.Execute(request);
+        return NoContent();
+    }
+
 }

@@ -17,7 +17,7 @@ public class CompanyTest
         company.Should().NotBeNull();
         company.Name.Should().NotBeNullOrEmpty();
         company.CNPJ.Should().NotBeNullOrEmpty();
-        company.Email.Should().NotBeNullOrEmpty();
+        company.Email.Should().NotBeNull();
         company.IsActive.Should().BeTrue();
     }
 

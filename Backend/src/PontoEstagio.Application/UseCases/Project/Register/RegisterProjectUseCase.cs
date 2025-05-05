@@ -1,6 +1,5 @@
 ﻿using PontoEstagio.Communication.Request;
 using PontoEstagio.Communication.Responses;
-using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Projects; 
@@ -35,7 +34,7 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
         if (user.Type != UserType.Admin)
             throw new ForbiddenException(ErrorMessages.UserNotAdmin);
 
-        var _project = new Project(
+        var _project = new Domain.Entities.Project(
             Guid.NewGuid(),
             request.CompanyId,
             request.Name, 

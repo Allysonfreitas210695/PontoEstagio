@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PontoEstagio.Application.UseCases.Project.GetCurrentProjectForUser;
 using PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
 using PontoEstagio.Application.UseCases.Projects.DeleteUserFromProject;
 using PontoEstagio.Application.UseCases.Projects.GetAllProjects;
@@ -39,6 +40,19 @@ public class ProjectController : ControllerBase
     )
     {
         var response = await useCase.Execute(id);
+        return Ok(response);
+    }
+
+    [Authorize(Roles = nameof(UserType.Admin))]
+    [HttpGet]
+    [Route("GetCurrentProjectForUser")]
+    [ProducesResponseType(typeof(ResponseProjectJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetCurrentProjectForUser(
+        [FromServices] IGetCurrentProjectForUserUseCase useCase
+    )
+    {
+        var response = await useCase.Execute();
         return Ok(response);
     }
 
@@ -111,10 +125,11 @@ public class ProjectController : ControllerBase
     [FromRoute] Guid projectId,
     [FromRoute] Guid Intern_Id,
     [FromRoute] Guid Supervisor_Id
-)
+    )
     { 
         await useCase.Execute(projectId, Intern_Id, Supervisor_Id);
         return NoContent();
     }
+
 
 }

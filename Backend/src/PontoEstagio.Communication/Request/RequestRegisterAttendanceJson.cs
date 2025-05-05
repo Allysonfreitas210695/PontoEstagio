@@ -8,4 +8,5 @@ public class RequestRegisterAttendanceJson
     public TimeSpan CheckIn { get; set; }
     public TimeSpan CheckOut { get; set; }
     public AttendanceStatus Status { get; set; } = AttendanceStatus.Pending;
+    public string ProofImageBase64 { get; set; } = string.Empty;
 }

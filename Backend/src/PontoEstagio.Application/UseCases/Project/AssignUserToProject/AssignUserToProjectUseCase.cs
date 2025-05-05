@@ -35,6 +35,12 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
     {
         var admin = await _loggedUser.Get(); 
 
+        if (admin is null)
+            throw new NotFoundException(ErrorMessages.UserNotFound);
+
+        if (admin.Type != UserType.Admin)
+            throw new ForbiddenException(ErrorMessages.UserNotAdmin);
+
         var intern = await _userReadOnlyRepository.GetUserByIdAsync(request.Intern_Id);
         if (intern is null)
             throw new NotFoundException(ErrorMessages.UserNotFound);
@@ -44,6 +50,13 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
 
         var alreadyAssignedToProject = await _userProjectsReadOnlyRepository
             .ExistsProjectAssignedToUserAsync(projectId, intern.Id);
+        if (alreadyAssignedToProject)
+            throw new NotFoundException(ErrorMessages.UserAlreadyAssignedToProject);
+
+        var existingProject = await _userProjectsReadOnlyRepository
+            .GetCurrentProjectForUserAsync(intern.Id);
+        if (existingProject != null)
+            throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
 
         var supervisor = await _userReadOnlyRepository.GetUserByIdAsync(request.Supervisor_Id);
         if (supervisor is null)
@@ -51,15 +64,6 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
 
         if (supervisor.Type != UserType.Supervisor)
             throw new ForbiddenException(ErrorMessages.UserNotIntern);
-
-        if (alreadyAssignedToProject)
-            throw new NotFoundException(ErrorMessages.UserAlreadyAssignedToProject);
-
-        var existingProject = await _userProjectsReadOnlyRepository
-            .GetCurrentProjectForUserAsync(intern.Id);
-
-        if (existingProject != null)
-            throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
 
         var supervisorAssigned = await _userProjectsReadOnlyRepository
             .ExistsProjectAssignedToUserAsync(projectId, supervisor.Id);
