@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { api } from '../api/api'; // ajusta o caminho conforme seu projeto
+import { api } from '../api/api';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 
 const registerSchema = z.object({
@@ -66,6 +66,7 @@ export const useRegister = () => {
       setTimeout(() => {
         router.push('/dashboard');
       }, 2000);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response?.data?.message) {
         setErrorMessage(error.response.data.message);

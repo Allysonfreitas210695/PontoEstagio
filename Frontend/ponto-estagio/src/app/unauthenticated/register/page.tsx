@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRegister } from '../../../hooks/useRegister';
-import Logo from '../../assets/image/logo.png';
+import { useRegister } from '@/hooks/useRegister';
+import Logo from '../../../../public/assets/image/logo.png';
 
 export default function RegisterPage() {
   const {
@@ -26,19 +26,19 @@ export default function RegisterPage() {
     <div className="min-h-screen flex flex-col  items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className=" absolute top-6 left-6">
             <Image
-              src={Logo} // Substitua pelo caminho da sua imagem
+              src={Logo} 
               alt="Logo"
               width={160}
               height={100}
               className="object-contain"
             />
         </div>
-      <div className="max-w-md w-full space-y-8 bg-blue-100 p-8 border border-gray-400 rounded-2xl shadow-xl">
+      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md" style={{ minWidth: '300px', maxWidth: '407px' , height: 'auto' }}>
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Criar uma conta</h2>
           <p className="mt-2 text-sm text-gray-600">
             Já tem uma conta?{' '}
-            <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            <Link href="/unauthenticated/login" className="font-medium text-indigo-600 hover:text-indigo-500">
               Faça login
             </Link>
           </p>
@@ -101,8 +101,9 @@ export default function RegisterPage() {
               <input
                 id="name"
                 type="text"
+                placeholder='Nome completo'
                 autoComplete="name"
-                className={`mt-1 block w-full px-3 py-2 border ${errors.name ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 border ${errors.name ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 {...register('name')}
               />
               {errors.name && (
@@ -117,8 +118,9 @@ export default function RegisterPage() {
               <input
                 id="email"
                 type="email"
+                placeholder='E-mail'
                 autoComplete="email"
-                className={`mt-1 block w-full px-3 py-2 border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 {...register('email')}
               />
               {errors.email && (
@@ -135,7 +137,8 @@ export default function RegisterPage() {
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="new-password"
-                className={`mt-1 block w-full px-3 py-2 pr-10 border ${errors.password ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                placeholder='Senha'
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 pr-10 border ${errors.password ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 {...register('password')}
               />
               <button
@@ -160,7 +163,8 @@ export default function RegisterPage() {
                 id="confirmPassword"
                 type={showConfirmPassword ? 'text' : 'password'}
                 autoComplete="new-password"
-                className={`mt-1 block w-full px-3 py-2 pr-10 border ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                placeholder='Confirme sua senha'
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 pr-10 border ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 {...register('confirmPassword')}
               />
               <button

@@ -5,7 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import logo from "../../assets/image/logo.png"; // ajuste o caminho conforme necessário
+import logo from "../../../../public/assets/image/logo.png"; 
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,10 +36,11 @@ export default function LoginPage() {
       if (res.ok) {
         toast.success("Login realizado com sucesso!");
         // redireciona, se necessário
-        router.push("/dashboard");
+        router.push("/authenticated/dashboard");
       } else {
         toast.error(data?.message || "Falha ao fazer login.");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Erro inesperado ao tentar logar.");
     } finally {
@@ -69,7 +70,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border border-gray-500 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-300"
+              className="w-full border border-gray-500 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
             />
           </div>
 
@@ -80,7 +81,9 @@ export default function LoginPage() {
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
               required
-              className="w-full border border-gray-500 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-300"
+              className="w-full border border-gray-500 rounded-md 
+              py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500
+              text-gray-700"
             />
             <button
               type="button"
@@ -92,7 +95,7 @@ export default function LoginPage() {
           </div>
 
           <div className="text-left mb-4">
-            <a href="#" className="text-blue-600 text-sm font-semibold hover:underline">
+            <a href="/unauthenticated/forgot" className="text-blue-600 text-sm font-semibold hover:underline">
               Esqueceu sua senha?
             </a>
           </div>
@@ -118,9 +121,10 @@ export default function LoginPage() {
           </p>
 
           <button
-            onClick={() => router.push("http://localhost:3000/auth/register")}
+            onClick={() => router.push("/unauthenticated/register")}
             type="button"
-            className="w-full border-2 border-blue-600 text-blue-600 py-2 rounded-md font-semibold hover:bg-blue-50 transition" 
+            className="w-full border-2 border-blue-600 text-blue-600 py-2 rounded-md 
+            font-semibold hover:bg-blue-50 transition" 
           >
             Cadastre-se Agora
           </button>

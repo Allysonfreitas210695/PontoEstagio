@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import cliente from "../app/assets/image/cliente.png"
-import logo from "../app/assets/image/logo.png";
-import textura from "../app/assets/image/textura.png";
+import cliente from "../../public/assets/image/cliente.png";
+import logo from "../../public/assets/image/logo.png";
+import textura from "../../public/assets/image/textura.png";
 
 export default function HomePage() {
   return (
@@ -27,7 +27,7 @@ export default function HomePage() {
         <p className="text-gray-700 text-base md:text-lg">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum.
         </p>
-        <Link href="/auth/login">
+        <Link href="/unauthenticated/login">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md shadow-md transition">
             Entrar →
           </button>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import styles from "./RegistroFrequencia.module.css"; // Ajuste o caminho conforme necessário
+import styles from "./RegistroFrequencia.module.css";
 import { toast } from "sonner";
 import { Calendar, Clock } from "lucide-react";
 
@@ -54,6 +54,7 @@ export default function RegistroFrequencia() {
       } else {
         toast.error(responseData.message || "Erro ao registrar frequência.");
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       toast.error("Erro ao conectar com o servidor.");
     } finally {

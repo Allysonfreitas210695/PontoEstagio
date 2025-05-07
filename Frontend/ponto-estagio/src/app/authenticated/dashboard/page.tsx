@@ -1,10 +1,10 @@
 "use client"; // ← ESSA LINHA É FUNDAMENTAL NO APP ROUTER
 
 import Image from "next/image";
-import logo from "../../app/assets/image/logo2.png"; // ajuste conforme necessário
-import userImage from "../../app/assets/image/user.jpg";
+import logo from "../../../../public/assets/image/logo2.png"; 
+import userImage from "../../../../public/assets/image/user.jpg";
 import { useEffect, useState } from "react";
-import Sidebar from "./Sidebar";
+import Sidebar from "./Sidebar"; 
 import DashboardLayout from "./DashboardLayout";
 
 export default function Dashboard() {
@@ -27,6 +27,7 @@ export default function Dashboard() {
   return (
   
     <DashboardLayout>
+      <Sidebar/>
       {/* Header */}
     <div className="flex items-center justify-between w-full p-5 shadow-md" style={{ backgroundColor: '#1D4ED8' }}>
       <Image src={logo} alt="Logo" width={130} height={70} />
