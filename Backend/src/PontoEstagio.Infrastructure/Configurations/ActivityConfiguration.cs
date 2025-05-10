@@ -19,11 +19,14 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
         builder.Property(a => a.RecordedAt)
                .IsRequired();
 
-        // Relacionamento com User
-        builder.HasOne(a => a.User)
-               .WithMany(u => u.Activities)
-               .HasForeignKey(a => a.UserId)
-               .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(a => a.Status)
+                   .IsRequired();
+
+            // Relacionamento com User
+            builder.HasOne(a => a.User)
+                   .WithMany(u => u.Activities)
+                   .HasForeignKey(a => a.UserId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
         // Relacionamento com Project
         builder.HasOne(a => a.Project)
@@ -31,7 +34,14 @@ public class ActivityConfiguration : IEntityTypeConfiguration<Activity>
                .HasForeignKey(a => a.ProjectId)
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Property(a => a.ProofFilePath)
-               .HasMaxLength(255);
+            // Relacionamento com Attendance
+            builder.HasOne(a => a.Attendance)
+                   .WithMany(a => a.Activities)
+                   .HasForeignKey(a => a.AttendanceId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Property(a => a.ProofFilePath)
+                   .HasMaxLength(255);
+        }
     }
-}
+

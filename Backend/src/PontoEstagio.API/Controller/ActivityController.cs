@@ -63,4 +63,17 @@ public class ActivityController : ControllerBase
         var response = await useCase.Execute(userId);
         return Ok(response);
     }
+
+    [Authorize]
+    [HttpPost]
+    [ProducesResponseType(typeof(ResponseActivityJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateActivity(
+        [FromServices] ICreateActivityUseCase useCase,
+        [FromForm] CreateActivityRequest request
+    )
+    {
+        var response = await useCase.ExecuteAsync(request);
+        return CreatedAtAction(nameof(GetActivityById), new { id = response.Id }, response);
+    }
 }

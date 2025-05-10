@@ -1,4 +1,5 @@
 using PontoEstagio.Domain.Common;
+using PontoEstagio.Domain.Enum;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
@@ -13,6 +14,7 @@ public class Activity : Entity
     public string Description { get; private set; } = string.Empty;
     public DateTime RecordedAt { get; private set; }
     public string? ProofFilePath { get; private set; }
+    public ActivityStatus Status { get; private set; }
 
     public Attendance Attendance { get; private set; } = default!;
     public User User { get; private set; } = default!;
@@ -53,5 +55,6 @@ public class Activity : Entity
         Description = description;
         RecordedAt = recordedAt;
         ProofFilePath = proofFilePath;
+        Status = ActivityStatus.Pending;
     }
 }
