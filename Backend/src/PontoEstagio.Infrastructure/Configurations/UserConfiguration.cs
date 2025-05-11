@@ -32,8 +32,7 @@ namespace PontoEstagio.Infrastructure.Configurations
                    .HasColumnName("Password")
                    .IsRequired()
                    .HasMaxLength(100);
-
-            // Relacionamento com UserProject
+             
             builder.HasMany(u => u.UserProjects)
                    .WithOne(up => up.User)
                    .HasForeignKey(up => up.UserId)

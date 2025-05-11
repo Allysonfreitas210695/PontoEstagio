@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Application.UseCases.Activity.ActivitiesByProject;
+using PontoEstagio.Application.UseCases.Activity.Create;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByAttendanceId;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByUser;
 using PontoEstagio.Application.UseCases.Activity.GetActivityById;
@@ -47,6 +48,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
 
         services.AddScoped<IActivateUserUseCase, ActivateUserUseCase>();
+        services.AddScoped<IRegisterActivityUseCase, RegisterActivityUseCase>();
         services.AddScoped<IDeactivatedUserUseCase, DeactivatedUserUseCase>();
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();

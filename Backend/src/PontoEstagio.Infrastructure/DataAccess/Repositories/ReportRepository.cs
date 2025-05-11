@@ -25,7 +25,7 @@ public class ReportRepository : IReportReadOnlyRepository
     {
         return await _dbContext.Attendances
                                 .Where(a => 
-                                            a.Activities.Any(x => x.Project.UserProjects.Any(up => up.UserId == supervisorId)) && 
+                                            a.Project.UserProjects.Any(up => up.UserId == supervisorId) && 
                                             a.Date >= periodStart && 
                                             a.Date <= periodEnd)
                                 .AsNoTracking()

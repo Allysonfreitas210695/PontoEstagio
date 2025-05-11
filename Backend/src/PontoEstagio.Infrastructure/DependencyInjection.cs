@@ -14,6 +14,7 @@ using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Domain.Security.Cryptography;
 using PontoEstagio.Domain.Security.Token;
 using PontoEstagio.Domain.Services.Email;
+using PontoEstagio.Domain.Services.Storage;
 using PontoEstagio.Infrastructure.Context;
 using PontoEstagio.Infrastructure.DataAccess.Repositories;
 using PontoEstagio.Infrastructure.Extensions;
@@ -21,7 +22,8 @@ using PontoEstagio.Infrastructure.Repositories;
 using PontoEstagio.Infrastructure.Security;
 using PontoEstagio.Infrastructure.Security.Tokens;
 using PontoEstagio.Infrastructure.Services.Email;
-using PontoEstagio.Infrastructure.Services.LoggedUser; 
+using PontoEstagio.Infrastructure.Services.LoggedUser;
+using PontoEstagio.Infrastructure.Services.Storage;
 
 namespace PontoEstagio.Infrastructure;
 
@@ -30,6 +32,7 @@ public static class DependencyInjection
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<IEmailService, EmailService>();
+        services.AddTransient<IFileStorage, FileStorageService>();
         services.AddTransient<IEmailTemplateReadOnlyRepository, EmailTemplateRepository>();
 
         services.AddScoped<ILoggedUser, LoggedUser>();
@@ -39,8 +42,6 @@ public static class DependencyInjection
         services.AddScoped<ITokenGenerateAccessToken, TokenGenerateAccessToken>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        services.AddScoped<ICreateActivityUseCase, CreateActivityUseCase>();
 
         AddRepositories(services);
 
@@ -62,6 +63,7 @@ public static class DependencyInjection
         services.AddScoped<IPasswordRecoveryWriteOnlyRespository, PasswordRecoveryRepository>();
 
         services.AddScoped<IActivityReadOnlyRepository, ActivityRepository>();
+        services.AddScoped<IActivityWriteOnlyRepository, ActivityRepository>();
 
         services.AddScoped<IAttendanceReadOnlyRepository, AttendanceRepository>();
         services.AddScoped<IAttendanceWriteOnlyRepository, AttendanceRepository>();

@@ -97,6 +97,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID da presença é obrigatório..
+        /// </summary>
+        public static string AttendanceIdIsRequired {
+            get {
+                return ResourceManager.GetString("AttendanceIdIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A presença deve ter pelo menos uma atividade vinculada a um projeto..
         /// </summary>
         public static string AttendanceMustHaveLinkedActivity {
@@ -367,6 +376,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O comprovante não pode exceder 5MB..
+        /// </summary>
+        public static string FileTooLarge {
+            get {
+                return ResourceManager.GetString("FileTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data de registro de ponto não pode ser no futuro..
         /// </summary>
         public static string invalidAttendanceDate {
@@ -381,6 +399,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string invalidAttendanceId {
             get {
                 return ResourceManager.GetString("invalidAttendanceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O comprovante deve estar em formato Base64 válido..
+        /// </summary>
+        public static string InvalidBase64 {
+            get {
+                return ResourceManager.GetString("InvalidBase64", resourceCulture);
             }
         }
         

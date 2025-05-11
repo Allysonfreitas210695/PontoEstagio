@@ -31,28 +31,23 @@ public class GetAttendanceByIdUseCase : IGetAttendanceByIdUseCase
             CheckOut = _attendance.CheckOut,
             Status = _attendance.Status.ToString(),
             CreatedAt = _attendance.CreatedAt,
-            Activities = _attendance.Activities.Select(a => new ResponseActivityJson()
-            {
-                Id = a.Id,
-                UserId = a.Id,
-                Description = a.Description,
-                Attendance = new ResponseAttendanceJson()
-                {
-                    Id = a.Attendance.Id,
-                    UserId = a.Attendance.UserId,
-                    CheckIn = a.Attendance.CheckIn,
-                    CheckOut = a.Attendance.CheckOut,
-                    Date = a.Attendance.Date,
-                    Status = a.Attendance.Status.ToString(),
-                },
-                Project = new ResponseProjectJson()
-                {
-                    Id = a.Project.Id,
-                    Name = a.Project.Name
-                },
-                ProofFilePath = a.ProofFilePath,
-                RecordedAt = a.RecordedAt,
-            }).ToList()
+            //Activities = _attendance.Activities.Select(a => new ResponseActivityJson()
+            //{
+            //    Id = a.Id,
+            //    UserId = a.Id,
+            //    Description = a.Description,
+            //    Attendance = new ResponseAttendanceJson()
+            //    {
+            //        Id = a.Attendance.Id,
+            //        UserId = a.Attendance.UserId,
+            //        CheckIn = a.Attendance.CheckIn,
+            //        CheckOut = a.Attendance.CheckOut,
+            //        Date = a.Attendance.Date,
+            //        Status = a.Attendance.Status.ToString(),
+            //    },
+            //    ProofFilePath = a.ProofFilePath,
+            //    RecordedAt = a.RecordedAt,
+            //}).ToList()
         };
     }
 }

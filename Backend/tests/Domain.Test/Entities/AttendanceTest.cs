@@ -41,6 +41,18 @@ public class AttendanceTest
             .Which.Errors.Should().Contain(ErrorMessages.invalidAttendanceDate);
     }
 
+
+    [Fact]
+    public void CreateActivity_WithEmptyProjectId_ShouldThrowException()
+    {
+        // Arrange & Act
+        Action act = () => AttendanceBuilder.Build(projectId: Guid.Empty);
+
+        // Assert
+        act.Should().Throw<ErrorOnValidationException>()
+            .Which.Errors.Should().Contain(ErrorMessages.invalidProjectId);
+    }
+
     [Fact]
     public void CreateAttendance_WithCheckOutBeforeCheckIn_ShouldThrowException()
     {

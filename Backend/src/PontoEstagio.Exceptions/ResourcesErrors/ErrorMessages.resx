@@ -363,4 +363,13 @@
   <data name="PasswordRecovery_Code_Invalid" xml:space="preserve">
     <value>Código de recuperação inválido ou expirado.</value>
   </data>
+  <data name="AttendanceIdIsRequired" xml:space="preserve">
+    <value>O ID da presença é obrigatório.</value>
+  </data>
+  <data name="InvalidBase64" xml:space="preserve">
+    <value>O comprovante deve estar em formato Base64 válido.</value>
+  </data>
+  <data name="FileTooLarge" xml:space="preserve">
+    <value>O comprovante não pode exceder 5MB.</value>
+  </data>
 </root>

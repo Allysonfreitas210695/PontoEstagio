@@ -33,5 +33,10 @@ public class FrequenciaConfiguration : IEntityTypeConfiguration<Attendance>
                .WithMany(u => u.Attendances)
                .HasForeignKey(f => f.UserId)
                .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(a => a.Project)
+               .WithMany(p => p.Attendances)
+               .HasForeignKey(a => a.ProjectId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

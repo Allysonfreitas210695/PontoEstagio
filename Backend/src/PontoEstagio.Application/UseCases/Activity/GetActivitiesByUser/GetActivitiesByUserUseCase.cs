@@ -44,15 +44,6 @@ public class GetActivitiesByUserUseCase : IGetActivitiesByUserUseCase
             RecordedAt = activity.RecordedAt,
             CreatedAt = activity.CreatedAt,
             ProofFilePath = activity.ProofFilePath,
-            Project =  new ResponseProjectJson
-            {
-                Id = activity.Project.Id,
-                Name = activity.Project.Name,
-                Description = activity.Project.Description,
-                StartDate = activity.Project.StartDate,
-                EndDate = activity.Project.EndDate,
-                Status = activity.Project.Status.ToString()
-            },
             Attendance = new ResponseAttendanceJson
             {
                 Id = activity.Attendance.Id,

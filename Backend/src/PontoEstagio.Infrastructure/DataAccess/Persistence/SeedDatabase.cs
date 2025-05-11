@@ -5,8 +5,7 @@ using PontoEstagio.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Infrastructure.Context;
-using Bogus.Extensions.Brazil;
-using PontoEstagio.Domain.Security.Cryptography;
+using Bogus.Extensions.Brazil; 
 
 namespace PontoEstagio.Infrastructure.DataAccess.Persistence;
 
@@ -17,21 +16,32 @@ public static class SeedDatabaseInitial
     {
         var dbContext = serviceProvider.GetRequiredService<PontoEstagioDbContext>();
 
-        if(!await dbContext.Users.AsNoTracking().AnyAsync(x => x.Type == UserType.Admin))
-            await SeedAdminUser(dbContext);
+        await using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-        if (!await dbContext.EmailTemplates.AsNoTracking().AnyAsync())
-            await SeedEmailTemplates(dbContext);
+        try
+        {
+            if (!await dbContext.EmailTemplates.AsNoTracking().AnyAsync())
+                await SeedEmailTemplates(dbContext);
 
-        if (await dbContext.Users.AnyAsync())
-            return;
+            if (await dbContext.Users.AnyAsync())
+                return;
 
-        await SeedUsers(dbContext);
-        await SeedCompanies(dbContext);
-        await SeedProjects(dbContext);
-        await SeedUserProjectsAndRelatedData(dbContext);
-        
+            if (!await dbContext.Users.AsNoTracking().AnyAsync(x => x.Type == UserType.Admin))
+                await SeedAdminUser(dbContext);
+
+            await SeedUsers(dbContext);
+            await SeedCompanies(dbContext);
+            await SeedProjects(dbContext);
+            await SeedUserProjectsAndRelatedData(dbContext);
+
+            await transaction.CommitAsync();
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+        }
     }
+
 
     private static async Task SeedAdminUser(PontoEstagioDbContext dbContext)
     {
@@ -144,7 +154,6 @@ public static class SeedDatabaseInitial
 
         var userProjects = new List<UserProject>();
         var attendances = new List<Attendance>();
-        var activities = new List<Activity>();
 
         foreach (var project in projects)
         {
@@ -154,36 +163,51 @@ public static class SeedDatabaseInitial
             if (intern != null && supervisor != null)
             {
                 var userProjectIntern = new UserProject(null, intern.Id, project.Id, UserType.Intern);
-                userProjects.Add(userProjectIntern);
-
                 var userProjectSupervisor = new UserProject(null, supervisor.Id, project.Id, UserType.Supervisor);
+
+                userProjects.Add(userProjectIntern);
                 userProjects.Add(userProjectSupervisor);
-
-                var attendance = new Attendance(
-                    Guid.NewGuid(),
-                    intern.Id,
-                    DateTime.Today,
-                    new TimeSpan(8, 0, 0),
-                    new TimeSpan(17, 0, 0),
-                    faker.PickRandom<AttendanceStatus>(),
-                    faker.Image.PicsumUrl(200, 200)
-                );
-                attendances.Add(attendance);
-
-                var activity = new Activity(
-                    Guid.NewGuid(),
-                    attendance.Id,
-                    intern.Id,
-                    project.Id,
-                    faker.Lorem.Sentence(),
-                    DateTime.Now
-                );
-                activities.Add(activity);
             }
         }
 
         await dbContext.UserProjects.AddRangeAsync(userProjects);
+        await dbContext.SaveChangesAsync();
+
+        var savedUserProjects = await dbContext.UserProjects.AsNoTracking().ToListAsync();
+
+        foreach (var up in savedUserProjects.Where(up => up.Role == UserType.Intern))
+        {
+            var attendance = new Attendance(
+                Guid.NewGuid(),
+                up.UserId,
+                up.ProjectId,
+                DateTime.Today,
+                new TimeSpan(8, 0, 0),
+                new TimeSpan(17, 0, 0),
+                faker.PickRandom<AttendanceStatus>(),
+                faker.Image.PicsumUrl(200, 200)
+            );
+            attendances.Add(attendance);
+        }
+
         await dbContext.Attendances.AddRangeAsync(attendances);
+        await dbContext.SaveChangesAsync();
+
+        var savedAttendances = await dbContext.Attendances.AsNoTracking().ToListAsync();
+
+        var activities = new List<Activity>();
+        foreach (var attendance in savedAttendances)
+        {
+            var activity = new Activity(
+                Guid.NewGuid(),
+                attendance.Id,
+                attendance.UserId,
+                faker.Lorem.Sentence(),
+                DateTime.Now
+            );
+            activities.Add(activity);
+        }
+
         await dbContext.Activitys.AddRangeAsync(activities);
         await dbContext.SaveChangesAsync();
     }

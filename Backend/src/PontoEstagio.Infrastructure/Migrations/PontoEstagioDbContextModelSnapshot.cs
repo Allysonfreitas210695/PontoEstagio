@@ -39,9 +39,6 @@ namespace PontoEstagio.Infrastructure.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("ProofFilePath")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
@@ -61,8 +58,6 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttendanceId");
-
-                    b.HasIndex("ProjectId");
 
                     b.HasIndex("UserId");
 
@@ -87,6 +82,9 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ProofImageBase64")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +101,8 @@ namespace PontoEstagio.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("UserId");
 
@@ -357,13 +357,7 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.HasOne("PontoEstagio.Domain.Entities.Attendance", "Attendance")
                         .WithMany("Activities")
                         .HasForeignKey("AttendanceId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("PontoEstagio.Domain.Entities.Project", "Project")
-                        .WithMany("Activities")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("PontoEstagio.Domain.Entities.User", "User")
@@ -374,18 +368,24 @@ namespace PontoEstagio.Infrastructure.Migrations
 
                     b.Navigation("Attendance");
 
-                    b.Navigation("Project");
-
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Attendance", b =>
                 {
+                    b.HasOne("PontoEstagio.Domain.Entities.Project", "Project")
+                        .WithMany("Attendances")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("PontoEstagio.Domain.Entities.User", "User")
                         .WithMany("Attendances")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Project");
 
                     b.Navigation("User");
                 });
@@ -518,7 +518,7 @@ namespace PontoEstagio.Infrastructure.Migrations
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Project", b =>
                 {
-                    b.Navigation("Activities");
+                    b.Navigation("Attendances");
 
                     b.Navigation("UserProjects");
                 });

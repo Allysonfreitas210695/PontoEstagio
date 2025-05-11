@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
+builder.Configuration.EnsureDirectoryExists();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 

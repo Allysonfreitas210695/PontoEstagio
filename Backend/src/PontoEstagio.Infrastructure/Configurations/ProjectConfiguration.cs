@@ -43,7 +43,7 @@ public class ProjetoConfiguration : IEntityTypeConfiguration<Project>
                .HasForeignKey(up => up.ProjectId)
                .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasMany(p => p.Activities)
+        builder.HasMany(p => p.Attendances)
                .WithOne(a => a.Project)
                .HasForeignKey(a => a.ProjectId)
                .OnDelete(DeleteBehavior.Restrict);

@@ -8,5 +8,6 @@ public class ResponseAttendanceJson
     public TimeSpan CheckIn { get;  set; }
     public TimeSpan CheckOut { get;  set; }
     public string Status { get; set; } = string.Empty;
+    public ResponseProjectJson Project { get; set; } = default!;
     public List<ResponseActivityJson> Activities { get; set; } = new List<ResponseActivityJson>();
 }
