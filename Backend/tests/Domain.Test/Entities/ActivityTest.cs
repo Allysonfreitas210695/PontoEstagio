@@ -39,17 +39,6 @@ public class ActivityTest
     }
 
     [Fact]
-    public void CreateActivity_WithEmptyProjectId_ShouldThrowException()
-    {
-        // Arrange & Act
-        Action act = () => ActivityBuilder.Build(projectId: Guid.Empty);
-
-        // Assert
-        act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidProjectId);
-    }
-
-    [Fact]
     public void CreateActivity_WithRecordedAtInFuture_ShouldThrowException()
     {
         // Arrange & Act

@@ -18,7 +18,7 @@ public class Project : Entity
     public Guid CompanyId { get; private set; } 
     public virtual Company Company { get; private set; }  = default!;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
-    public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
+    public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
 
     public Project() { }
 

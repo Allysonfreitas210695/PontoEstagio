@@ -8,7 +8,7 @@ namespace PontoEstagio.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("Usuarios");
+            builder.ToTable("Users");
 
             builder.HasKey(u => u.Id);
 
@@ -32,8 +32,7 @@ namespace PontoEstagio.Infrastructure.Configurations
                    .HasColumnName("Password")
                    .IsRequired()
                    .HasMaxLength(100);
-
-            // Relacionamento com UserProject
+             
             builder.HasMany(u => u.UserProjects)
                    .WithOne(up => up.User)
                    .HasForeignKey(up => up.UserId)

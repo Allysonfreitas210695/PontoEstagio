@@ -2,6 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Application.UseCases.Activity.ActivitiesByProject;
+using PontoEstagio.Application.UseCases.Activity.Create;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByAttendanceId;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByUser;
 using PontoEstagio.Application.UseCases.Activity.GetActivityById;
@@ -11,6 +12,7 @@ using PontoEstagio.Application.UseCases.Attendance.Register;
 using PontoEstagio.Application.UseCases.Attendance.UpdateStatus;
 using PontoEstagio.Application.UseCases.Auth.ForgotPassword;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
+using PontoEstagio.Application.UseCases.Auth.ResetPassword;
 using PontoEstagio.Application.UseCases.Company.GetAllCompany;
 using PontoEstagio.Application.UseCases.Company.GetCompanyById;
 using PontoEstagio.Application.UseCases.Company.Register;
@@ -43,8 +45,10 @@ public static class DependencyInjectionExtension
         services.AddScoped<ILoginUserUseCase, LoginUserUseCase>();
         services.AddScoped<IRefreshTokenUseCase, RefreshTokenUseCase>();
         services.AddScoped<IForgotPasswordUseCase, ForgotPasswordUseCase>();
+        services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
 
         services.AddScoped<IActivateUserUseCase, ActivateUserUseCase>();
+        services.AddScoped<IRegisterActivityUseCase, RegisterActivityUseCase>();
         services.AddScoped<IDeactivatedUserUseCase, DeactivatedUserUseCase>();
         services.AddScoped<IRegisterUserUseCase, RegisterUserUseCase>();
         services.AddScoped<IGetUserByIdUseCase, GetUserByIdUseCase>();

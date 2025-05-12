@@ -11,5 +11,5 @@ public class ResponseProjectJson
     public DateTime StartDate { get; set; }
     public DateTime? EndDate { get; set; }
     public DateTime CreatedAt { get; set; }
-    public List<ResponseActivityJson> Activities { get; set; } = new List<ResponseActivityJson>();
+    public List<ResponseAttendanceJson> Attendances { get; set; } = new List<ResponseAttendanceJson>();
 }

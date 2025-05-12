@@ -32,9 +32,9 @@ public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceUp
     public Task<List<Attendance>> GetAllBySupervisorAsync(Guid supervisor_id)
     {
         return _dbContext.Attendances
-                                .Where(x => x.Activities.Any(y => y.Project.UserProjects.Any(z => z.UserId == supervisor_id)))
+                                .Where(x => x.Activities.Any(y => y.Attendance.Project.UserProjects.Any(z => z.UserId == supervisor_id)))
                                 .Include(x => x.Activities)
-                                    .ThenInclude(y => y.Project)
+                                .Include(y => y.Project)
                                     .ThenInclude(y => y.UserProjects)
                                 .AsNoTracking()
                                 .ToListAsync();
@@ -46,7 +46,7 @@ public class AttendanceRepository : IAttendanceReadOnlyRepository, IAttendanceUp
                                 .Where(x => x.Id == id)
                                 .Include(x => x.User)
                                 .Include(x => x.Activities)
-                                    .ThenInclude(y => y.Project)
+                                .Include(y => y.Project)
                                     .ThenInclude(y => y.UserProjects)
                                 .FirstOrDefaultAsync();
     }

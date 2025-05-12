@@ -41,11 +41,11 @@ public class UpdateAttendanceStatusUseCase : IUpdateAttendanceStatusUseCase
         if (_attendance == null)
             throw new NotFoundException(ErrorMessages.AttendanceNotFound);
         
-        if (!_attendance.Activities.Any(x => 
-                                            x.Project != null && 
-                                            x.Project.UserProjects.Any(y => y.UserId == user.Id))
-                                    )
-            throw new BusinessRuleException(ErrorMessages.AttendanceMustHaveLinkedActivity);
+        //if (!_attendance.Activities.Any(x => 
+        //                                    x.Project != null && 
+        //                                    x.Project.UserProjects.Any(y => y.UserId == user.Id))
+        //                            )
+        //    throw new BusinessRuleException(ErrorMessages.AttendanceMustHaveLinkedActivity);
 
         _attendance.UpdateStatus((AttendanceStatus)request.Status);
         _attendanceUpdateOnlyRepository.Update(_attendance);

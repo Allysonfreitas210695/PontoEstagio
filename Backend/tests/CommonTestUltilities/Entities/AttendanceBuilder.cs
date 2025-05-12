@@ -9,6 +9,7 @@ public class AttendanceBuilder
     public static Attendance Build(
         Guid? id = null,
         Guid? userId = null, 
+        Guid? projectId = null, 
         DateTime? date = null,  
         TimeSpan? checkIn = null, 
         TimeSpan? checkOut = null, 
@@ -24,6 +25,7 @@ public class AttendanceBuilder
         return new Attendance(
             id: id ?? Guid.NewGuid(),
             userId: userId ?? Guid.NewGuid(),
+            projectId: projectId ?? Guid.NewGuid(),
             date: date ?? faker.Date.Past(1).Date,
             checkIn: fakeCheckIn,
             checkOut: fakeCheckOut,

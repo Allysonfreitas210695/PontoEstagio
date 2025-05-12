@@ -22,7 +22,7 @@ public class ProjectRepository : IProjectReadOnlyRepository, IProjectWriteOnlyRe
     {
         return await _dbContext.Projects
                             .Where(p => p.UserProjects.Any(up => up.UserId == user.Id))
-                            .Include(p => p.Activities)
+                            .Include(p => p.Attendances)
                             .Include(p => p.UserProjects)
                             .AsNoTracking()
                             .ToListAsync();
@@ -32,7 +32,7 @@ public class ProjectRepository : IProjectReadOnlyRepository, IProjectWriteOnlyRe
     {
         return await _dbContext.Projects
                             .Where(p => p.CreatedBy == user.Id)
-                            .Include(p => p.Activities)
+                            .Include(p => p.Attendances)
                             .Include(p => p.UserProjects)
                             .AsNoTracking()
                             .ToListAsync();
@@ -47,7 +47,7 @@ public class ProjectRepository : IProjectReadOnlyRepository, IProjectWriteOnlyRe
     {
         return await _dbContext.Projects
                                 .Where(x => x.Id == id)
-                                .Include(x => x.Activities)
+                                .Include(x => x.Attendances)
                                 .Include(x => x.UserProjects)
                                 .AsNoTracking()
                                 .FirstOrDefaultAsync();

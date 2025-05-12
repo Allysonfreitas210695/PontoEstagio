@@ -5,7 +5,7 @@ using PontoEstagio.Exceptions.ResourcesErrors;
 namespace PontoEstagio.Application.UseCases.Attendance;
 
 public class RegisterAttendanceValidator : AbstractValidator<RequestRegisterAttendanceJson>
-    {
+{
     public RegisterAttendanceValidator()
     {
         RuleFor(x => x.Date)

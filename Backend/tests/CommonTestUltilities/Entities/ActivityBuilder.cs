@@ -9,7 +9,6 @@ public class ActivityBuilder
         Guid? id = null,
         Guid? attendanceId = null,
         Guid? userId = null,
-        Guid? projectId = null,
         string? description = null,
         DateTime? recordedAt = null,
         string? proofFilePath = null
@@ -21,7 +20,6 @@ public class ActivityBuilder
             id ?? Guid.NewGuid(),
             attendanceId ?? Guid.NewGuid(),
             userId ?? Guid.NewGuid(),
-            projectId ?? Guid.NewGuid(),
             description ?? faker.Lorem.Sentence(10),
             recordedAt ?? DateTime.Now.AddDays(-1),
             proofFilePath: proofFilePath

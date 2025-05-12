@@ -31,14 +31,9 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         var _user = await _userUpdateOnlyRepository.GetUserByIdAsync(id);
 
         if (_user is null)
-            throw new NotFoundException(ErrorMessages.UserNotFound);
+            throw new NotFoundException(ErrorMessages.UserNotFound); 
 
-        string passwordHash = string.IsNullOrWhiteSpace(request.Password)
-            ? _user.Password
-            : _passwordEncrypter.Encrypt(request.Password);
-
-        _user.UpdateName(request.Name);
-        _user.UpdatePassword(passwordHash);
+        _user.UpdateName(request.Name); 
         _user.UpdateType((UserType)request.Type);
         _user.UpdateEmail(request.Email);
        
@@ -58,10 +53,7 @@ public class UpdateUserUseCase : IUpdateUserUseCase
 
         if (result.IsValid == false)
         {
-            var errorMessages = result.Errors
-            .Where(e => e.PropertyName != nameof(request.Password))
-            .Select(e => e.ErrorMessage)
-            .ToList();
+            var errorMessages = result.Errors.Select(e => e.ErrorMessage).ToList();
 
             if (errorMessages.Any())
                 throw new ErrorOnValidationException(errorMessages);

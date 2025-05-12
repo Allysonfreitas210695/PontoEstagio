@@ -70,6 +70,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Este código já foi utilizado..
+        /// </summary>
+        public static string AlreadyUsed {
+            get {
+                return ResourceManager.GetString("AlreadyUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Associação não encontrada ou já está inativa..
         /// </summary>
         public static string AssociationNotFoundOrInactive {
@@ -84,6 +93,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string AttendanceAlreadyExists {
             get {
                 return ResourceManager.GetString("AttendanceAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID da presença é obrigatório..
+        /// </summary>
+        public static string AttendanceIdIsRequired {
+            get {
+                return ResourceManager.GetString("AttendanceIdIsRequired", resourceCulture);
             }
         }
         
@@ -183,6 +201,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string CnpjCannotBeEmpty {
             get {
                 return ResourceManager.GetString("CnpjCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Código de recuperação é obrigatório..
+        /// </summary>
+        public static string CodeRequired {
+            get {
+                return ResourceManager.GetString("CodeRequired", resourceCulture);
             }
         }
         
@@ -313,11 +340,47 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Template de e-mail para redefinição de senha não encontrado..
+        /// </summary>
+        public static string EmailTemplatePasswordResetNotFound {
+            get {
+                return ResourceManager.GetString("EmailTemplatePasswordResetNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data de término deve ser posterior à data de início..
         /// </summary>
         public static string EndDateMustBeLaterThanStartDate {
             get {
                 return ResourceManager.GetString("EndDateMustBeLaterThanStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Data de expiração deve ser futura..
+        /// </summary>
+        public static string ExpirationInPast {
+            get {
+                return ResourceManager.GetString("ExpirationInPast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Este código de recuperação está expirado..
+        /// </summary>
+        public static string Expired {
+            get {
+                return ResourceManager.GetString("Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O comprovante não pode exceder 5MB..
+        /// </summary>
+        public static string FileTooLarge {
+            get {
+                return ResourceManager.GetString("FileTooLarge", resourceCulture);
             }
         }
         
@@ -336,6 +399,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string invalidAttendanceId {
             get {
                 return ResourceManager.GetString("invalidAttendanceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O comprovante deve estar em formato Base64 válido..
+        /// </summary>
+        public static string InvalidBase64 {
+            get {
+                return ResourceManager.GetString("InvalidBase64", resourceCulture);
             }
         }
         
@@ -493,6 +565,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Usuário inválido..
+        /// </summary>
+        public static string InvalidUser {
+            get {
+                return ResourceManager.GetString("InvalidUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O ID do usuário não pode ser vazio..
         /// </summary>
         public static string invalidUserId {
@@ -592,6 +673,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Código de recuperação inválido ou expirado..
+        /// </summary>
+        public static string PasswordRecovery_Code_Invalid {
+            get {
+                return ResourceManager.GetString("PasswordRecovery_Code_Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A senha deve ter pelo menos 8 caracteres..
         /// </summary>
         public static string PasswordTooShort {
@@ -615,6 +705,24 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string ProjectNotFound {
             get {
                 return ResourceManager.GetString("ProjectNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O código deve ter exatamente 6 caracteres..
+        /// </summary>
+        public static string ResetPassword_Code_Length {
+            get {
+                return ResourceManager.GetString("ResetPassword_Code_Length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O código de recuperação é obrigatório..
+        /// </summary>
+        public static string ResetPassword_Code_Required {
+            get {
+                return ResourceManager.GetString("ResetPassword_Code_Required", resourceCulture);
             }
         }
         

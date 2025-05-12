@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PontoEstagio.Application.UseCases.Activity.ActivitiesByProject;
+using PontoEstagio.Application.UseCases.Activity.Create;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByAttendanceId;
 using PontoEstagio.Application.UseCases.Activity.GetActivitiesByUser;
 using PontoEstagio.Application.UseCases.Activity.GetActivityById;
+using PontoEstagio.Communication.Requests;
 using PontoEstagio.Communication.Responses;
+using PontoEstagio.Domain.Enum;
 
 namespace PontoEstagio.API.Controller;
 
@@ -62,5 +65,18 @@ public class ActivityController : ControllerBase
     {
         var response = await useCase.Execute(userId);
         return Ok(response);
+    }
+
+    [Authorize(Roles = nameof(UserType.Intern))]
+    [HttpPost]
+    [ProducesResponseType(typeof(ResponseActivityJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RegiterActivity(
+        [FromServices] IRegisterActivityUseCase useCase,
+        [FromForm] RequestRegisterActivityJson request
+    )
+    {
+        var response = await useCase.ExecuteAsync(request);
+        return CreatedAtAction(nameof(GetActivityById), new { id = response.Id }, response);
     }
 }

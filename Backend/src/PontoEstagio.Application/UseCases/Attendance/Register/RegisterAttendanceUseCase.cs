@@ -46,12 +46,11 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
         if (_user.Type != UserType.Intern)
             throw new ForbiddenException(ErrorMessages.InvalidUserType);
 
-       var existingProject = _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(_user.Id);
+       var existingProject = await _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(_user.Id);
         if (existingProject != null)
             throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
 
-        var existingAttendance = await _attendanceReadOnlyRepository
-                .GetByUserIdAndDateAsync(_user.Id, request.Date);
+        var existingAttendance = await _attendanceReadOnlyRepository.GetByUserIdAndDateAsync(_user.Id, request.Date);
         if (existingAttendance != null)
             throw new BusinessRuleException(ErrorMessages.AttendanceAlreadyExists);
 
@@ -60,6 +59,7 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
         var newAttendance = new Domain.Entities.Attendance(
             Guid.NewGuid(),
             _user.Id,
+            existingProject!.Id,
             request.Date,
             request.CheckIn,
             request.CheckOut,
