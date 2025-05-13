@@ -10,6 +10,7 @@ public class UserBuilder
     public static User Build(
         Guid? id = null, 
         string? name = null,
+        string? registration = null,
         Email? email = null, 
         UserType? type = null, 
         string? password = null, 
@@ -21,6 +22,7 @@ public class UserBuilder
         return new User(
             id ?? Guid.NewGuid(),
             name ?? faker.Name.FullName(),
+            registration ?? new Random().Next(100000, 999999).ToString(),
             email ?? Email.Criar(faker.Internet.Email()),
             type ?? faker.PickRandom<UserType>(),
             password ?? faker.Internet.Password(12),

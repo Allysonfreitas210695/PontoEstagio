@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PontoEstagio.Infrastructure.Context;
@@ -11,9 +12,11 @@ using PontoEstagio.Infrastructure.Context;
 namespace PontoEstagio.Infrastructure.Migrations
 {
     [DbContext(typeof(PontoEstagioDbContext))]
-    partial class PontoEstagioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250513195432_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,6 +310,10 @@ namespace PontoEstagio.Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Matricula")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -316,10 +323,6 @@ namespace PontoEstagio.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)")
                         .HasColumnName("Password");
-
-                    b.Property<string>("Registration")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("Type")
                         .IsRequired()

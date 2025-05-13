@@ -89,6 +89,7 @@ public static class DependencyInjection
         string? connectionString = configuration.GetConnectionString("DefaultConnection");
         if (string.IsNullOrEmpty(connectionString))
             throw new ArgumentException("Connection string 'DefaultConnection' is not configured.");
-        services.AddDbContext<PontoEstagioDbContext>(options => options.UseSqlServer(connectionString));
+
+        services.AddDbContext<PontoEstagioDbContext>(options => options.UseNpgsql(connectionString));
     }
 }

@@ -52,5 +52,10 @@ public class ProjetoConfiguration : IEntityTypeConfiguration<Project>
                 .WithMany(c => c.Projects) 
                 .HasForeignKey(p => p.CompanyId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+       builder.HasOne(u => u.University) 
+               .WithMany(u => u.Projects)  
+               .HasForeignKey(u => u.UniversityId)
+               .OnDelete(DeleteBehavior.Restrict);
     }
 }

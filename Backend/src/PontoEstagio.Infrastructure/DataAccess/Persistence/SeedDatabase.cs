@@ -49,6 +49,7 @@ public static class SeedDatabaseInitial
         var adminUser = new User(
                                     Guid.NewGuid(), 
                                     "Admin", 
+                                    new Random().Next(100000, 999999).ToString(),
                                     Email.Criar("admin@admin.com"), 
                                     UserType.Admin,
                                     BCrypt.Net.BCrypt.HashPassword("!Aa1234567"),
@@ -68,6 +69,7 @@ public static class SeedDatabaseInitial
             var userType = i % 2 == 0 ? UserType.Intern : UserType.Supervisor;
             var user = new User(
                 Guid.NewGuid(),
+                new Random().Next(100000, 999999).ToString(),
                 faker.Name.FullName(),
                 Email.Criar(faker.Internet.Email()),
                 userType,

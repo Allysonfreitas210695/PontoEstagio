@@ -1,36 +1,46 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PontoEstagio.Domain.Entities;
+using PontoEstagio.Domain.ValueObjects;
 
 namespace PontoEstagio.Infrastructure.Configurations;
-public class CompanyConfiguration : IEntityTypeConfiguration<Company>
+
+public class UniversityConfiguration : IEntityTypeConfiguration<University>
 {
-    public void Configure(EntityTypeBuilder<Company> builder)
+    public void Configure(EntityTypeBuilder<University> builder)
     {
-        builder.ToTable("Companies");
+        builder.ToTable("Universities");
 
-        builder.HasKey(c => c.Id);
+        builder.HasKey(u => u.Id);
 
-        builder.Property(c => c.Name)
+        builder.Property(u => u.Name)
             .IsRequired()
-            .HasMaxLength(200);
+            .HasMaxLength(150);
 
-        builder.Property(c => c.CNPJ)
+        builder.Property(u => u.Acronym)
+            .IsRequired()
+            .HasMaxLength(10);
+
+        builder.Property(u => u.CNPJ)
+            .IsRequired()
+            .HasMaxLength(18);
+
+        builder.Property(u => u.Phone)
             .IsRequired()
             .HasMaxLength(20);
 
-        builder.Property(c => c.Phone)
-            .IsRequired(false)
-            .HasMaxLength(20);
+        builder.Property(u => u.IsActive)
+            .IsRequired();
 
         builder.OwnsOne(u => u.Email, email =>
         {
             email.Property(e => e.Endereco)
-                 .HasColumnName("Email")
-                 .IsRequired() 
-                 .HasMaxLength(100);  
-             email.HasIndex(e => e.Endereco)
-                 .IsUnique(); 
+                .HasColumnName("Email")
+                .IsRequired() 
+                .HasMaxLength(100);  
+
+            email.HasIndex(e => e.Endereco)
+                .IsUnique(); 
         });
 
         builder.OwnsOne(u => u.Address, address =>
@@ -69,13 +79,5 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                 .HasColumnName("Complement")
                 .HasMaxLength(100);
         });
-
-        builder.Property(c => c.IsActive)
-            .IsRequired();
-
-        builder.HasMany(c => c.Projects)
-               .WithOne(p => p.Company) 
-               .HasForeignKey(p => p.CompanyId)  
-               .OnDelete(DeleteBehavior.Restrict);
     }
 }
