@@ -41,7 +41,16 @@ public class RegisterCompanyUseCase : IRegisterCompanyUseCase
                                             request.Name, 
                                             request.CNPJ, 
                                             request.Phone,
-                                            Email.Criar(request.Email)
+                                            Email.Criar(request.Email),
+                                            new Address(
+                                                request.Address.Street,
+                                                request.Address.Number,
+                                                request.Address.District,
+                                                request.Address.City,
+                                                request.Address.State,
+                                                request.Address.ZipCode,
+                                                request.Address.Complement
+                                            )
                                         );
         await _companyWriteOnlyRepository.AddAsync(company);
                 
