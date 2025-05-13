@@ -38,6 +38,7 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository,
         return await _dbContext.Users
                                 .Include(x => x.Activities)
                                 .Include(x => x.Attendances)
+                                .Include(x => x.University)
                                 .AsNoTracking()
                                 .FirstOrDefaultAsync(user => user.Id == id);
     }

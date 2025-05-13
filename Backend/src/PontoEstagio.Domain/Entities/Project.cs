@@ -48,6 +48,9 @@ public class Project : Entity
         if (companyId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCompanyId });
 
+        if (universityId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
+
         Name = name;
         Description = description;
         Status = status;

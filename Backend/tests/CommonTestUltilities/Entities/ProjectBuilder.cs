@@ -9,6 +9,7 @@ public class ProjectBuilder
     public static Project Build(
         Guid? id = null,
         Guid? companyId = null,
+        Guid? universityId = null,
         string? name = null,
         string? description = null,
         long? totalHours = null,
@@ -22,6 +23,7 @@ public class ProjectBuilder
         return new Project(
             id: id ?? Guid.NewGuid(),
             companyId: companyId ?? Guid.NewGuid(),
+            universityId: universityId ?? Guid.NewGuid(),
             name: name ?? faker.Commerce.ProductName(),
             description: description ?? faker.Lorem.Sentence(),
             totalHours: totalHours ?? faker.Random.Long(10, 1000),

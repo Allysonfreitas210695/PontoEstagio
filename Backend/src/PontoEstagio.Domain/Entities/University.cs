@@ -7,16 +7,15 @@ namespace PontoEstagio.Domain.Entities;
 
 public class University : Entity
 {
-    public string Name { get; private set; }
-    public string Acronym { get; private set; }
+    public string Name { get; private set; } = string.Empty;
+    public string Acronym { get; private set; } = string.Empty;
     public string CNPJ { get; private set; } = string.Empty;
-    public Email Email { get; private set; }
-    public string Phone { get; private set; }
+    public Email Email { get; private set; } = default!;
+    public string Phone { get; private set; } = string.Empty;
     public bool IsActive { get; private set; }
-    public Address Address { get; private set; }
+    public Address Address { get; private set; } = default!;
     public ICollection<User> Users { get; private set; } = new List<User>();
     public ICollection<Project> Projects { get; private set; } = new List<Project>();
-
 
     public University()
     {
@@ -35,20 +34,20 @@ public class University : Entity
     ) {
         Id = id ?? Guid.NewGuid();
 
-        if (string.IsNullOrWhiteSpace(name)) 
-            throw new ErrorOnValidationException(new List<string> { "" });
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.University_NameRequired });
 
-        if (string.IsNullOrWhiteSpace(acronym)) 
-            throw new ErrorOnValidationException(new List<string> { "" });
-            
+        if (string.IsNullOrWhiteSpace(acronym))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.University_AcronymRequired });
+
         if (string.IsNullOrWhiteSpace(cnpj))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.CnpjCannotBeEmpty });
 
         if (!ValidateCNPJ(cnpj))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCnpjFormat });
 
-        if (string.IsNullOrWhiteSpace(phone)) 
-            throw new ErrorOnValidationException(new List<string> { "" });
+        if (string.IsNullOrWhiteSpace(phone))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.University_PhoneRequired });
 
         Name = name;
         Acronym = acronym;
@@ -67,5 +66,37 @@ public class University : Entity
             return false;
             
         return true;
+    }
+
+    public void UpdateCNPJ(string cnpj)
+    {
+        if(ValidateCNPJ(cnpj) == false) return;
+
+        CNPJ = cnpj;
+        UpdateTimestamp();
+    }
+
+    public void UpdatePhone(string phone)
+    {
+        Phone = phone;
+        UpdateTimestamp();
+    }
+
+    public void UpdateEmail(string email)
+    {
+        Email = Email.Criar(email);
+        UpdateTimestamp();
+    }
+
+    public void Activate()
+    {
+        IsActive = true;
+        UpdateTimestamp();
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
+        UpdateTimestamp();
     }
 }

@@ -53,6 +53,7 @@ public class RegisterUserUseCase : IRegisterUserUseCase
 
         var user = new User(
             Guid.NewGuid(),
+            request.UniversityId,
             request.Name, 
             request.Registration,
             Email.Criar(request.Email), 

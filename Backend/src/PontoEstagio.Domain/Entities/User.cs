@@ -37,6 +37,9 @@ public class User : Entity
 
         if (string.IsNullOrWhiteSpace(name))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserName });
+        
+        if (universityId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
         if (string.IsNullOrWhiteSpace(password))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidPassword });

@@ -23,6 +23,9 @@ public static class SeedDatabaseInitial
             if (!await dbContext.EmailTemplates.AsNoTracking().AnyAsync())
                 await SeedEmailTemplates(dbContext);
 
+            if (!await dbContext.Universities.AnyAsync())
+                await SeedUniversities(dbContext);
+
             if (await dbContext.Users.AnyAsync())
                 return;
 
@@ -45,9 +48,16 @@ public static class SeedDatabaseInitial
 
     private static async Task SeedAdminUser(PontoEstagioDbContext dbContext)
     {
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
+        var faker = new Faker("pt_BR");
+        var university = faker.PickRandom(universities);
 
         var adminUser = new User(
-                                    Guid.NewGuid(), 
+                                    Guid.NewGuid(),
+                                    university.Id,
                                     "Admin", 
                                     new Random().Next(100000, 999999).ToString(),
                                     Email.Criar("admin@admin.com"), 
@@ -64,11 +74,18 @@ public static class SeedDatabaseInitial
         var faker = new Faker("pt_BR");
         var users = new List<User>();
 
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
+        var university = faker.PickRandom(universities);
+
         for (int i = 0; i < 3; i++)
         {
             var userType = i % 2 == 0 ? UserType.Intern : UserType.Supervisor;
             var user = new User(
                 Guid.NewGuid(),
+                university.Id,
                 new Random().Next(100000, 999999).ToString(),
                 faker.Name.FullName(),
                 Email.Criar(faker.Internet.Email()),
@@ -82,6 +99,52 @@ public static class SeedDatabaseInitial
         await dbContext.Users.AddRangeAsync(users);
         await dbContext.SaveChangesAsync();
     }
+
+    private static async Task SeedUniversities(PontoEstagioDbContext dbContext)
+    {
+        var faker = new Faker("pt_BR");
+        var universities = new List<University>();
+
+        for (int i = 0; i < 2; i++)
+        {
+            var name = faker.Company.CompanyName();
+            var acronym = new string(name
+                .Where(char.IsUpper)
+                .DefaultIfEmpty(name[0])
+                .ToArray());
+
+            var cnpj = faker.Company.Cnpj();
+            var phone = faker.Phone.PhoneNumber();
+            var email = Email.Criar(faker.Internet.Email());
+
+            var address = new Address(
+                street: faker.Address.StreetName(),
+                number: faker.Address.BuildingNumber(),
+                district: faker.Address.County(),
+                city: faker.Address.City(),
+                state: faker.Address.StateAbbr(),
+                zipCode: faker.Address.ZipCode().Replace("-", "").Substring(0, 8),
+                complement: faker.Address.SecondaryAddress()
+            );
+
+            var university = new University(
+                id: Guid.NewGuid(),
+                name: name,
+                acronym: acronym,
+                cnpj: cnpj,
+                phone: phone,
+                email: email,
+                address: address,
+                isActive: true
+            );
+
+            universities.Add(university);
+        }
+
+        await dbContext.Universities.AddRangeAsync(universities);
+        await dbContext.SaveChangesAsync();
+    }
+
 
     private static async Task SeedCompanies(PontoEstagioDbContext dbContext)
     {
@@ -120,6 +183,10 @@ public static class SeedDatabaseInitial
         if (!companies.Any())
             throw new InvalidOperationException("Nenhuma empresa encontrada para associar ao projeto.");
 
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
         var faker = new Faker("pt_BR");
         var projects = new List<Project>();
 
@@ -127,10 +194,12 @@ public static class SeedDatabaseInitial
         {
             var supervisor = faker.PickRandom(supervisors);
             var company = faker.PickRandom(companies); 
+            var university = faker.PickRandom(universities); 
 
             var project = new Project(
                 Guid.NewGuid(),
                 company.Id,
+                university.Id,
                 faker.Commerce.ProductName(),
                 faker.Lorem.Sentence(),
                 faker.Random.Number(200, 480),
