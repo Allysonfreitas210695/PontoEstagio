@@ -22,7 +22,8 @@ public class Company : Entity
         string name, 
         string cnpj,  
         string phone, 
-        Email email
+        Email email,
+        Address address
     )
     {
         Id = id ?? Guid.NewGuid();
@@ -41,6 +42,7 @@ public class Company : Entity
         Phone = phone;
         Email = email;
         IsActive = true;
+        Address = address;
     }
 
     public void UpdateName(string name)
