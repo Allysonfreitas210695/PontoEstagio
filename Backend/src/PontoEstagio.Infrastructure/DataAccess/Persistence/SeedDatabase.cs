@@ -158,7 +158,16 @@ public static class SeedDatabaseInitial
                 faker.Company.CompanyName(),
                 faker.Company.Cnpj(),
                 faker.Phone.PhoneNumber(),
-                Email.Criar(faker.Internet.Email())
+                Email.Criar(faker.Internet.Email()),
+                new Address(
+                    faker.Address.StreetName(),           
+                    faker.Random.Number(1, 9999).ToString(), 
+                    faker.Address.County(),              
+                    faker.Address.City(),             
+                    faker.Address.StateAbbr(),           
+                    faker.Address.ZipCode("########"),   
+                    faker.Address.SecondaryAddress()      
+                )
             );
 
             companies.Add(company);

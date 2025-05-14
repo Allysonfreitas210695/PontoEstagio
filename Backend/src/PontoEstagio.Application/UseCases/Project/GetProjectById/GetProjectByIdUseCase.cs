@@ -19,7 +19,7 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
     {
         var _project = await _projectRepository.GetProjectByIdAsync(id);
         if(_project is null)
-             throw new NotFoundException(ErrorMessages.ProjectNotFound);
+            throw new NotFoundException(ErrorMessages.ProjectNotFound);
 
         return new ResponseProjectJson(){
             Id = _project.Id,

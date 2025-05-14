@@ -9,6 +9,7 @@ using PontoEstagio.Domain.Repositories.EmailTemplate;
 using PontoEstagio.Domain.Repositories.PasswordRecovery;
 using PontoEstagio.Domain.Repositories.Projects;
 using PontoEstagio.Domain.Repositories.Report;
+using PontoEstagio.Domain.Repositories.University;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Domain.Security.Cryptography;
@@ -80,6 +81,10 @@ public static class DependencyInjection
         services.AddScoped<IUserProjectsReadOnlyRepository, UserProjectsRepository>();
         services.AddScoped<IUserProjectsWriteOnlyRepository, UserProjectsRepository>();
         services.AddScoped<IUserProjectsUpdateOnlyRepository, UserProjectsRepository>();
+
+        services.AddScoped<IUniversityReadOnlyRepository, UniversityRepository>();
+        services.AddScoped<IUniversityWriteOnlyRepository, UniversityRepository>();
+        services.AddScoped<IUniversityUpdateOnlyRepository, UniversityRepository>();
 
         services.AddScoped<IReportReadOnlyRepository, ReportRepository>();
     }

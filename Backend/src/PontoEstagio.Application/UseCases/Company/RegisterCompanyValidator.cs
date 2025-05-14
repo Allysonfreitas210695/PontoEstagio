@@ -31,5 +31,9 @@ public class RegisterCompanyValidator : AbstractValidator<RequestRegisterCompany
             .WithMessage(ErrorMessages.Company_Phone_Required)
             .Matches(@"^\(\d{2}\) \d{4,5}-\d{4}$")
             .WithMessage(ErrorMessages.Company_Phone_InvalidFormat);
+
+        RuleFor(u => u.Address)
+            .NotNull().WithMessage("O endereço é obrigatório.")
+            .SetValidator(new AddressValidatorCompany());
     }
 }

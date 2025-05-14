@@ -68,6 +68,24 @@ public class University : Entity
         return true;
     }
 
+    public void UpdateName(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.University_NameRequired });
+
+        Name = name;
+        UpdateTimestamp();
+    }
+
+    public void UpdateAcronym(string acronym)
+    {
+         if (string.IsNullOrWhiteSpace(acronym))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.University_AcronymRequired });
+        
+        Acronym = acronym;
+        UpdateTimestamp();
+    }
+
     public void UpdateCNPJ(string cnpj)
     {
         if(ValidateCNPJ(cnpj) == false) return;
@@ -85,6 +103,11 @@ public class University : Entity
     public void UpdateEmail(string email)
     {
         Email = Email.Criar(email);
+        UpdateTimestamp();
+    }
+
+    public void UpdateAddress(Address address){
+        Address = address;
         UpdateTimestamp();
     }
 

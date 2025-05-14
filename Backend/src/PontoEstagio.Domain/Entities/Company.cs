@@ -90,7 +90,10 @@ public class Company : Entity
         UpdateTimestamp();
     }
 
-    
+    public void UpdateAddress(Address address){
+        Address = address;
+        UpdateTimestamp();
+    }
 
     private bool ValidateCNPJ(string cnpj)
     {

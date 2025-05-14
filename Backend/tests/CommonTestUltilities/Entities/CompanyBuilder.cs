@@ -12,7 +12,8 @@ public class CompanyBuilder
         string? name = null, 
         string? cnpj = null,  
         string? phone = null, 
-        string? email = null
+        string? email = null,
+        Address? address = null
        )
     {
         var faker = new Faker();
@@ -23,7 +24,16 @@ public class CompanyBuilder
             name: name ?? faker.Company.CompanyName(),
             cnpj: cnpj ?? faker.Company.Cnpj(),
             phone: phone ?? faker.Phone.PhoneNumber(),
-            email: Email.Criar(_email)
+            email: Email.Criar(_email),
+            address: address ?? new Address(
+                faker.Address.StreetName(),        
+                faker.Random.Number(1, 9999).ToString(), 
+                faker.Address.County(),              
+                faker.Address.City(),                 
+                faker.Address.StateAbbr(),          
+                faker.Address.ZipCode("########"),   
+                faker.Address.SecondaryAddress()      
+            )
         );
     } 
 }
