@@ -17,6 +17,8 @@ public class Project : Entity
     public User Creator { get; private set; } = default!;
     public Guid CompanyId { get; private set; } 
     public virtual Company Company { get; private set; }  = default!;
+    public Guid UniversityId { get; private set; } 
+    public virtual University University { get; private set; }  = default!;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
     public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
 
@@ -25,6 +27,7 @@ public class Project : Entity
     public Project(
         Guid? id, 
         Guid companyId, 
+        Guid universityId,
         string name, 
         string description, 
         long totalHours, 
@@ -45,6 +48,9 @@ public class Project : Entity
         if (companyId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCompanyId });
 
+        if (universityId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
+
         Name = name;
         Description = description;
         Status = status;
@@ -52,6 +58,7 @@ public class Project : Entity
         EndDate = endDate;
         CreatedBy = createdBy;
         CompanyId = companyId;
+        UniversityId = universityId;
 
         if (totalHours <= 0)
             throw new ArgumentException(ErrorMessages.invalidTotalHours);

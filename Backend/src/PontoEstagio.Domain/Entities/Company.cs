@@ -11,6 +11,7 @@ public class Company : Entity
     public string Phone { get; private set; } = string.Empty;
     public Email Email { get; private set; } = default!;
     public bool IsActive { get; private set; }
+    public Address Address { get; private set; }
     
     public virtual ICollection<Project> Projects { get; private set; } = new List<Project>();
 
@@ -21,7 +22,8 @@ public class Company : Entity
         string name, 
         string cnpj,  
         string phone, 
-        Email email
+        Email email,
+        Address address
     )
     {
         Id = id ?? Guid.NewGuid();
@@ -40,6 +42,7 @@ public class Company : Entity
         Phone = phone;
         Email = email;
         IsActive = true;
+        Address = address;
     }
 
     public void UpdateName(string name)
@@ -87,7 +90,10 @@ public class Company : Entity
         UpdateTimestamp();
     }
 
-    
+    public void UpdateAddress(Address address){
+        Address = address;
+        UpdateTimestamp();
+    }
 
     private bool ValidateCNPJ(string cnpj)
     {

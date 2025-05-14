@@ -372,4 +372,37 @@
   <data name="FileTooLarge" xml:space="preserve">
     <value>O comprovante não pode exceder 5MB.</value>
   </data>
+  <data name="Address_StreetRequired" xml:space="preserve">
+    <value>Rua é obrigatória.</value>
+  </data>
+  <data name="Address_NumberRequired" xml:space="preserve">
+    <value>Número é obrigatório.</value>
+  </data>
+  <data name="Address_DistrictRequired" xml:space="preserve">
+    <value>Bairro é obrigatório.</value>
+  </data>
+  <data name="Address_CityRequired" xml:space="preserve">
+    <value>Cidade é obrigatória.</value>
+  </data>
+  <data name="Address_StateRequired" xml:space="preserve">
+    <value>Estado é obrigatório.</value>
+  </data>
+  <data name="Address_ZipCodeRequired" xml:space="preserve">
+    <value>CEP é obrigatório.</value>
+  </data>
+  <data name="Address_ZipCodeInvalid" xml:space="preserve">
+    <value>CEP deve conter 8 dígitos.</value>
+  </data>
+  <data name="InvalidUniversityId" xml:space="preserve">
+    <value>O campo de universidade é obrigatório.</value>
+  </data>
+  <data name="University_NameRequired" xml:space="preserve">
+    <value>Nome da universidade é obrigatório.</value>
+  </data>
+  <data name="University_AcronymRequired" xml:space="preserve">
+    <value>Sigla da universidade é obrigatória.</value>
+  </data>
+  <data name="University_PhoneRequired" xml:space="preserve">
+    <value>Telefone da universidade é obrigatório.</value>
+  </data>
 </root>

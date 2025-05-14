@@ -9,6 +9,7 @@ using PontoEstagio.Domain.Repositories.EmailTemplate;
 using PontoEstagio.Domain.Repositories.PasswordRecovery;
 using PontoEstagio.Domain.Repositories.Projects;
 using PontoEstagio.Domain.Repositories.Report;
+using PontoEstagio.Domain.Repositories.University;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Domain.Security.Cryptography;
@@ -81,6 +82,10 @@ public static class DependencyInjection
         services.AddScoped<IUserProjectsWriteOnlyRepository, UserProjectsRepository>();
         services.AddScoped<IUserProjectsUpdateOnlyRepository, UserProjectsRepository>();
 
+        services.AddScoped<IUniversityReadOnlyRepository, UniversityRepository>();
+        services.AddScoped<IUniversityWriteOnlyRepository, UniversityRepository>();
+        services.AddScoped<IUniversityUpdateOnlyRepository, UniversityRepository>();
+
         services.AddScoped<IReportReadOnlyRepository, ReportRepository>();
     }
 
@@ -89,6 +94,7 @@ public static class DependencyInjection
         string? connectionString = configuration.GetConnectionString("DefaultConnection");
         if (string.IsNullOrEmpty(connectionString))
             throw new ArgumentException("Connection string 'DefaultConnection' is not configured.");
-        services.AddDbContext<PontoEstagioDbContext>(options => options.UseSqlServer(connectionString));
+
+        services.AddDbContext<PontoEstagioDbContext>(options => options.UseNpgsql(connectionString));
     }
 }

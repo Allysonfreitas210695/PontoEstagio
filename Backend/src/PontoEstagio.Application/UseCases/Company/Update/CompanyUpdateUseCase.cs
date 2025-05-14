@@ -29,6 +29,15 @@ public class CompanyUpdateUseCase : ICompanyUpdateUseCase
         _company.UpdateName(request.Name);
         _company.UpdateEmail(request.Email);
         _company.UpdatePhone(request.Phone); 
+        _company.UpdateAddress(new Domain.ValueObjects.Address(
+            request.Address.Street,
+            request.Address.Number,
+            request.Address.District,
+            request.Address.City,
+            request.Address.State,
+            request.Address.ZipCode,
+            request.Address.Complement
+        ));
 
         if(request.IsActive == false)
             _company.Deactivate();

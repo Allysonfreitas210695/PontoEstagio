@@ -12,20 +12,34 @@ public class User : Entity
     public Email Email { get;  private set; } = default!;
     public UserType Type { get; private set; } = UserType.Intern;
     public bool IsActive { get; private set; }
+    public string Registration { get; private set; }
     public string Password { get;  private set; } = string.Empty;
-
+    public Guid UniversityId { get; private set; } 
+    public virtual University University { get; private set; }  = default!;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
     public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
 
     public User() { }
 
-    public User(Guid? id, string name, Email email, UserType type, string password, bool isActive)
+    public User(
+            Guid? id, 
+            Guid universityId,
+            string name, 
+            string registration, 
+            Email email, 
+            UserType type, 
+            string password, 
+            bool isActive
+    )
     {
         Id = id is null ? Guid.NewGuid() : id.Value;
 
         if (string.IsNullOrWhiteSpace(name))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserName });
+        
+        if (universityId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
         if (string.IsNullOrWhiteSpace(password))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidPassword });
@@ -38,6 +52,8 @@ public class User : Entity
         Type = type;
         Password = password;
         IsActive = isActive;
+        Registration = registration;
+        UniversityId = universityId;
     }
 
     public void Inactivate() {

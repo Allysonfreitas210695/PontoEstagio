@@ -3,8 +3,7 @@ using PontoEstagio.Domain.Helpers;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.EmailTemplate;
 using PontoEstagio.Domain.Repositories.PasswordRecovery;
-using PontoEstagio.Domain.Repositories.User;
- using PontoEstagio.Domain.Services.Email;
+using PontoEstagio.Domain.Services.Email;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
@@ -51,7 +50,7 @@ public class ForgotPasswordUseCase : IForgotPasswordUseCase
         _emailPasswordReset.Body = _emailPasswordReset.Body.Replace("{{UserName}}", user.Name);
         _emailPasswordReset.Body = _emailPasswordReset.Body.Replace("{{VerificationCode}}", _codeGenerate);
         
-        await _emailService.SendEmailAsync("alisonfr83@gmail.com", _emailPasswordReset.Subject, _emailPasswordReset.Body); 
+        await _emailService.SendEmailAsync(user.Email.Endereco, _emailPasswordReset.Subject, _emailPasswordReset.Body); 
     }
 }
 

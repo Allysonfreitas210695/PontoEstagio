@@ -70,6 +70,69 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cidade é obrigatória..
+        /// </summary>
+        public static string Address_CityRequired {
+            get {
+                return ResourceManager.GetString("Address_CityRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Bairro é obrigatório..
+        /// </summary>
+        public static string Address_DistrictRequired {
+            get {
+                return ResourceManager.GetString("Address_DistrictRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Número é obrigatório..
+        /// </summary>
+        public static string Address_NumberRequired {
+            get {
+                return ResourceManager.GetString("Address_NumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Estado é obrigatório..
+        /// </summary>
+        public static string Address_StateRequired {
+            get {
+                return ResourceManager.GetString("Address_StateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Rua é obrigatória..
+        /// </summary>
+        public static string Address_StreetRequired {
+            get {
+                return ResourceManager.GetString("Address_StreetRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CEP deve conter 8 dígitos..
+        /// </summary>
+        public static string Address_ZipCodeInvalid {
+            get {
+                return ResourceManager.GetString("Address_ZipCodeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CEP é obrigatório..
+        /// </summary>
+        public static string Address_ZipCodeRequired {
+            get {
+                return ResourceManager.GetString("Address_ZipCodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Este código já foi utilizado..
         /// </summary>
         public static string AlreadyUsed {
@@ -565,6 +628,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O campo de universidade é obrigatório..
+        /// </summary>
+        public static string InvalidUniversityId {
+            get {
+                return ResourceManager.GetString("InvalidUniversityId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Usuário inválido..
         /// </summary>
         public static string InvalidUser {
@@ -759,6 +831,33 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string SupervisorNotFoundOrNotSupervisor {
             get {
                 return ResourceManager.GetString("SupervisorNotFoundOrNotSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Sigla da universidade é obrigatória..
+        /// </summary>
+        public static string University_AcronymRequired {
+            get {
+                return ResourceManager.GetString("University_AcronymRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome da universidade é obrigatório..
+        /// </summary>
+        public static string University_NameRequired {
+            get {
+                return ResourceManager.GetString("University_NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Telefone da universidade é obrigatório..
+        /// </summary>
+        public static string University_PhoneRequired {
+            get {
+                return ResourceManager.GetString("University_PhoneRequired", resourceCulture);
             }
         }
         

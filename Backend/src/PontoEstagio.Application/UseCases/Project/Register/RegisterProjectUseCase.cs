@@ -10,15 +10,18 @@ namespace PontoEstagio.Application.UseCases.Projects.Register;
 public class RegisterProjectUseCase : IRegisterProjectUseCase
 {
     private readonly IProjectWriteOnlyRepository _projectWriteOnlyRepository;
+    private readonly IUserReadOnlyRepository _userReadOnlyRepository;
     private readonly ILoggedUser _loggedUser;
     private readonly IUnitOfWork _unitOfWork;
     public RegisterProjectUseCase(
         IProjectWriteOnlyRepository projectWriteOnlyRepository,
+        IUserReadOnlyRepository userReadOnlyRepository,
         ILoggedUser loggedUser, 
         IUnitOfWork unitOfWork
     )
     {
         _projectWriteOnlyRepository = projectWriteOnlyRepository;
+        _userReadOnlyRepository = userReadOnlyRepository;
         _loggedUser = loggedUser;
         _unitOfWork = unitOfWork;
     }
@@ -34,9 +37,14 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
         if (user.Type != UserType.Admin)
             throw new ForbiddenException(ErrorMessages.UserNotAdmin);
 
+        var usuarioAuthenticate = await _userReadOnlyRepository.GetUserByIdAsync(user.Id);
+        if(usuarioAuthenticate is null)
+            throw new ForbiddenException(ErrorMessages.UserNotFound);
+
         var _project = new Domain.Entities.Project(
             Guid.NewGuid(),
             request.CompanyId,
+            usuarioAuthenticate.UniversityId,
             request.Name, 
             request.Description, 
             request.TotalHours,

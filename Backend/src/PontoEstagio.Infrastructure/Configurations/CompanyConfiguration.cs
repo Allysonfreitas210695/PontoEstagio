@@ -33,6 +33,43 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
                  .IsUnique(); 
         });
 
+        builder.OwnsOne(u => u.Address, address =>
+        {
+            address.Property(a => a.Street)
+                .HasColumnName("Street")
+                .IsRequired()
+                .HasMaxLength(100);
+
+            address.Property(a => a.Number)
+                .HasColumnName("Number")
+                .IsRequired()
+                .HasMaxLength(20);
+
+            address.Property(a => a.District)
+                .HasColumnName("District")
+                .IsRequired()
+                .HasMaxLength(50);
+
+            address.Property(a => a.City)
+                .HasColumnName("City")
+                .IsRequired()
+                .HasMaxLength(50);
+
+            address.Property(a => a.State)
+                .HasColumnName("State")
+                .IsRequired()
+                .HasMaxLength(2);
+
+            address.Property(a => a.ZipCode)
+                .HasColumnName("ZipCode")
+                .IsRequired()
+                .HasMaxLength(8);
+
+            address.Property(a => a.Complement)
+                .HasColumnName("Complement")
+                .HasMaxLength(100);
+        });
+
         builder.Property(c => c.IsActive)
             .IsRequired();
 
