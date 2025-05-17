@@ -28,7 +28,6 @@ public class UsersController : ControllerBase
         return Ok(await useCase.Execute(request));
     }
 
-    [Authorize(Roles = nameof(UserType.Admin))]
     [HttpPost]
     [ProducesResponseType(typeof(ResponseLoggedUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -40,7 +39,7 @@ public class UsersController : ControllerBase
         return Created(string.Empty, response);
     }
 
-    [Authorize(Roles = nameof(UserType.Admin))]
+    [Authorize]
     [HttpGet]
     [ProducesResponseType(typeof(List<ResponseShortUserJson>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
@@ -65,7 +64,7 @@ public class UsersController : ControllerBase
         return Ok(response);
     }
 
-    [Authorize(Roles = nameof(UserType.Admin))]
+    [Authorize]
     [HttpPut]
     [Route("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -80,7 +79,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = nameof(UserType.Admin))]
+    [Authorize]
     [HttpPatch]
     [Route("/{id}/activate")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -94,7 +93,7 @@ public class UsersController : ControllerBase
         return NoContent();
     }
 
-    [Authorize(Roles = nameof(UserType.Admin))]
+    [Authorize]
     [HttpPatch]
     [Route("/{id}/deactiveted")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
