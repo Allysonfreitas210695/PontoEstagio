@@ -51,7 +51,7 @@ public class RegisterProjectValidatorTest
 
         // ASSERT
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle(x => x.ErrorMessage == ErrorMessages.invalidProjectNameLength);
+        result.Errors.Should().ContainSingle(x => x.ErrorMessage == ErrorMessages.InvalidProjectNameLength);
     }
 
     [Fact]
@@ -100,7 +100,7 @@ public class RegisterProjectValidatorTest
 
         // ASSERT
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().ContainSingle(x => x.ErrorMessage == ErrorMessages.invalidTotalHours);
+        result.Errors.Should().ContainSingle(x => x.ErrorMessage == ErrorMessages.InvalidTotalHours);
     }
 
     [Fact]

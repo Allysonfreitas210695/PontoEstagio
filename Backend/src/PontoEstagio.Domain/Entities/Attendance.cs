@@ -36,16 +36,16 @@ public class Attendance : Entity
         Id = id ?? Guid.NewGuid();
 
         if (userId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserId });
 
         if (projectId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectId });
 
         if (date > DateTime.Now.Date)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidAttendanceDate });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidAttendanceDate });
 
         if (checkOut <= checkIn)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidCheckOutTime });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCheckOutTime });
 
         UserId = userId;
         ProjectId = projectId;

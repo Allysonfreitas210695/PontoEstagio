@@ -22,12 +22,12 @@ public class UserProject : Entity
         Id = id ?? Guid.NewGuid();
 
         if (userId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserId });
 
         UserId = userId;
 
         if (projectId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectId });
 
         ProjectId = projectId;
         AssignedAt = DateTime.UtcNow;

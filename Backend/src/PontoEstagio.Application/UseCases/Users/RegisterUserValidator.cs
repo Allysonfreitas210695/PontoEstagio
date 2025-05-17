@@ -1,4 +1,5 @@
 using FluentValidation;
+using PontoEstagio.Application.Helpers;
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
@@ -10,11 +11,31 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
             .NotEmpty()
             .WithMessage(ErrorMessages.NameCannotBeEmpty);
 
+        RuleFor(user => user.UniversityId)
+            .NotEmpty()
+            .WithMessage(ErrorMessages.InvalidUniversityId)
+            .Must(id => id != Guid.Empty)
+            .WithMessage(ErrorMessages.InvalidUniversityId);
+
+        RuleFor(user => user.CourseId)
+            .Must((user, courseId) =>
+            {
+                if (user.Type == PontoEstagio.Communication.Enum.UserType.Intern || user.Type == PontoEstagio.Communication.Enum.UserType.Coordinator)
+                {
+                    return courseId != null && courseId != Guid.Empty;
+                }
+                return true;
+            })
+            .WithMessage(ErrorMessages.InvalidCourseIdForUserType); 
+
         RuleFor(user => user.Email)
             .NotEmpty()
             .WithMessage(ErrorMessages.EmailCannotBeEmpty)
             .EmailAddress()
             .When(user => string.IsNullOrWhiteSpace(user.Email) == false, ApplyConditionTo.CurrentValidator)
             .WithMessage(ErrorMessages.InvalidEmailFormat);
+
+        RuleFor(user => user.Password)
+            .SetValidator(new PasswordValidator<RequestRegisterUserJson>());
     }
 }

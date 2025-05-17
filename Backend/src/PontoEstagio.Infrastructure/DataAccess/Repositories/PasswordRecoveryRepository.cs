@@ -13,20 +13,20 @@ public class PasswordRecoveryRepository : IPasswordRecoveryReadOnlyRespository, 
         _dbContext = dbContext;
     }
 
-    async Task<PasswordRecovery?> IPasswordRecoveryReadOnlyRespository.GetPasswordRecoveryByCode(string code, Guid userId)
+    async Task<PasswordRecovery?> IPasswordRecoveryReadOnlyRespository.GetPasswordRecoveryByCode(string code)
     {
         return await _dbContext.PasswordRecoveries
                                 .AsNoTracking()
-                                .Where(x => x.Code == code && x.UserId == userId && !x.Used)
+                                .Where(x => x.Code == code && !x.Used)
                                 .OrderByDescending(x => x.CreatedAt)
                                 .FirstOrDefaultAsync();
     
     }
     
-    async Task<PasswordRecovery?> IPasswordRecoveryUpdateOnlyRespository.GetPasswordRecoveryByCode(string code, Guid userId)
+    async Task<PasswordRecovery?> IPasswordRecoveryUpdateOnlyRespository.GetPasswordRecoveryByCode(string code)
     {
         return await _dbContext.PasswordRecoveries 
-                                .Where(x => x.Code == code && x.UserId == userId && !x.Used)
+                                .Where(x => x.Code == code && !x.Used)
                                 .OrderByDescending(x => x.CreatedAt)
                                 .FirstOrDefaultAsync();
     }

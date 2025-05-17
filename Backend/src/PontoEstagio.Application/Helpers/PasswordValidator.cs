@@ -1,8 +1,9 @@
-using System.Text.RegularExpressions;
-using FluentValidation;
+﻿using System.Text.RegularExpressions;
 using FluentValidation.Validators;
+using FluentValidation;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
+namespace PontoEstagio.Application.Helpers;
 public class PasswordValidator<T> : PropertyValidator<T, string>
 {
     private const string ERROR_MESSAGE_KEY = "ErrorMessage";

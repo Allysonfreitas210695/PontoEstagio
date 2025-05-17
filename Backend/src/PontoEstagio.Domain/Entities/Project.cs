@@ -40,10 +40,10 @@ public class Project : Entity
         Id = id ?? Guid.NewGuid();
 
         if (string.IsNullOrEmpty(name))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectName });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectName });
 
         if (name.Length < 3)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectNameLength });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectNameLength });
 
         if (companyId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCompanyId });
@@ -61,7 +61,7 @@ public class Project : Entity
         UniversityId = universityId;
 
         if (totalHours <= 0)
-            throw new ArgumentException(ErrorMessages.invalidTotalHours);
+            throw new ArgumentException(ErrorMessages.InvalidTotalHours);
 
         TotalHours = totalHours;
     }
@@ -69,10 +69,10 @@ public class Project : Entity
     public void UpdateName(string name)
     {
         if (string.IsNullOrEmpty(name))
-            throw new ArgumentException(ErrorMessages.invalidProjectName);
+            throw new ArgumentException(ErrorMessages.InvalidProjectName);
 
         if (name.Length < 3)
-            throw new ArgumentException(ErrorMessages.invalidProjectNameLength);
+            throw new ArgumentException(ErrorMessages.InvalidProjectNameLength);
 
         Name = name;
         UpdateTimestamp();
@@ -110,7 +110,7 @@ public class Project : Entity
 
     public void UpdateTotalHours(long totalHours) {
         if (totalHours <= 0)
-            throw new ArgumentException(ErrorMessages.invalidTotalHours);
+            throw new ArgumentException(ErrorMessages.InvalidTotalHours);
         TotalHours = totalHours;
         UpdateTimestamp();
     } 

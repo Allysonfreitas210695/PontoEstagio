@@ -25,7 +25,7 @@ public class UserRefreshTokenTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-           .And.Errors.Should().Contain(ErrorMessages.invalidToken);
+           .And.Errors.Should().Contain(ErrorMessages.InvalidToken);
     }
 
     [Fact]

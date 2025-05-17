@@ -19,7 +19,7 @@ public class PasswordRecovery : Entity
     public PasswordRecovery(Guid? id, Guid userId, string code)
     {
         if (userId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserId });
 
         if (string.IsNullOrWhiteSpace(code))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.CodeRequired });

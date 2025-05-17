@@ -34,13 +34,13 @@ public class ResetPasswordUseCase : IResetPasswordUseCase
     {
         Validate(request);
 
-        var user = await _useUpdateOnlyRepository.GetUserByEmailAsync(request.Email);
-        if (user == null)
-            throw new NotFoundException(ErrorMessages.UserNotFound);
-
-        var recovery = await _passwordRecoveryUpdateOnlyRespository.GetPasswordRecoveryByCode(request.Code, user.Id);
+        var recovery = await _passwordRecoveryUpdateOnlyRespository.GetPasswordRecoveryByCode(request.Code);
         if (recovery is null)
             throw new NotFoundException(ErrorMessages.PasswordRecovery_Code_Invalid);
+
+        var user = await _useUpdateOnlyRepository.GetUserByIdAsync(recovery.UserId);
+        if (user == null)
+            throw new NotFoundException(ErrorMessages.UserNotFound);
 
         recovery!.EnsureUsable();
         recovery!.MarkAsUsed();

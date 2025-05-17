@@ -1,4 +1,5 @@
 using FluentAssertions;
+using PontoEstagio.Application.Helpers;
 using PontoEstagio.Communication.Request;
 
 namespace Validators.Test.Users;
