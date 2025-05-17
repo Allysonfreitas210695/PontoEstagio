@@ -47,13 +47,12 @@ public class RegisterUserUseCase : IRegisterUserUseCase
     {
         await Validate(request);
 
-        var _passwordGenerate = PasswordHelper.GenerateRandomPassword();
-
-        var _passwordHash = _passwordEncrypter.Encrypt(_passwordGenerate);
+        var _passwordHash = _passwordEncrypter.Encrypt(request.Password);
 
         var user = new User(
             Guid.NewGuid(),
             request.UniversityId,
+            request.CourseId ?? Guid.Empty,
             request.Name, 
             request.Registration,
             Email.Criar(request.Email), 
