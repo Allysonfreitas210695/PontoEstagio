@@ -1,118 +1,262 @@
 @startuml
-' Definição da classe Entity
-class Entity {
-    -Id: Guid
-    -CreatedAt: DateTime
-    -UpdatedAt: DateTime
-    +UpdateTimestamp(): void
+
+' Definindo os enums
+enum ActivityStatus {
+    Pending
+    Approved
+    Rejected
 }
 
-' Definição da classe Company
-class Company {
-    -Name: string
-    -CNPJ: string
-    -Address: string
-    -Phone: string
-    -Email: string
-    -IsActive: bool
-    +UpdateName(name: string): void
-    +UpdateCNPJ(cnpj: string): void
-    +UpdateAddress(address: string): void
-    +UpdatePhone(phone: string): void
-    +UpdateEmail(email: string): void
-    +Activate(): void
-    +Deactivate(): void
+enum AttendanceStatus {
+    Pending
+    Approved
+    Rejected
 }
 
-' Definição da classe Activity
+enum ProjectStatus {
+    Planning
+    InProgress
+    Completed
+    Canceled
+}
+
+enum UserType {
+    Intern
+    Supervisor
+    Admin
+    Coordinator
+}
+
+' Entidades principais
 class Activity {
-    -AttendanceId: Guid
-    -UserId: Guid
-    -ProjectId: Guid
-    -Description: string
-    -RecordedAt: DateTime
-    -ProofFilePath: string
-    +Activity(attendanceId: Guid, userId: Guid, projectId: Guid, description: string, recordedAt: DateTime, proofFilePath: string? = null)
+    + Guid Id
+    + Guid AttendanceId
+    + Guid UserId
+    + string Description
+    + DateTime RecordedAt
+    + string? ProofFilePath
+    + ActivityStatus Status
+    --
+    + Activity(Guid?, Guid, Guid, string, DateTime, string?)
+    + UpdateStatus(ActivityStatus)
 }
 
-' Definição da classe Attendance
 class Attendance {
-    -UserId: Guid
-    -Date: DateTime
-    -CheckIn: TimeSpan
-    -CheckOut: TimeSpan
-    -Status: AttendanceStatus
-    +UpdateStatus(status: AttendanceStatus): void
+    + Guid Id
+    + Guid UserId
+    + DateTime Date
+    + TimeSpan CheckIn
+    + TimeSpan CheckOut
+    + Guid ProjectId
+    + AttendanceStatus Status
+    + string ProofImageBase64
+    --
+    + Attendance(Guid?, Guid, Guid, DateTime, TimeSpan, TimeSpan, AttendanceStatus, string)
+    + AddProofImageBase64(string)
+    + UpdateStatus(AttendanceStatus)
 }
 
-' Definição da classe Project
+class Company {
+    + Guid Id
+    + string Name
+    + string CNPJ
+    + string Phone
+    + Email Email
+    + bool IsActive
+    + Address Address
+    --
+    + Company(Guid?, string, string, string, Email, Address)
+    + UpdateName(string)
+    + UpdateCNPJ(string)
+    + UpdatePhone(string)
+    + UpdateEmail(string)
+    + Activate()
+    + Deactivate()
+    + UpdateAddress(Address)
+    - ValidateCNPJ(string): bool
+}
+
+class Course {
+    + Guid Id
+    + string Name
+    + int WorkloadHours
+    + Guid UniversityId
+    --
+    + Course(Guid?, string, int, Guid)
+    + UpdateName(string)
+    + UpdateWorkloadHours(int)
+    + UpdateUniversityId(Guid)
+}
+
+class EmailTemplates {
+    + Guid Id
+    + string Title
+    + string Subject
+    + string Body
+}
+
 class Project {
-    -Name: string
-    -Description: string
-    -Status: ProjectStatus
-    -StartDate: DateTime
-    -EndDate: DateTime?
-    -CreatedBy: Guid
-    -TotalHours: long
-    -CompanyId: Guid
-    +UpdateName(name: string): void
-    +UpdateDescription(description: string): void
-    +UpdateStatus(status: ProjectStatus): void
-    +UpdateStartDate(startDate: DateTime): void
-    +UpdateEndDate(endDate: DateTime?): void
-    +UpdateCreatedBy(createdBy: Guid): void
-    +UpdateTotalHours(totalHours: long): void
-    +UpdateCompany(companyId: Guid): void
+    + Guid Id
+    + string Name
+    + string Description
+    + ProjectStatus Status
+    + DateTime StartDate
+    + DateTime? EndDate
+    + long TotalHours
+    + Guid CreatedBy
+    + Guid CompanyId
+    + Guid UniversityId
+    --
+    + Project(Guid?, Guid, Guid, string, string, long, ProjectStatus, DateTime, DateTime?, Guid)
+    + UpdateName(string)
+    + UpdateDescription(string)
+    + UpdateStatus(ProjectStatus)
+    + UpdateStartDate(DateTime)
+    + UpdateEndDate(DateTime?)
+    + UpdateCreatedBy(Guid)
+    + UpdateTotalHours(long)
+    + UpdateCompanyId(Guid)
 }
 
-' Definição da classe User
+class University {
+    + Guid Id
+    + string Name
+    + string Acronym
+    + string CNPJ
+    + Email Email
+    + string Phone
+    + bool IsActive
+    + Address Address
+    --
+    + University(Guid?, string, string, string, Email, string, bool, Address)
+    + UpdateName(string)
+    + UpdateAcronym(string)
+    + UpdateCNPJ(string)
+    + UpdatePhone(string)
+    + UpdateEmail(string)
+    + UpdateAddress(Address)
+    + Activate()
+    + Deactivate()
+    - ValidateCNPJ(string): bool
+}
+
 class User {
-    -Name: string
-    -Email: Email
-    -Type: UserType
-    -IsActive: bool
-    -Password: string
-    +Inactivate(): void
-    +Activate(): void
-    +UpdateType(type: UserType): void
-    +UpdateName(name: string): void
-    +UpdateEmail(email: string): void
-    +UpdatePassword(password: string): void
+    + Guid Id
+    + string Name
+    + Email Email
+    + UserType Type
+    + bool IsActive
+    + string Registration
+    + string Password
+    + Guid UniversityId
+    + Guid CourseId
+    --
+    + User(Guid?, Guid, string, string, Email, UserType, string, bool)
+    + Inactivate()
+    + Activate()
+    + UpdateType(UserType)
+    + UpdateName(string)
+    + UpdateEmail(string)
+    + UpdatePassword(string)
 }
 
-' Definição da classe UserProject
 class UserProject {
-    -UserId: Guid
-    -ProjectId: Guid
-    -AssignedAt: DateTime
-    -IsCurrent: bool
-    -Role: UserType
-    +MarkAsInactive(): void
+    + Guid Id
+    + Guid UserId
+    + Guid ProjectId
+    + DateTime AssignedAt
+    + bool IsCurrent
+    + UserType Role
+    --
+    + UserProject(Guid?, Guid, Guid, UserType)
+    + MarkAsInactive()
 }
 
-' Definição da classe UserRefreshToken
 class UserRefreshToken {
-    -Id: Guid
-    -UserId: Guid
-    -Token: string
-    -ExpirationDate: DateTime
+    + Guid Id
+    + Guid UserId
+    + string Token
+    + DateTime ExpirationDate
+    --
+    + UserRefreshToken(Guid?, Guid, string, DateTime)
 }
 
-' Relacionamentos entre as classes
-Entity <|-- Company
-Entity <|-- Activity
-Entity <|-- Attendance
-Entity <|-- Project
-Entity <|-- User
-Entity <|-- UserProject
-Entity <|-- UserRefreshToken
+' Value Objects
+class Email {
+    + string Value
+    --
+    + Criar(string): Email
+}
 
-User --* Activity : "1..*"
-User --* Attendance : "1..*"
-User --* UserProject : "1..*"
-Project --* Activity : "1..*"
-Project --* UserProject : "1..*"
-Company --* Project : "1..*"
-Activity --* Attendance : "1..1"
-Activity --* Project : "1..1"
+class Address {
+    + string Street
+    + string Number
+    + string Complement
+    + string Neighborhood
+    + string City
+    + string State
+    + string ZipCode
+    + string Country
+}
+
+' Relacionamentos
+
+' Activity relationships
+Activity "1" --> "1" Attendance
+Activity "1" --> "1" User
+
+' Attendance relationships
+Attendance "1" --> "1" Project
+Attendance "1" --> "1" User
+Attendance "1" *-- "0..*" Activity
+
+' Company relationships
+Company "1" *-- "0..*" Project
+
+' Course relationships
+Course "1" --> "1" University
+Course "1" *-- "0..*" User
+
+' Project relationships
+Project "1" --> "1" Company
+Project "1" --> "1" University
+Project "1" *-- "0..*" UserProject
+Project "1" *-- "0..*" Attendance
+Project "1" --> "1" User : CreatedBy
+
+' University relationships
+University "1" *-- "0..*" Project
+University "1" *-- "0..*" User
+University "1" *-- "0..*" Course
+
+' User relationships
+User "1" --> "1" University
+User "1" --> "1" Course
+User "1" *-- "0..*" UserProject
+User "1" *-- "0..*" Activity
+User "1" *-- "0..*" Attendance
+User "1" *-- "0..*" Project : CreatedBy
+User "1" *-- "0..*" UserRefreshToken
+
+' UserProject relationships
+UserProject "1" --> "1" User
+UserProject "1" --> "1" Project
+
+' UserRefreshToken relationships
+UserRefreshToken "1" --> "1" User
+
+' Value Objects relationships
+Company "1" --> "1" Address
+Company "1" --> "1" Email
+University "1" --> "1" Address
+University "1" --> "1" Email
+User "1" --> "1" Email
+
+' Notas sobre regras de negócio
+note top of UserType
+  **Regra de aprovação de projetos:**
+  - Intern: Cadastra projetos
+  - Coordinator: Aprova/Rejeita projetos
+end note
+
 @enduml
