@@ -22,13 +22,13 @@ public class Course : Entity
     )
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ErrorOnValidationException(new List<string> { "" });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseName });
         
         if (universityId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
         if (workloadHours <= 0)
-            throw new ErrorOnValidationException(new List<string> { "" });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidWorkloadHours });
 
 
         Id = id ?? Guid.NewGuid();
@@ -40,7 +40,7 @@ public class Course : Entity
     public void UpdateName(string name)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserName });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseName });
 
         Name = name;
         UpdateTimestamp();
@@ -49,9 +49,18 @@ public class Course : Entity
     public void UpdateWorkloadHours(int workloadHours)
     {
         if (workloadHours <= 0)
-            throw new ErrorOnValidationException(new List<string> { "" });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidWorkloadHours });
 
         WorkloadHours = workloadHours;
+        UpdateTimestamp();
+    }
+
+    public void UpdateUniversityId(Guid universityId)
+    {
+        if (universityId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
+
+        UniversityId = universityId;
         UpdateTimestamp();
     }
 }

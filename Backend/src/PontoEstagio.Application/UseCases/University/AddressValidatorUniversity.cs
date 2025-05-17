@@ -1,5 +1,6 @@
 using FluentValidation;
 using PontoEstagio.Communication.Request;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Application.UseCases.University;
 
@@ -8,21 +9,21 @@ public class AddressValidatorUniversity : AbstractValidator<RequestAddressJson>
     public AddressValidatorUniversity()
     {
         RuleFor(a => a.Street)
-            .NotEmpty().WithMessage("A rua é obrigatória.");
+            .NotEmpty().WithMessage(ErrorMessages.StreetRequired);
 
         RuleFor(a => a.Number)
-            .NotEmpty().WithMessage("O número é obrigatório.");
+            .NotEmpty().WithMessage(ErrorMessages.NumberRequired);
 
         RuleFor(a => a.City)
-            .NotEmpty().WithMessage("A cidade é obrigatória.");
+            .NotEmpty().WithMessage(ErrorMessages.CityRequired);
 
         RuleFor(a => a.State)
-            .NotEmpty().WithMessage("O estado é obrigatório.")
-            .Length(2).WithMessage("O estado deve conter 2 letras (UF).");
+            .NotEmpty().WithMessage(ErrorMessages.StateRequired)
+            .Length(2).WithMessage(ErrorMessages.StateInvalidLength);
 
         RuleFor(a => a.ZipCode)
-            .NotEmpty().WithMessage("O CEP é obrigatório.")
-            .Matches(@"^\d{8}$").WithMessage("O CEP deve conter exatamente 8 dígitos.");
+            .NotEmpty().WithMessage(ErrorMessages.ZipCodeRequired)
+            .Matches(@"^\d{5}-\d{3}$").WithMessage(ErrorMessages.ZipCodeInvalid);
     }
 }
 

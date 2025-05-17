@@ -5,6 +5,7 @@ using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Activity;
 using PontoEstagio.Domain.Repositories.Attendance;
 using PontoEstagio.Domain.Repositories.Comapany;
+using PontoEstagio.Domain.Repositories.Cource;
 using PontoEstagio.Domain.Repositories.EmailTemplate;
 using PontoEstagio.Domain.Repositories.PasswordRecovery;
 using PontoEstagio.Domain.Repositories.Projects;
@@ -73,6 +74,10 @@ public static class DependencyInjection
         services.AddScoped<ICompanyWriteOnlyRepository, CompanyRepository>();
         services.AddScoped<ICompanyReadOnlyRepository, CompanyRepository>();
         services.AddScoped<ICompanyUpdateOnlyRepository, CompanyRepository>();
+
+        services.AddScoped<ICourceReadOnlyRepository, CourceRepository>();
+        services.AddScoped<ICourceWriteOnlyRepository, CourceRepository>();
+        services.AddScoped<ICourceUpdateOnlyRepository, CourceRepository>();
 
         services.AddScoped<IProjectReadOnlyRepository, ProjectRepository>();
         services.AddScoped<IProjectWriteOnlyRepository, ProjectRepository>();

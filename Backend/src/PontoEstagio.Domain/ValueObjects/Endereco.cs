@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.ValueObjects;
@@ -20,7 +21,8 @@ public class Address
         if (string.IsNullOrWhiteSpace(city)) throw new ArgumentException(ErrorMessages.Address_CityRequired);
         if (string.IsNullOrWhiteSpace(state)) throw new ArgumentException(ErrorMessages.Address_StateRequired);
         if (string.IsNullOrWhiteSpace(zipCode)) throw new ArgumentException(ErrorMessages.Address_ZipCodeRequired);
-        if (zipCode.Length != 8) throw new ArgumentException(ErrorMessages.Address_ZipCodeInvalid);
+        if (!Regex.IsMatch(zipCode, @"^\d{5}-\d{3}$"))
+            throw new ArgumentException(ErrorMessages.Address_ZipCodeInvalid);
 
         Street = street;
         Number = number;

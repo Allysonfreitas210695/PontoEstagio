@@ -33,7 +33,7 @@ public class RegisterCompanyValidator : AbstractValidator<RequestRegisterCompany
             .WithMessage(ErrorMessages.Company_Phone_InvalidFormat);
 
         RuleFor(u => u.Address)
-            .NotNull().WithMessage("O endereço é obrigatório.")
+            .NotNull().WithMessage(ErrorMessages.AddressRequired)
             .SetValidator(new AddressValidatorCompany());
     }
 }

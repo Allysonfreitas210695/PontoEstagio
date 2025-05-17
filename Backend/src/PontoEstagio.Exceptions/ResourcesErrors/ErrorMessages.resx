@@ -405,4 +405,52 @@
   <data name="University_PhoneRequired" xml:space="preserve">
     <value>Telefone da universidade é obrigatório.</value>
   </data>
+  <data name="InvalidCourseName" xml:space="preserve">
+    <value>O nome do curso é inválido ou está em branco.</value>
+  </data>
+  <data name="InvalidWorkloadHours" xml:space="preserve">
+    <value>A carga horária deve ser maior que zero.</value>
+  </data>
+  <data name="CourseNameRequired" xml:space="preserve">
+    <value>O nome do curso é obrigatório.</value>
+  </data>
+  <data name="CourseNameMinLength" xml:space="preserve">
+    <value>O nome do curso deve ter pelo menos 3 caracteres.</value>
+  </data>
+  <data name="WorkloadHoursRequired" xml:space="preserve">
+    <value>A carga horária é obrigatória.</value>
+  </data>
+  <data name="WorkloadHoursGreaterThanZero" xml:space="preserve">
+    <value>A carga horária deve ser maior que zero.</value>
+  </data>
+  <data name="UniversityIdRequired" xml:space="preserve">
+    <value>O ID da universidade é obrigatório.</value>
+  </data>
+  <data name="CourseNotFound" xml:space="preserve">
+    <value>Curso não encontrado.</value>
+  </data>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>O endereço é obrigatório.</value>
+  </data>
+  <data name="StreetRequired" xml:space="preserve">
+    <value>A rua é obrigatória.</value>
+  </data>
+  <data name="NumberRequired" xml:space="preserve">
+    <value>O número é obrigatório.</value>
+  </data>
+  <data name="CityRequired" xml:space="preserve">
+    <value>A cidade é obrigatória.</value>
+  </data>
+  <data name="StateRequired" xml:space="preserve">
+    <value>O estado é obrigatório.</value>
+  </data>
+  <data name="StateInvalidLength" xml:space="preserve">
+    <value>O estado deve conter 2 letras (UF).</value>
+  </data>
+  <data name="ZipCodeRequired" xml:space="preserve">
+    <value>O CEP é obrigatório.</value>
+  </data>
+  <data name="ZipCodeInvalid" xml:space="preserve">
+    <value>O CEP deve conter exatamente 8 dígitos.</value>
+  </data>
 </root>

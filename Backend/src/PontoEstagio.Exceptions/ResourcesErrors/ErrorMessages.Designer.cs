@@ -133,6 +133,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O endereço é obrigatório..
+        /// </summary>
+        public static string AddressRequired {
+            get {
+                return ResourceManager.GetString("AddressRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Este código já foi utilizado..
         /// </summary>
         public static string AlreadyUsed {
@@ -237,6 +246,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string CheckOutTimeMustBeValid {
             get {
                 return ResourceManager.GetString("CheckOutTimeMustBeValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A cidade é obrigatória..
+        /// </summary>
+        public static string CityRequired {
+            get {
+                return ResourceManager.GetString("CityRequired", resourceCulture);
             }
         }
         
@@ -354,6 +372,33 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string Company_Phone_Required {
             get {
                 return ResourceManager.GetString("Company_Phone_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do curso deve ter pelo menos 3 caracteres..
+        /// </summary>
+        public static string CourseNameMinLength {
+            get {
+                return ResourceManager.GetString("CourseNameMinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do curso é obrigatório..
+        /// </summary>
+        public static string CourseNameRequired {
+            get {
+                return ResourceManager.GetString("CourseNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Curso não encontrado..
+        /// </summary>
+        public static string CourseNotFound {
+            get {
+                return ResourceManager.GetString("CourseNotFound", resourceCulture);
             }
         }
         
@@ -498,6 +543,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string InvalidCompanyId {
             get {
                 return ResourceManager.GetString("InvalidCompanyId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do curso é inválido ou está em branco..
+        /// </summary>
+        public static string InvalidCourseName {
+            get {
+                return ResourceManager.GetString("InvalidCourseName", resourceCulture);
             }
         }
         
@@ -682,11 +736,29 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A carga horária deve ser maior que zero..
+        /// </summary>
+        public static string InvalidWorkloadHours {
+            get {
+                return ResourceManager.GetString("InvalidWorkloadHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Nome não pode ser vazio..
         /// </summary>
         public static string NameCannotBeEmpty {
             get {
                 return ResourceManager.GetString("NameCannotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O número é obrigatório..
+        /// </summary>
+        public static string NumberRequired {
+            get {
+                return ResourceManager.GetString("NumberRequired", resourceCulture);
             }
         }
         
@@ -808,6 +880,33 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O estado deve conter 2 letras (UF)..
+        /// </summary>
+        public static string StateInvalidLength {
+            get {
+                return ResourceManager.GetString("StateInvalidLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O estado é obrigatório..
+        /// </summary>
+        public static string StateRequired {
+            get {
+                return ResourceManager.GetString("StateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A rua é obrigatória..
+        /// </summary>
+        public static string StreetRequired {
+            get {
+                return ResourceManager.GetString("StreetRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O supervisor já está atribuído a este projeto..
         /// </summary>
         public static string SupervisorAlreadyAssignedToProject {
@@ -858,6 +957,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string University_PhoneRequired {
             get {
                 return ResourceManager.GetString("University_PhoneRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O ID da universidade é obrigatório..
+        /// </summary>
+        public static string UniversityIdRequired {
+            get {
+                return ResourceManager.GetString("UniversityIdRequired", resourceCulture);
             }
         }
         
@@ -921,6 +1029,42 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string UserNotSupervisor {
             get {
                 return ResourceManager.GetString("UserNotSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A carga horária deve ser maior que zero..
+        /// </summary>
+        public static string WorkloadHoursGreaterThanZero {
+            get {
+                return ResourceManager.GetString("WorkloadHoursGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A carga horária é obrigatória..
+        /// </summary>
+        public static string WorkloadHoursRequired {
+            get {
+                return ResourceManager.GetString("WorkloadHoursRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O CEP deve conter exatamente 8 dígitos..
+        /// </summary>
+        public static string ZipCodeInvalid {
+            get {
+                return ResourceManager.GetString("ZipCodeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O CEP é obrigatório..
+        /// </summary>
+        public static string ZipCodeRequired {
+            get {
+                return ResourceManager.GetString("ZipCodeRequired", resourceCulture);
             }
         }
     }

@@ -16,24 +16,27 @@ public class CompanyBuilder
         Address? address = null
        )
     {
-        var faker = new Faker();
+        var faker = new Faker("pt_BR");
+
+        var fakeAddress = address ?? new Address(
+                faker.Address.StreetName(),
+                faker.Address.BuildingNumber(),
+                faker.Address.County(),
+                faker.Address.City(),
+                faker.Address.StateAbbr(),
+                faker.Address.ZipCode("#####-###"),
+                faker.Address.SecondaryAddress()
+            );
 
         var _email = email ?? faker.Internet.Email();
+
         return new Company(
             id: id ?? Guid.NewGuid(),
             name: name ?? faker.Company.CompanyName(),
             cnpj: cnpj ?? faker.Company.Cnpj(),
             phone: phone ?? faker.Phone.PhoneNumber(),
             email: Email.Criar(_email),
-            address: address ?? new Address(
-                faker.Address.StreetName(),        
-                faker.Random.Number(1, 9999).ToString(), 
-                faker.Address.County(),              
-                faker.Address.City(),                 
-                faker.Address.StateAbbr(),          
-                faker.Address.ZipCode("########"),   
-                faker.Address.SecondaryAddress()      
-            )
+            address: address ?? fakeAddress
         );
     } 
 }

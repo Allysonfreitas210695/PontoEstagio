@@ -17,6 +17,10 @@ using PontoEstagio.Application.UseCases.Company.GetAllCompany;
 using PontoEstagio.Application.UseCases.Company.GetCompanyById;
 using PontoEstagio.Application.UseCases.Company.Register;
 using PontoEstagio.Application.UseCases.Company.Update;
+using PontoEstagio.Application.UseCases.Cource.GetAllCources;
+using PontoEstagio.Application.UseCases.Cource.GetCourceById;
+using PontoEstagio.Application.UseCases.Cource.Register;
+using PontoEstagio.Application.UseCases.Cource.Update;
 using PontoEstagio.Application.UseCases.Login.DoLogin;
 using PontoEstagio.Application.UseCases.Projects.AssignUserToProject;
 using PontoEstagio.Application.UseCases.Projects.DeleteUserFromProject;
@@ -76,6 +80,11 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetAllCompanyUseCase, GetAllCompanyUseCase>();
         services.AddScoped<IGetCompanyByIdUseCase, GetCompanyByIdUseCase>();
         services.AddScoped<ICompanyUpdateUseCase, CompanyUpdateUseCase>();
+
+        services.AddScoped<IGetAllCourcesUseCase, GetAllCourcesUseCase>();
+        services.AddScoped<IGetCourceByIdUseCase, GetCourceByIdUseCase>();
+        services.AddScoped<IRegisterCourceUseCase, RegisterCourceUseCase>();
+        services.AddScoped<IUpdateCourceUseCase, UpdateCourceUseCase>();
 
         services.AddScoped<IGetAllProjectsUseCase, GetAllProjectsByUserUseCase>();
         services.AddScoped<IGetProjectByIdUseCase, GetProjectByIdUseCase>();
