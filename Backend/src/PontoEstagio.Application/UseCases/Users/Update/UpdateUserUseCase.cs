@@ -36,11 +36,10 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         _user.UpdateName(request.Name); 
         _user.UpdateType((UserType)request.Type);
         _user.UpdateEmail(request.Email);
+        _user.UpdateUniversityId(request.UniversityId);
        
-        if (request.isActive == true)
-            _user.Activate();
-        else if (request.isActive == false)
-            _user.Inactivate();
+        if (request.isActive == true) _user.Activate();
+        else if (request.isActive == false) _user.Inactivate();
             
         _userUpdateOnlyRepository.Update(_user);
 

@@ -28,7 +28,7 @@ public class ProjectTest
         // Assert
         act.Should()
            .Throw<ErrorOnValidationException>()
-           .Where(e => e.Errors.Contains(ErrorMessages.invalidProjectName));
+           .Where(e => e.Errors.Contains(ErrorMessages.InvalidProjectName));
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class ProjectTest
         // Assert
         act.Should()
            .Throw<ErrorOnValidationException>()
-           .Where(e => e.Errors.Contains(ErrorMessages.invalidProjectNameLength));
+           .Where(e => e.Errors.Contains(ErrorMessages.InvalidProjectNameLength));
     }
 
     [Fact]
@@ -64,6 +64,6 @@ public class ProjectTest
         // Assert
         act.Should()
            .Throw<ArgumentException>()
-           .WithMessage(ErrorMessages.invalidTotalHours);
+           .WithMessage(ErrorMessages.InvalidTotalHours);
     }
 }
