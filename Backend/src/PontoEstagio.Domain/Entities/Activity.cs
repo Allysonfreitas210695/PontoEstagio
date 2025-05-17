@@ -30,16 +30,16 @@ public class Activity : Entity
         Id = id ?? Guid.NewGuid();
 
         if (attendanceId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidAttendanceId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidAttendanceId });
 
         if (userId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserId });
 
         if (recordedAt > DateTime.Now)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidRecordedAtDate });
 
         if (proofFilePath != null && string.IsNullOrWhiteSpace(proofFilePath))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProofFilePath });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProofFilePath });
 
         AttendanceId = attendanceId;
         UserId = userId;

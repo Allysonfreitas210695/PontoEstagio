@@ -24,7 +24,7 @@ public class AttendanceTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-        .Which.Errors.Should().Contain(ErrorMessages.invalidUserId);
+        .Which.Errors.Should().Contain(ErrorMessages.InvalidUserId);
     }
 
     [Fact]
@@ -38,7 +38,7 @@ public class AttendanceTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidAttendanceDate);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidAttendanceDate);
     }
 
 
@@ -50,7 +50,7 @@ public class AttendanceTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidProjectId);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidProjectId);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class AttendanceTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidCheckOutTime);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidCheckOutTime);
     }
 
     [Fact]
@@ -79,6 +79,6 @@ public class AttendanceTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidCheckOutTime);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidCheckOutTime);
     }
 }

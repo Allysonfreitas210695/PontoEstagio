@@ -495,18 +495,18 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data de registro de ponto não pode ser no futuro..
         /// </summary>
-        public static string invalidAttendanceDate {
+        public static string InvalidAttendanceDate {
             get {
-                return ResourceManager.GetString("invalidAttendanceDate", resourceCulture);
+                return ResourceManager.GetString("InvalidAttendanceDate", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O ID de presença não pode ser vazio..
         /// </summary>
-        public static string invalidAttendanceId {
+        public static string InvalidAttendanceId {
             get {
-                return ResourceManager.GetString("invalidAttendanceId", resourceCulture);
+                return ResourceManager.GetString("InvalidAttendanceId", resourceCulture);
             }
         }
         
@@ -522,9 +522,9 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O horário de saída não pode ser anterior ao horário de entrada..
         /// </summary>
-        public static string invalidCheckOutTime {
+        public static string InvalidCheckOutTime {
             get {
-                return ResourceManager.GetString("invalidCheckOutTime", resourceCulture);
+                return ResourceManager.GetString("InvalidCheckOutTime", resourceCulture);
             }
         }
         
@@ -585,9 +585,9 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A senha do usuário não pode ser vazia..
         /// </summary>
-        public static string invalidPassword {
+        public static string InvalidPassword {
             get {
-                return ResourceManager.GetString("invalidPassword", resourceCulture);
+                return ResourceManager.GetString("InvalidPassword", resourceCulture);
             }
         }
         
@@ -603,36 +603,36 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O ID do projeto não pode ser vazio..
         /// </summary>
-        public static string invalidProjectId {
+        public static string InvalidProjectId {
             get {
-                return ResourceManager.GetString("invalidProjectId", resourceCulture);
+                return ResourceManager.GetString("InvalidProjectId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do projeto não pode ser vazio..
         /// </summary>
-        public static string invalidProjectName {
+        public static string InvalidProjectName {
             get {
-                return ResourceManager.GetString("invalidProjectName", resourceCulture);
+                return ResourceManager.GetString("InvalidProjectName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do projeto deve ter pelo menos 3 caracteres..
         /// </summary>
-        public static string invalidProjectNameLength {
+        public static string InvalidProjectNameLength {
             get {
-                return ResourceManager.GetString("invalidProjectNameLength", resourceCulture);
+                return ResourceManager.GetString("InvalidProjectNameLength", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O caminho do arquivo de comprovação não pode ser vazio..
         /// </summary>
-        public static string invalidProofFilePath {
+        public static string InvalidProofFilePath {
             get {
-                return ResourceManager.GetString("invalidProofFilePath", resourceCulture);
+                return ResourceManager.GetString("InvalidProofFilePath", resourceCulture);
             }
         }
         
@@ -655,6 +655,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A matrícula é obrigatória..
+        /// </summary>
+        public static string InvalidRegistration {
+            get {
+                return ResourceManager.GetString("InvalidRegistration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Status inválido..
         /// </summary>
         public static string InvalidStatus {
@@ -666,18 +675,18 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O token não pode ser vazio..
         /// </summary>
-        public static string invalidToken {
+        public static string InvalidToken {
             get {
-                return ResourceManager.GetString("invalidToken", resourceCulture);
+                return ResourceManager.GetString("InvalidToken", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O valor de TotalHours deve ser maior que 0..
         /// </summary>
-        public static string invalidTotalHours {
+        public static string InvalidTotalHours {
             get {
-                return ResourceManager.GetString("invalidTotalHours", resourceCulture);
+                return ResourceManager.GetString("InvalidTotalHours", resourceCulture);
             }
         }
         
@@ -702,18 +711,18 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O ID do usuário não pode ser vazio..
         /// </summary>
-        public static string invalidUserId {
+        public static string InvalidUserId {
             get {
-                return ResourceManager.GetString("invalidUserId", resourceCulture);
+                return ResourceManager.GetString("InvalidUserId", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do usuário não pode ser vazio..
         /// </summary>
-        public static string invalidUserName {
+        public static string InvalidUserName {
             get {
-                return ResourceManager.GetString("invalidUserName", resourceCulture);
+                return ResourceManager.GetString("InvalidUserName", resourceCulture);
             }
         }
         

@@ -62,8 +62,7 @@ public static class SeedDatabaseInitial
                                     new Random().Next(100000, 999999).ToString(),
                                     Email.Criar("admin@admin.com"), 
                                     UserType.Admin,
-                                    BCrypt.Net.BCrypt.HashPassword("!Aa1234567"),
-                                    true
+                                    BCrypt.Net.BCrypt.HashPassword("!Aa1234567")
                                 );
         await dbContext.Users.AddAsync(adminUser);
         await dbContext.SaveChangesAsync();
@@ -90,8 +89,7 @@ public static class SeedDatabaseInitial
                 faker.Name.FullName(),
                 Email.Criar(faker.Internet.Email()),
                 userType,
-                faker.Internet.Password(prefix: "!Aa1"),
-                true
+                faker.Internet.Password(prefix: "!Aa1")
             );
             users.Add(user);
         }
@@ -165,7 +163,7 @@ public static class SeedDatabaseInitial
                     faker.Address.County(),              
                     faker.Address.City(),             
                     faker.Address.StateAbbr(),           
-                    faker.Address.ZipCode("########"),   
+                    faker.Address.ZipCode("#####-###"),   
                     faker.Address.SecondaryAddress()      
                 )
             );

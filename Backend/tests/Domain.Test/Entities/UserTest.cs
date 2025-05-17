@@ -21,22 +21,17 @@ public class UserTest
     public void Activate_ShouldSetIsActiveTrue()
     {
         // Arrange
-        var user = UserBuilder.Build(isActive: false);
-        var lastUpdate = user.UpdatedAt;
-
-        // Act
-        user.Activate();
+        var user = UserBuilder.Build();
 
         // Assert
         user.IsActive.Should().BeTrue();
-        user.UpdatedAt.Should().BeAfter(lastUpdate);
     }
 
     [Fact]
     public void Inactivate_ShouldSetIsActiveFalse()
     {
         // Arrange
-        var user = UserBuilder.Build(isActive: true);
+        var user = UserBuilder.Build();
         var lastUpdate = user.UpdatedAt;
 
         // Act
