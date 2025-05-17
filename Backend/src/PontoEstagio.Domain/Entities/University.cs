@@ -16,7 +16,8 @@ public class University : Entity
     public Address Address { get; private set; } = default!;
     public ICollection<User> Users { get; private set; } = new List<User>();
     public ICollection<Project> Projects { get; private set; } = new List<Project>();
-
+    public ICollection<Course> Courses { get; private set; } = new List<Course>();
+    
     public University()
     {
         

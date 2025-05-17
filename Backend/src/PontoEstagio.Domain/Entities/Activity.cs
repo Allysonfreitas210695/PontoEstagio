@@ -9,14 +9,11 @@ public class Activity : Entity
 {
     public Guid AttendanceId { get; private set; }
     public Guid UserId { get; private set; }
-
     public string Description { get; private set; } = string.Empty;
     public DateTime RecordedAt { get; private set; }
     public string? ProofFilePath { get; private set; }
     public ActivityStatus Status { get; private set; }
-
     public Attendance Attendance { get; private set; } = default!;
-
     public User User { get; private set; } = default!;
     
     protected Activity() { }

@@ -9,13 +9,11 @@ namespace PontoEstagio.Domain.Entities;
 public class PasswordRecovery : Entity
 {
     private static readonly TimeSpan ExpirationTime = TimeSpan.FromMinutes(3);
-
     public Guid UserId { get; private set; }
     public string Code { get; private set; } = default!; 
     public bool Used { get; private set; } = false;
-
     public User User { get; set; } = default!;
-
+    
     public PasswordRecovery() { }
 
     public PasswordRecovery(Guid? id, Guid userId, string code)

@@ -11,7 +11,7 @@ public class Company : Entity
     public string Phone { get; private set; } = string.Empty;
     public Email Email { get; private set; } = default!;
     public bool IsActive { get; private set; }
-    public Address Address { get; private set; }
+    public Address Address { get; private set; } = default!;
     
     public virtual ICollection<Project> Projects { get; private set; } = new List<Project>();
 

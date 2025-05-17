@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PontoEstagio.Infrastructure.Context;
@@ -11,9 +12,11 @@ using PontoEstagio.Infrastructure.Context;
 namespace PontoEstagio.Infrastructure.Migrations
 {
     [DbContext(typeof(PontoEstagioDbContext))]
-    partial class PontoEstagioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250517151827_AddTableCource")]
+    partial class AddTableCource
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -336,9 +339,6 @@ namespace PontoEstagio.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CourseId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -371,8 +371,6 @@ namespace PontoEstagio.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.HasIndex("UniversityId");
 
@@ -702,12 +700,6 @@ namespace PontoEstagio.Infrastructure.Migrations
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.User", b =>
                 {
-                    b.HasOne("PontoEstagio.Domain.Entities.Course", "Course")
-                        .WithMany("Users")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("PontoEstagio.Domain.Entities.University", "University")
                         .WithMany("Users")
                         .HasForeignKey("UniversityId")
@@ -735,8 +727,6 @@ namespace PontoEstagio.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
                         });
-
-                    b.Navigation("Course");
 
                     b.Navigation("Email")
                         .IsRequired();
@@ -782,11 +772,6 @@ namespace PontoEstagio.Infrastructure.Migrations
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Company", b =>
                 {
                     b.Navigation("Projects");
-                });
-
-            modelBuilder.Entity("PontoEstagio.Domain.Entities.Course", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("PontoEstagio.Domain.Entities.Project", b =>
