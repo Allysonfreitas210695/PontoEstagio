@@ -34,6 +34,7 @@ using PontoEstagio.Application.UseCases.University.GetAllUniversities;
 using PontoEstagio.Application.UseCases.University.GetUniversityById;
 using PontoEstagio.Application.UseCases.University.Register;
 using PontoEstagio.Application.UseCases.University.Update;
+using PontoEstagio.Application.UseCases.Users.CheckUserExists;
 using PontoEstagio.Application.UseCases.Users.Deactivated;
 using PontoEstagio.Application.UseCases.Users.Delete;
 using PontoEstagio.Application.UseCases.Users.GetAllUsers;
@@ -55,6 +56,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<IForgotPasswordUseCase, ForgotPasswordUseCase>();
         services.AddScoped<IResetPasswordUseCase, ResetPasswordUseCase>();
 
+        services.AddScoped<ICheckUserExistsUseCase, CheckUserExistsUseCase>();
         services.AddScoped<IActivateUserUseCase, ActivateUserUseCase>();
         services.AddScoped<IRegisterActivityUseCase, RegisterActivityUseCase>();
         services.AddScoped<IDeactivatedUserUseCase, DeactivatedUserUseCase>();

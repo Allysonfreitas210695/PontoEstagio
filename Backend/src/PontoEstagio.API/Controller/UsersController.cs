@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PontoEstagio.Application.UseCases.Users.CheckUserExists;
 using PontoEstagio.Application.UseCases.Users.Deactivated;
 using PontoEstagio.Application.UseCases.Users.Delete;
 using PontoEstagio.Application.UseCases.Users.GetAllUsers;
@@ -16,6 +17,17 @@ namespace PontoEstagio.API.Controller;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
+    [HttpPost("check-user")]
+    [ProducesResponseType(typeof(RequestRegisterUserJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CheckIfUserExists(
+        [FromServices] ICheckUserExistsUseCase useCase,
+        [FromBody] RequestCheckUserExistsUserJson request
+    )
+    { 
+        return Ok(await useCase.Execute(request));
+    }
+
     [Authorize(Roles = nameof(UserType.Admin))]
     [HttpPost]
     [ProducesResponseType(typeof(ResponseLoggedUserJson), StatusCodes.Status201Created)]
