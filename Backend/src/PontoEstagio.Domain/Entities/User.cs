@@ -35,16 +35,12 @@ public class User : Entity
             string password
     )
     {
-        Id = id is null ? Guid.NewGuid() : id.Value;
 
         if (universityId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
-        if (courseId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { "" });
-
         if ((type == UserType.Intern || type == UserType.Coordinator) && courseId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { "" });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseIdForUserType });
 
         if (string.IsNullOrWhiteSpace(name))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserName });
@@ -58,6 +54,7 @@ public class User : Entity
         if (!UserType.IsDefined(typeof(UserType), type))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserType });
 
+        Id = id is null ? Guid.NewGuid() : id.Value;
         Name = name;
         Email = email;
         Type = type;
@@ -65,6 +62,7 @@ public class User : Entity
         IsActive = true;
         Registration = registration;
         UniversityId = universityId;
+        CourseId = courseId;
     }
 
     public void Inactivate()
@@ -127,6 +125,15 @@ public class User : Entity
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
         UniversityId = universityId;
+        UpdateTimestamp();
+    }
+
+    public void UpdateCourseId(Guid courseId)
+    {
+        if ((Type == UserType.Intern || Type == UserType.Coordinator) && courseId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseIdForUserType });
+
+        CourseId = courseId;
         UpdateTimestamp();
     }
 }

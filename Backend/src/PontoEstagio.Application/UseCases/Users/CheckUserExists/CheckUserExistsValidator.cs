@@ -1,4 +1,5 @@
 using FluentValidation;
+using PontoEstagio.Application.Helpers;
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
@@ -16,6 +17,6 @@ public class CheckUserExistsValidator : AbstractValidator<RequestCheckUserExists
             .WithMessage(ErrorMessages.InvalidEmailFormat);
             
         RuleFor(user => user.Password)
-            .SetValidator(new PasswordCheckUserValidator<RequestCheckUserExistsUserJson>());
+            .SetValidator(new PasswordValidator<RequestCheckUserExistsUserJson>());
     }
 }

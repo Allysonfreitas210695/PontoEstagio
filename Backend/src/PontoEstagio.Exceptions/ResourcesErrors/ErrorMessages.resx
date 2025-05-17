@@ -456,4 +456,7 @@
   <data name="InvalidRegistration" xml:space="preserve">
     <value>A matrícula é obrigatória.</value>
   </data>
+  <data name="InvalidCourseIdForUserType" xml:space="preserve">
+    <value>Usuários do tipo Estagiário ou Coordenador devem estar vinculados a um curso.</value>
+  </data>
 </root>

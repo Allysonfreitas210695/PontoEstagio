@@ -547,6 +547,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Usuários do tipo Estagiário ou Coordenador devem estar vinculados a um curso..
+        /// </summary>
+        public static string InvalidCourseIdForUserType {
+            get {
+                return ResourceManager.GetString("InvalidCourseIdForUserType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do curso é inválido ou está em branco..
         /// </summary>
         public static string InvalidCourseName {

@@ -1,5 +1,6 @@
 ﻿
 using FluentValidation;
+using PontoEstagio.Application.Helpers;
 using PontoEstagio.Communication.Request;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
