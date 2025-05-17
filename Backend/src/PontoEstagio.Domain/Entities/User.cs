@@ -16,7 +16,7 @@ public class User : Entity
     public string Password { get; private set; } = string.Empty;
     public Guid UniversityId { get; private set; }
     public virtual University University { get; private set; } = default!;
-    public Guid CourseId { get; set; }
+    public Guid? CourseId { get; set; }
     public Course Course { get; set; } = default!;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
     public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
@@ -27,6 +27,7 @@ public class User : Entity
     public User(
             Guid? id,
             Guid universityId,
+            Guid courseId,
             string name,
             string registration,
             Email email,
@@ -36,11 +37,17 @@ public class User : Entity
     {
         Id = id is null ? Guid.NewGuid() : id.Value;
 
-        if (string.IsNullOrWhiteSpace(name))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserName });
-
         if (universityId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
+
+        if (courseId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { "" });
+
+        if ((type == UserType.Intern || type == UserType.Coordinator) && courseId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { "" });
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserName });
 
         if (string.IsNullOrWhiteSpace(password))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidPassword });
