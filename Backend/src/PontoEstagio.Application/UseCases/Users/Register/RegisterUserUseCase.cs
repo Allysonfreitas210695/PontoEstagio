@@ -93,6 +93,10 @@ public class RegisterUserUseCase : IRegisterUserUseCase
         if (emailExist)
             result.Errors.Add(new ValidationFailure(string.Empty, ErrorMessages.EmailAlreadyInUse));
 
+
+        if (await _userReadOnlyRepository.ExistActiveUserWithRegistrationAsync(request.Registration))
+            result.Errors.Add(new ValidationFailure(string.Empty, ErrorMessages.RegistrationAlreadyInUse));
+
         if (result.IsValid == false)
         {
             var errorMessages = result.Errors.Select(f => f.ErrorMessage).ToList();

@@ -880,6 +880,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Já existe um usuário cadastrado com esta matrícula..
+        /// </summary>
+        public static string RegistrationAlreadyInUse {
+            get {
+                return ResourceManager.GetString("RegistrationAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O código deve ter exatamente 6 caracteres..
         /// </summary>
         public static string ResetPassword_Code_Length {
