@@ -28,6 +28,11 @@ public class UserProjectsRepository : IUserProjectsReadOnlyRepository, IUserProj
                                          );
     }
 
+    public async Task<bool> IsSupervisorAlreadyAssignedToProjectAsync(Guid projectId)
+    {
+        return await _dbContext.UserProjects.AsNoTracking().AnyAsync(up => up.ProjectId == projectId && up.User.Type == Domain.Enum.UserType.Supervisor);
+    }
+
     public async Task<UserProject?> GetActiveUserProjectAsync(Guid projectId, Guid userId)
     {
         return await _dbContext.UserProjects

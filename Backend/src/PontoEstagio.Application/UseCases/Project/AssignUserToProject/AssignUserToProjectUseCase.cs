@@ -48,8 +48,7 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (intern.Type != UserType.Intern)
             throw new ForbiddenException(ErrorMessages.UserNotIntern);
 
-        var alreadyAssignedToProject = await _userProjectsReadOnlyRepository
-            .ExistsProjectAssignedToUserAsync(projectId, intern.Id);
+        var alreadyAssignedToProject = await _userProjectsReadOnlyRepository.ExistsProjectAssignedToUserAsync(projectId, intern.Id);
         if (alreadyAssignedToProject)
             throw new NotFoundException(ErrorMessages.UserAlreadyAssignedToProject);
 
@@ -64,9 +63,11 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (supervisor.Type != UserType.Supervisor)
             throw new ForbiddenException(ErrorMessages.UserNotIntern);
 
-        var supervisorAssigned = await _userProjectsReadOnlyRepository
-            .ExistsProjectAssignedToUserAsync(projectId, supervisor.Id);
+        var projectAlreadyHasSupervisor = await _userProjectsReadOnlyRepository.IsSupervisorAlreadyAssignedToProjectAsync(projectId);
+        if (projectAlreadyHasSupervisor)
+            throw new BusinessRuleException(ErrorMessages.SupervisorAlreadyAssignedToProject);
 
+        var supervisorAssigned = await _userProjectsReadOnlyRepository.ExistsProjectAssignedToUserAsync(projectId, supervisor.Id);
         if (supervisorAssigned)
             throw new NotFoundException(ErrorMessages.SupervisorAlreadyAssignedToProject);
 
