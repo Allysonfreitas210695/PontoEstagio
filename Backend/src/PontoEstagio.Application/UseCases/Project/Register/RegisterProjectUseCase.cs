@@ -48,7 +48,7 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
             request.Name, 
             request.Description, 
             request.TotalHours,
-            ProjectStatus.Planning, 
+            ProjectStatus.Pending, 
             request.StartDate,
             request.EndDate,
             user.Id
