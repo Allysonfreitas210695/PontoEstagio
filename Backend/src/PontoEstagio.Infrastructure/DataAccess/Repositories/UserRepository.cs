@@ -23,6 +23,17 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository,
         return await _dbContext.Users.AnyAsync(user => user.Email.Endereco.Equals(email));
     }
 
+    public async Task<bool> ExistActiveUserWithRegistrationAsync(string registration)
+    {
+        return await _dbContext.Users.AnyAsync(u => u.Registration == registration && u.IsActive);
+    }
+
+    public async Task<bool> ExistOtherUserWithSameRegistrationAsync(Guid userId, string registration)
+    {
+        return await _dbContext.Users
+            .AnyAsync(u => u.Registration == registration && u.Id != userId && u.IsActive);
+    }
+
     public async Task<List<User>> GetAllUsersAsync()
     {
         return await _dbContext.Users.AsNoTracking().AsNoTracking().ToListAsync();

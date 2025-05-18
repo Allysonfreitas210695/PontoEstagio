@@ -1,4 +1,5 @@
 ﻿using PontoEstagio.Communication.Request;
+using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
@@ -31,7 +32,11 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         var _user = await _userUpdateOnlyRepository.GetUserByIdAsync(id);
 
         if (_user is null)
-            throw new NotFoundException(ErrorMessages.UserNotFound); 
+            throw new NotFoundException(ErrorMessages.UserNotFound);
+
+        var registrationExists = await _userUpdateOnlyRepository.ExistOtherUserWithSameRegistrationAsync(_user.Id, request.Registration);
+        if (registrationExists)
+            throw new BusinessRuleException(ErrorMessages.RegistrationAlreadyInUse);
 
         _user.UpdateName(request.Name); 
         _user.UpdateType((UserType)request.Type);

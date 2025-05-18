@@ -465,4 +465,7 @@
   <data name="ProjectNotApprovedYet" xml:space="preserve">
     <value>O cadastro de estágio ainda não foi aprovado pelo coordenador.</value>
   </data>
+  <data name="RegistrationAlreadyInUse" xml:space="preserve">
+    <value>Já existe um usuário cadastrado com esta matrícula.</value>
+  </data>
 </root>
