@@ -9,8 +9,10 @@ public class RegisterAttendanceValidator : AbstractValidator<RequestRegisterAtte
     public RegisterAttendanceValidator()
     {
         RuleFor(x => x.Date)
-            .NotEmpty().WithMessage(ErrorMessages.DateIsRequired)
-            .LessThanOrEqualTo(DateTime.Now.Date).WithMessage(ErrorMessages.DateCannotBeInTheFuture);
+            .Cascade(CascadeMode.Stop)
+            .Must(date => date != default).WithMessage(ErrorMessages.DateIsRequired)
+            .Must(date => date.Date == DateTime.Now.Date)
+            .WithMessage(ErrorMessages.InvalidAttendanceDate);
 
         RuleFor(x => x.CheckIn)
             .NotEmpty().WithMessage(ErrorMessages.CheckInTimeIsRequired)

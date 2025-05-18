@@ -26,7 +26,7 @@ public class AttendanceBuilder
             id: id ?? Guid.NewGuid(),
             userId: userId ?? Guid.NewGuid(),
             projectId: projectId ?? Guid.NewGuid(),
-            date: date ?? faker.Date.Past(1).Date,
+            date: date ?? DateTime.Now.Date,
             checkIn: fakeCheckIn,
             checkOut: fakeCheckOut,
             status: status ?? faker.PickRandom<AttendanceStatus>(),

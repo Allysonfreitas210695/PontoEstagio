@@ -20,7 +20,7 @@ public class AttendanceTest
     public void CreateAttendance_WithEmptyUserId_ShouldThrowException()
     {
         // Arrange & Act
-        Action act = () => AttendanceBuilder.Build(userId: Guid.Empty);
+        Action act = () => AttendanceBuilder.Build(userId: Guid.Empty, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
@@ -46,7 +46,7 @@ public class AttendanceTest
     public void CreateActivity_WithEmptyProjectId_ShouldThrowException()
     {
         // Arrange & Act
-        Action act = () => AttendanceBuilder.Build(projectId: Guid.Empty);
+        Action act = () => AttendanceBuilder.Build(projectId: Guid.Empty, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
@@ -61,7 +61,7 @@ public class AttendanceTest
         var checkOut = new TimeSpan(9, 0, 0);  
 
         // Act
-        Action act = () => AttendanceBuilder.Build(checkIn: checkIn, checkOut: checkOut);
+        Action act = () => AttendanceBuilder.Build(checkIn: checkIn, checkOut: checkOut, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
@@ -75,7 +75,7 @@ public class AttendanceTest
         var time = new TimeSpan(9, 0, 0); 
 
         // Act
-        Action act = () => AttendanceBuilder.Build(checkIn: time, checkOut: time);
+        Action act = () => AttendanceBuilder.Build(checkIn: time, checkOut: time, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()

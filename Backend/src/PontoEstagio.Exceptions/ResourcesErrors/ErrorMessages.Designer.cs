@@ -493,7 +493,7 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a A data de registro de ponto não pode ser no futuro..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a A frequência só pode ser registrada para a data atual..
         /// </summary>
         public static string InvalidAttendanceDate {
             get {

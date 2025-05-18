@@ -7,12 +7,11 @@ namespace Validators.Test.Attendance.Register;
 
 public class RegisterAttendanceValidatorTest
 {
-    private readonly RegisterAttendanceValidator _validator = new();
-
 
     [Fact]
     public void Success()
     {
+        var _validator = new RegisterAttendanceValidator();
         var request = RequestRegisterAttendanceJsonBuilder.Build(); 
 
         var result = _validator.Validate(request);
@@ -23,6 +22,7 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Should_Return_Error_When_Date_Is_Empty()
     {
+        var _validator = new RegisterAttendanceValidator();
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.Date = default;
 
@@ -36,18 +36,22 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Should_Return_Error_When_Date_Is_In_The_Future()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
-        request.Date = DateTime.Now.AddDays(1);
+        request.Date = request.Date.AddDays(1);
 
         var result = _validator.Validate(request);
 
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.DateCannotBeInTheFuture);
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidAttendanceDate);
     }
 
     [Fact]
     public void Should_Return_Error_When_CheckIn_Is_Empty()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.CheckIn = default;
 
@@ -60,6 +64,8 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Should_Return_Error_When_CheckIn_Is_Zero()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.CheckIn = TimeSpan.Zero;
 
@@ -72,6 +78,8 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Should_Return_Error_When_CheckOut_Is_Empty()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.CheckOut = default;
 
@@ -84,6 +92,8 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Should_Return_Error_When_CheckOut_Is_Zero()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.CheckOut = TimeSpan.Zero;
 
@@ -96,6 +106,8 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Should_Return_Error_When_CheckOut_Is_Before_CheckIn()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.CheckIn = new TimeSpan(10, 0, 0);   // 10:00
         request.CheckOut = new TimeSpan(9, 0, 0);   // 09:00
@@ -109,6 +121,8 @@ public class RegisterAttendanceValidatorTest
     [Fact]
     public void Validate_ShouldFail_When_ProofImageBase64_IsEmpty()
     {
+        var _validator = new RegisterAttendanceValidator();
+
         var request = RequestRegisterAttendanceJsonBuilder.Build();
         request.ProofImageBase64 = String.Empty;
 
