@@ -50,9 +50,13 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
         if (_user.Type != UserType.Intern)
             throw new ForbiddenException(ErrorMessages.InvalidUserType);
 
-       var existingProject = await _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(_user.Id);
-        if (existingProject != null)
-            throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
+        var existingProject = await _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(_user.Id);
+
+        if (existingProject == null)
+            throw new NotFoundException(ErrorMessages.UserHasNoOngoingProject);
+
+        if (existingProject.Status != ProjectStatus.InProgress)
+            throw new BusinessRuleException(ErrorMessages.ProjectNotApprovedYet);
 
         var existingAttendance = await _attendanceReadOnlyRepository.GetByUserIdAndDateAsync(_user.Id, request.Date);
         if (existingAttendance != null)

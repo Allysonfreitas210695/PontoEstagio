@@ -862,6 +862,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O cadastro de estágio ainda não foi aprovado pelo coordenador..
+        /// </summary>
+        public static string ProjectNotApprovedYet {
+            get {
+                return ResourceManager.GetString("ProjectNotApprovedYet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Projeto não encontrado..
         /// </summary>
         public static string ProjectNotFound {
@@ -1002,6 +1011,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string UserAlreadyHasOngoingProject {
             get {
                 return ResourceManager.GetString("UserAlreadyHasOngoingProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O usuário não possui cadastro de estágio em andamento..
+        /// </summary>
+        public static string UserHasNoOngoingProject {
+            get {
+                return ResourceManager.GetString("UserHasNoOngoingProject", resourceCulture);
             }
         }
         

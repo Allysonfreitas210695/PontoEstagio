@@ -459,4 +459,10 @@
   <data name="InvalidCourseIdForUserType" xml:space="preserve">
     <value>Usuários do tipo Estagiário ou Coordenador devem estar vinculados a um curso.</value>
   </data>
+  <data name="UserHasNoOngoingProject" xml:space="preserve">
+    <value>O usuário não possui cadastro de estágio em andamento.</value>
+  </data>
+  <data name="ProjectNotApprovedYet" xml:space="preserve">
+    <value>O cadastro de estágio ainda não foi aprovado pelo coordenador.</value>
+  </data>
 </root>
