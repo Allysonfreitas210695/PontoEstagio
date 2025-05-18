@@ -9,7 +9,7 @@ public class Project : Entity
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public ProjectStatus Status { get; set; } = ProjectStatus.Planning;
+    public ProjectStatus Status { get; set; } = ProjectStatus.Pending;
     public DateTime StartDate { get;  set; }
     public DateTime? EndDate { get;  set; } 
     public long TotalHours { get; set; } 
