@@ -41,7 +41,7 @@ public class Attendance : Entity
         if (projectId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectId });
 
-        if (date > DateTime.Now.Date)
+        if (date.Date != DateTime.Now.Date)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidAttendanceDate });
 
         if (checkOut <= checkIn)

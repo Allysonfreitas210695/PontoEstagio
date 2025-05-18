@@ -256,7 +256,7 @@
     <value>O ID do usuário não pode ser vazio.</value>
   </data>
   <data name="InvalidAttendanceDate" xml:space="preserve">
-    <value>A data de registro de ponto não pode ser no futuro.</value>
+    <value>A frequência só pode ser registrada para a data atual.</value>
   </data>
   <data name="InvalidCheckOutTime" xml:space="preserve">
     <value>O horário de saída não pode ser anterior ao horário de entrada.</value>
