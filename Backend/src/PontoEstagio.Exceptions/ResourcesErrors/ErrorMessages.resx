@@ -468,4 +468,7 @@
   <data name="RegistrationAlreadyInUse" xml:space="preserve">
     <value>Já existe um usuário cadastrado com esta matrícula.</value>
   </data>
+  <data name="InternAlreadyAssignedToActiveProject" xml:space="preserve">
+    <value>O aluno já está vinculado a um projeto de estágio com status ativo.</value>
+  </data>
 </root>
