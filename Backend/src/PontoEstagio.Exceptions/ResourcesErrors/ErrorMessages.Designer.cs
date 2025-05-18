@@ -493,6 +493,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O aluno já está vinculado a um projeto de estágio com status ativo..
+        /// </summary>
+        public static string InternAlreadyAssignedToActiveProject {
+            get {
+                return ResourceManager.GetString("InternAlreadyAssignedToActiveProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A frequência só pode ser registrada para a data atual..
         /// </summary>
         public static string InvalidAttendanceDate {

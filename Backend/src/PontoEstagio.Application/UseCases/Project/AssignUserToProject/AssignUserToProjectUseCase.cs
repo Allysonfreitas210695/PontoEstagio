@@ -53,10 +53,9 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (alreadyAssignedToProject)
             throw new NotFoundException(ErrorMessages.UserAlreadyAssignedToProject);
 
-        var existingProject = await _userProjectsReadOnlyRepository
-            .GetCurrentProjectForUserAsync(intern.Id);
-        if (existingProject != null)
-            throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
+        var existingProject = await _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(intern.Id);
+        if (existingProject != null && existingProject.Status == ProjectStatus.InProgress)
+            throw new BusinessRuleException(ErrorMessages.InternAlreadyAssignedToActiveProject);
 
         var supervisor = await _userReadOnlyRepository.GetUserByIdAsync(request.Supervisor_Id);
         if (supervisor is null)
