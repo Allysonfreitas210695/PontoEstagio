@@ -35,7 +35,7 @@ public class Activity : Entity
         if (userId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserId });
 
-        if (recordedAt > DateTime.Now)
+        if (recordedAt > DateTime.UtcNow)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidRecordedAtDate });
 
         if (proofFilePath != null && string.IsNullOrWhiteSpace(proofFilePath))

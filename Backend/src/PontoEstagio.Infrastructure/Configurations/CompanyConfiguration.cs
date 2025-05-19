@@ -63,7 +63,7 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
             address.Property(a => a.ZipCode)
                 .HasColumnName("ZipCode")
                 .IsRequired()
-                .HasMaxLength(8);
+                .HasMaxLength(9);
 
             address.Property(a => a.Complement)
                 .HasColumnName("Complement")

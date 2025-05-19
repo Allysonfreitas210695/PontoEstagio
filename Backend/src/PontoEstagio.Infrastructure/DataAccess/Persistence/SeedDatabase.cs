@@ -117,7 +117,7 @@ public static class SeedDatabaseInitial
     }
 
     private static async Task SeedUniversities(PontoEstagioDbContext dbContext)
-    {
+    { 
         var faker = new Faker("pt_BR");
         var universities = new List<University>();
 
@@ -125,9 +125,9 @@ public static class SeedDatabaseInitial
         {
             var name = faker.Company.CompanyName();
             var acronym = new string(name
-                .Where(char.IsUpper)
-                .DefaultIfEmpty(name[0])
-                .ToArray());
+                    .Where(char.IsUpper)
+                    .DefaultIfEmpty(name[0])
+                    .ToArray());
 
             var cnpj = faker.Company.Cnpj();
             var phone = faker.Phone.PhoneNumber();
@@ -158,7 +158,7 @@ public static class SeedDatabaseInitial
         }
 
         await dbContext.Universities.AddRangeAsync(universities);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(); 
     }
 
     private static async Task SeedCourses(PontoEstagioDbContext dbContext)
@@ -303,23 +303,31 @@ public static class SeedDatabaseInitial
 
         var savedUserProjects = await dbContext.UserProjects.AsNoTracking().ToListAsync();
 
-        foreach (var up in savedUserProjects.Where(up => up.Role == UserType.Intern))
+        try
         {
-            var attendance = new Attendance(
-                Guid.NewGuid(),
-                up.UserId,
-                up.ProjectId,
-                DateTime.Today,
-                new TimeSpan(8, 0, 0),
-                new TimeSpan(17, 0, 0),
-                faker.PickRandom<AttendanceStatus>(),
-                faker.Image.PicsumUrl(200, 200)
-            );
-            attendances.Add(attendance);
-        }
+            foreach (var up in savedUserProjects.Where(up => up.Role == UserType.Intern))
+            {
+                var attendance = new Attendance(
+                    Guid.NewGuid(),
+                    up.UserId,
+                    up.ProjectId,
+                    DateTime.UtcNow,
+                    new TimeSpan(8, 0, 0),
+                    new TimeSpan(17, 0, 0),
+                    faker.PickRandom<AttendanceStatus>(),
+                    faker.Image.PicsumUrl(200, 200)
+                );
+                attendances.Add(attendance);
+            }
 
-        await dbContext.Attendances.AddRangeAsync(attendances);
-        await dbContext.SaveChangesAsync();
+            await dbContext.Attendances.AddRangeAsync(attendances);
+            await dbContext.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex?.InnerException?.Message ?? ex.Message);
+        }
 
         var savedAttendances = await dbContext.Attendances.AsNoTracking().ToListAsync();
 
@@ -331,13 +339,13 @@ public static class SeedDatabaseInitial
                 attendance.Id,
                 attendance.UserId,
                 faker.Lorem.Sentence(),
-                DateTime.Now
+                DateTime.UtcNow
             );
             activities.Add(activity);
         }
-
+ 
         await dbContext.Activitys.AddRangeAsync(activities);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(); 
     }
 
     private static async Task SeedEmailTemplates(PontoEstagioDbContext dbContext)
