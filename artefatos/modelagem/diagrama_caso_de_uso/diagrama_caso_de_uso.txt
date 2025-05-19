@@ -1,0 +1,53 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+
+' ### Atores ###
+actor Aluno as aluno
+actor Coordenador as coordenador
+actor Supervisor as supervisor
+
+' ### Casos de Uso Principais ###
+rectangle Sistema {
+(RF01 - Seleção de classificação do usuário) as rf01
+(RF02 - Cadastro de usuário) as rf02
+(RF03 - Login de usuário) as rf03
+(RF04 - Recuperação de senha) as rf04
+
+aluno --> rf01
+coordenador --> rf01
+
+aluno --> rf03
+coordenador --> rf03
+supervisor --> rf03
+
+rf01 <|-- rf02 : <<include>>
+rf03 .> rf04 : <<extend>> "para recuperação"
+
+aluno --> (RF05 - Solicitação de cadastro de estágio)
+aluno --> (RF08 - Cadastro de frequência)
+aluno --> (RF11 - Visualização do progresso do estágio)
+aluno --> (RF12 - Geração de relatório de estágio)
+
+coordenador --> (RF09 - Aprovação do cadastro de estágio)
+
+supervisor --> (RF10 - Aprovação de frequência)
+
+' Extensões do cadastro de estágio
+(RF05 - Solicitação de cadastro de estágio) .> (RF06 - Solicitação de cadastro da empresa) : <<extend>> "se empresa não existir"
+(RF05 - Solicitação de cadastro de estágio) .> (RF07 - Solicitação de cadastro do supervisor) : <<extend>> "se supervisor não existir"
+
+' Aprovação e validação
+(RF08 - Cadastro de frequência) <.. (RF10 - Aprovação de frequência) : <<extend>> "validação"
+(RF05 - Solicitação de cadastro de estágio) <.. (RF09 - Aprovação do cadastro de estágio) : <<extend>> "validação"
+}
+
+' ### Legenda ###
+note right of aluno
+**Atores**:
+
+* Aluno: Registra frequência e atividades.
+* Coordenador: Aprova cadastros de estágio.
+* Supervisor: Valida frequências.
+  end note
+@enduml
