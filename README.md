@@ -44,7 +44,7 @@
 ### Back-end:
 
 - C# .NET Core
-- SQL Server
+- PostgreSQL
 - API REST com autenticação via JWT
 - Swagger para testes de endpoints
 
