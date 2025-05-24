@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRegister } from '@/hooks/useRegister';
-import Logo from '../../../../public/assets/image/logo.png';
+import Link from "next/link";
+import Image from "next/image";
+import { useRegister } from "@/hooks/useRegister";
+import Logo from "../../../../public/assets/image/logo.png";
 
 export default function RegisterPage() {
   const {
@@ -19,26 +19,33 @@ export default function RegisterPage() {
     setShowConfirmPassword,
     EyeOffIcon,
     EyeIcon,
-
   } = useRegister();
 
   return (
     <div className="min-h-screen flex flex-col  items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className=" absolute top-6 left-6">
-            <Image
-              src={Logo} 
-              alt="Logo"
-              width={160}
-              height={100}
-              className="object-contain"
-            />
-        </div>
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md" style={{ minWidth: '300px', maxWidth: '407px' , height: 'auto' }}>
+      <div className=" absolute top-6 left-6">
+        <Image
+          src={Logo}
+          alt="Logo"
+          width={160}
+          height={100}
+          className="object-contain"
+        />
+      </div>
+      <div
+        className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
+        style={{ minWidth: "300px", maxWidth: "407px", height: "auto" }}
+      >
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Criar uma conta</h2>
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            Criar uma conta
+          </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Já tem uma conta?{' '}
-            <Link href="/unauthenticated/login" className="font-medium text-indigo-600 hover:text-indigo-500">
+            Já tem uma conta?{" "}
+            <Link
+              href="/login"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
+            >
               Faça login
             </Link>
           </p>
@@ -95,51 +102,69 @@ export default function RegisterPage() {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Nome completo
               </label>
               <input
                 id="name"
                 type="text"
-                placeholder='Nome completo'
+                placeholder="Nome completo"
                 autoComplete="name"
-                className={`text-gray-700 mt-1 block w-full px-3 py-2 border ${errors.name ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                {...register('name')}
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 border ${
+                  errors.name ? "border-red-300" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                {...register("name")}
               />
               {errors.name && (
-                <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.name.message}
+                </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
                 E-mail
               </label>
               <input
                 id="email"
                 type="email"
-                placeholder='E-mail'
+                placeholder="E-mail"
                 autoComplete="email"
-                className={`text-gray-700 mt-1 block w-full px-3 py-2 border ${errors.email ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                {...register('email')}
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 border ${
+                  errors.email ? "border-red-300" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                {...register("email")}
               />
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
-
             <div className="relative">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Senha
               </label>
               <input
                 id="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder='Senha'
-                className={`text-gray-700 mt-1 block w-full px-3 py-2 pr-10 border ${errors.password ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                {...register('password')}
+                placeholder="Senha"
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 pr-10 border ${
+                  errors.password ? "border-red-300" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                {...register("password")}
               />
               <button
                 type="button"
@@ -147,25 +172,35 @@ export default function RegisterPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 tabIndex={-1}
               >
-                {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                {showPassword ? (
+                  <EyeOffIcon size={18} />
+                ) : (
+                  <EyeIcon size={18} />
+                )}
               </button>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
-
             <div className="relative">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Confirme sua senha
               </label>
               <input
                 id="confirmPassword"
-                type={showConfirmPassword ? 'text' : 'password'}
+                type={showConfirmPassword ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder='Confirme sua senha'
-                className={`text-gray-700 mt-1 block w-full px-3 py-2 pr-10 border ${errors.confirmPassword ? 'border-red-300' : 'border-gray-300'} rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
-                {...register('confirmPassword')}
+                placeholder="Confirme sua senha"
+                className={`text-gray-700 mt-1 block w-full px-3 py-2 pr-10 border ${
+                  errors.confirmPassword ? "border-red-300" : "border-gray-300"
+                } rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                {...register("confirmPassword")}
               />
               <button
                 type="button"
@@ -173,16 +208,23 @@ export default function RegisterPage() {
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 tabIndex={-1}
               >
-                {showConfirmPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
+                {showConfirmPassword ? (
+                  <EyeOffIcon size={18} />
+                ) : (
+                  <EyeIcon size={18} />
+                )}
               </button>
               {errors.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.confirmPassword.message}
+                </p>
               )}
             </div>
 
-
             <div>
-              <label className="block text-sm font-medium text-gray-700">Perfil</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Perfil
+              </label>
               <div className="mt-1 space-y-2">
                 <div className="flex items-center">
                   <input
@@ -190,9 +232,12 @@ export default function RegisterPage() {
                     type="radio"
                     value="ESTAGIARIO"
                     className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                    {...register('profile')}
+                    {...register("profile")}
                   />
-                  <label htmlFor="ESTAGIARIO" className="ml-2 block text-sm text-gray-700">
+                  <label
+                    htmlFor="ESTAGIARIO"
+                    className="ml-2 block text-sm text-gray-700"
+                  >
                     Estagiário
                   </label>
                 </div>
@@ -202,15 +247,20 @@ export default function RegisterPage() {
                     type="radio"
                     value="SUPERVISOR"
                     className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                    {...register('profile')}
+                    {...register("profile")}
                   />
-                  <label htmlFor="SUPERVISOR" className="ml-2 block text-sm text-gray-700">
+                  <label
+                    htmlFor="SUPERVISOR"
+                    className="ml-2 block text-sm text-gray-700"
+                  >
                     Supervisor
                   </label>
                 </div>
               </div>
               {errors.profile && (
-                <p className="mt-1 text-sm text-red-600">{errors.profile.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {errors.profile.message}
+                </p>
               )}
             </div>
           </div>
@@ -246,7 +296,7 @@ export default function RegisterPage() {
                   Cadastrando...
                 </>
               ) : (
-                'Cadastrar'
+                "Cadastrar"
               )}
             </button>
           </div>

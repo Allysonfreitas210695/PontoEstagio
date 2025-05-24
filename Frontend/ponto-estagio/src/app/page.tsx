@@ -13,9 +13,9 @@ export default function HomePage() {
       </div>
 
       {/* Forma azul (decoração) */}
-      <div className="hidden md:block absolute rounded-bl-[300px] z-0 w-[700px] h-[400px] -top-10 right-0">  
-        <Image src={textura} alt="Textura" />  
-      </div>  
+      <div className="hidden md:block absolute rounded-bl-[300px] z-0 w-[700px] h-[400px] -top-10 right-0">
+        <Image src={textura} alt="Textura" />
+      </div>
 
       {/* Conteúdo do texto */}
       <div className="z-10 max-w-xl space-y-6 text-center md:text-left">
@@ -25,9 +25,10 @@ export default function HomePage() {
           em Produtividade!
         </h1>
         <p className="text-gray-700 text-base md:text-lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget
+          ligula eu lectus lobortis condimentum.
         </p>
-        <Link href="/unauthenticated/login">
+        <Link href="/login">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md shadow-md transition">
             Entrar →
           </button>
@@ -35,7 +36,7 @@ export default function HomePage() {
       </div>
 
       {/* Imagem da mulher */}
-      <div className="relative z-19 mt-10 -bottom-20 -right-10 w-100%" >
+      <div className="relative z-19 mt-10 -bottom-20 -right-10 w-100%">
         <Image
           src={cliente}
           alt="Mulher com notebook"
