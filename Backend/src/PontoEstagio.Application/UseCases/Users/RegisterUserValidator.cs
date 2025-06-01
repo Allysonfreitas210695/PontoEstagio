@@ -26,7 +26,7 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
                 }
                 return true;
             })
-            .WithMessage(ErrorMessages.InvalidCourseIdForUserType); 
+            .WithMessage(ErrorMessages.InvalidCourseIdForUserType);
 
         RuleFor(user => user.Email)
             .NotEmpty()
@@ -34,6 +34,12 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
             .EmailAddress()
             .When(user => string.IsNullOrWhiteSpace(user.Email) == false, ApplyConditionTo.CurrentValidator)
             .WithMessage(ErrorMessages.InvalidEmailFormat);
+        
+        RuleFor(user => user.Phone)
+            .NotEmpty()
+            .WithMessage("")
+            .MaximumLength(20)
+            .WithMessage("O número de telefone deve ter no máximo 20 caracteres.");
 
         RuleFor(user => user.Password)
             .SetValidator(new PasswordValidator<RequestRegisterUserJson>());
