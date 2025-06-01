@@ -7,6 +7,7 @@ public class ResponseCompanyJson
     public string CNPJ { get;  set; } = string.Empty;
     public string Phone { get;  set; } = string.Empty;
     public string Email { get;  set; } = string.Empty;
-    public bool IsActive { get;  set; } 
-    public DateTime CreatedAt { get;  set; } 
+    public bool IsActive { get;  set; }
+    public ResponseAddressJson Address { get; set; } = default!;
+    public DateTime CreatedAt { get; set; } 
 }
