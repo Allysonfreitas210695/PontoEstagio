@@ -471,4 +471,10 @@
   <data name="InternAlreadyAssignedToActiveProject" xml:space="preserve">
     <value>O aluno já está vinculado a um projeto de estágio com status ativo.</value>
   </data>
+  <data name="PhoneIsRequired" xml:space="preserve">
+    <value>O número de telefone é obrigatório.</value>
+  </data>
+  <data name="PhoneMaxLength" xml:space="preserve">
+    <value>O número de telefone deve ter no máximo 20 caracteres.</value>
+  </data>
 </root>

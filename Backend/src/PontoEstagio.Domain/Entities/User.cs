@@ -1,3 +1,4 @@
+using System.Resources;
 using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.ValueObjects;
@@ -57,10 +58,10 @@ public class User : Entity
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserType });
 
         if (string.IsNullOrWhiteSpace(phone))
-            throw new ErrorOnValidationException(new List<string> { "" });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneIsRequired });
 
         if (phone.Length > 20)
-            throw new ErrorOnValidationException(new List<string> { "O número de telefone deve ter no máximo 20 caracteres." });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneMaxLength });
 
         Id = id is null ? Guid.NewGuid() : id.Value;
         Name = name;
@@ -149,10 +150,10 @@ public class User : Entity
     public void UpdatePhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
-            throw new ErrorOnValidationException(new List<string> { "" });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneIsRequired });
 
         if (phone.Length > 20)
-            throw new ErrorOnValidationException(new List<string> { "O número de telefone deve ter no máximo 20 caracteres." });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneMaxLength });
 
         Phone = phone;
         UpdateTimestamp();

@@ -37,9 +37,9 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
         
         RuleFor(user => user.Phone)
             .NotEmpty()
-            .WithMessage("")
+            .WithMessage(ErrorMessages.PhoneIsRequired)
             .MaximumLength(20)
-            .WithMessage("O número de telefone deve ter no máximo 20 caracteres.");
+            .WithMessage(ErrorMessages.PhoneMaxLength);
 
         RuleFor(user => user.Password)
             .SetValidator(new PasswordValidator<RequestRegisterUserJson>());

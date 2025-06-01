@@ -862,6 +862,24 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O número de telefone é obrigatório..
+        /// </summary>
+        public static string PhoneIsRequired {
+            get {
+                return ResourceManager.GetString("PhoneIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O número de telefone deve ter no máximo 20 caracteres..
+        /// </summary>
+        public static string PhoneMaxLength {
+            get {
+                return ResourceManager.GetString("PhoneMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do projeto é obrigatório..
         /// </summary>
         public static string ProjectNameRequired {
