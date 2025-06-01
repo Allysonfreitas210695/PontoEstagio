@@ -17,7 +17,7 @@ namespace CommonTestUltilities.Request
                 .RuleFor(x => x.Email, f => f.Internet.Email())
                 .RuleFor(x => x.Registration, f => f.Random.AlphaNumeric(10).ToUpper())
                 .RuleFor(x => x.Password, f => f.Internet.Password(prefix: "!Aa"))
-                .RuleFor(x => x.UniversityId, f => Guid.NewGuid())  
+                .RuleFor(x => x.UniversityId, f => Guid.NewGuid())
                 .RuleFor(x => x.CourseId, (f, x) =>
                 {
                     if (x.Type == UserType.Intern || x.Type == UserType.Coordinator)
@@ -25,8 +25,9 @@ namespace CommonTestUltilities.Request
                     else
                         return null;
                 })
-                .RuleFor(x => x.isActive, f => f.Random.Bool()) 
+                .RuleFor(x => x.isActive, f => f.Random.Bool())
                 .RuleFor(x => x.Type, f => f.Random.Enum<UserType>())
+                .RuleFor(x => x.Phone, f => f.Phone.PhoneNumber())
                 .Generate();
         }
     }
