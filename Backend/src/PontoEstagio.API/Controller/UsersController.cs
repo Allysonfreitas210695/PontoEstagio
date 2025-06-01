@@ -18,7 +18,7 @@ namespace PontoEstagio.API.Controller;
 public class UsersController : ControllerBase
 {
     [HttpPost("check-user")]
-    [ProducesResponseType(typeof(RequestRegisterUserJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseCheckUserUserJson), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CheckIfUserExists(
         [FromServices] ICheckUserExistsUseCase useCase,

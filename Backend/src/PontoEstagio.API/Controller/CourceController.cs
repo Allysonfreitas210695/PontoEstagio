@@ -14,7 +14,7 @@ namespace PontoEstagio.API.Controller;
 [Route("api/[controller]")]
 public class CourceController : ControllerBase
 {
-    [Authorize]
+
     [HttpGet]
     [ProducesResponseType(typeof(List<ResponseCourceJson>), StatusCodes.Status200OK)] 
     [ProducesResponseType(typeof(ResponseErrorJson), StatusCodes.Status404NotFound)] 
