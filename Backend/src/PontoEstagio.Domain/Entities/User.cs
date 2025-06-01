@@ -1,4 +1,4 @@
- using PontoEstagio.Domain.Common;
+using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Exceptions.Exceptions;
@@ -14,6 +14,7 @@ public class User : Entity
     public bool IsActive { get; private set; }
     public string Registration { get; private set; } = string.Empty;
     public string Password { get; private set; } = string.Empty;
+    public string Phone { get; private set; } = string.Empty;
     public Guid UniversityId { get; private set; }
     public virtual University University { get; private set; } = default!;
     public Guid? CourseId { get; set; }
@@ -32,7 +33,8 @@ public class User : Entity
             string registration,
             Email email,
             UserType type,
-            string password
+            string password,
+            string phone
     )
     {
 
@@ -54,6 +56,12 @@ public class User : Entity
         if (!UserType.IsDefined(typeof(UserType), type))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserType });
 
+        if (string.IsNullOrWhiteSpace(phone))
+            throw new ErrorOnValidationException(new List<string> { "" });
+
+        if (phone.Length > 20)
+            throw new ErrorOnValidationException(new List<string> { "O número de telefone deve ter no máximo 20 caracteres." });
+
         Id = id is null ? Guid.NewGuid() : id.Value;
         Name = name;
         Email = email;
@@ -63,6 +71,7 @@ public class User : Entity
         Registration = registration;
         UniversityId = universityId;
         CourseId = courseId;
+        Phone = phone;
     }
 
     public void Inactivate()
@@ -112,13 +121,13 @@ public class User : Entity
 
     public void UpdateRegistration(string registration)
     {
-        if(string.IsNullOrWhiteSpace(registration))
+        if (string.IsNullOrWhiteSpace(registration))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidRegistration });
 
         Registration = registration;
         UpdateTimestamp();
     }
-    
+
     public void UpdateUniversityId(Guid universityId)
     {
         if (universityId == Guid.Empty)
@@ -134,6 +143,18 @@ public class User : Entity
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseIdForUserType });
 
         CourseId = courseId;
+        UpdateTimestamp();
+    }
+    
+    public void UpdatePhone(string phone)
+    {
+        if (string.IsNullOrWhiteSpace(phone))
+            throw new ErrorOnValidationException(new List<string> { "" });
+
+        if (phone.Length > 20)
+            throw new ErrorOnValidationException(new List<string> { "O número de telefone deve ter no máximo 20 caracteres." });
+
+        Phone = phone;
         UpdateTimestamp();
     }
 }

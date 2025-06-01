@@ -57,7 +57,8 @@ public class RegisterUserUseCase : IRegisterUserUseCase
             request.Registration,
             Email.Criar(request.Email), 
             (UserType)request.Type, 
-            _passwordHash 
+            _passwordHash,
+            request.Phone
         );
 
         await _userWriteOnlyRepository.AddAsync(user);

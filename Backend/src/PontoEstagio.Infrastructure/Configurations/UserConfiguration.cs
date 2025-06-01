@@ -39,6 +39,10 @@ namespace PontoEstagio.Infrastructure.Configurations
               builder.Property(u => u.Registration)
                      .IsRequired();
 
+              builder.Property(u => u.Phone)
+                     .IsRequired()
+                     .HasMaxLength(20);
+
               builder.HasMany(u => u.UserProjects)
                      .WithOne(up => up.User)
                      .HasForeignKey(up => up.UserId)
