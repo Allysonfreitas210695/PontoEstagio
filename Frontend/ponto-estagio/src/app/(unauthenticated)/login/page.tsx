@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import logo from "../../../../public/assets/image/logo.png";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import Header from "@/app/components/header/page";
+import Footer from "@/app/components/footer/page";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -50,11 +53,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="absolute top-8 left-8 pl-12">
-        <a href="/">
-          <Image src={logo} alt="Logo" width={150} height={40} />
-        </a>
-      </div>
+      <Header />
 
       <div
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
@@ -68,7 +67,7 @@ export default function LoginPage() {
 
         <form className="space-y-4" onSubmit={handleLogin}>
           <div className="relative">
-            <input
+            <Input
               type="email"
               placeholder="E-mail"
               value={email}
@@ -79,7 +78,7 @@ export default function LoginPage() {
           </div>
 
           <div className="relative">
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder="Senha"
               value={senha}
@@ -99,15 +98,15 @@ export default function LoginPage() {
           </div>
 
           <div className="text-left mb-4">
-            <a
+            <Link
               href="/forgot"
               className="text-blue-600 text-sm font-semibold hover:underline"
             >
               Esqueceu sua senha?
-            </a>
+            </Link>
           </div>
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
             className={`w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${
@@ -115,7 +114,7 @@ export default function LoginPage() {
             }`}
           >
             {loading ? "Entrando..." : "Entrar"}
-          </button>
+          </Button>
 
           <div className="flex items-center my-4">
             <hr className="flex-grow border-gray-300" />
@@ -128,16 +127,17 @@ export default function LoginPage() {
             ligula eu lectus lobortis.
           </p>
 
-          <button
-            onClick={() => router.push("/register")}
+          <Button
+            onClick={() => router.push("/select")}
             type="button"
-            className="w-full border-2 border-blue-600 text-blue-600 py-2 rounded-md 
+            className="bg-gray-100 w-full border-2 border-blue-600 text-blue-600 py-2 rounded-md 
             font-semibold hover:bg-blue-50 transition"
           >
             Cadastre-se Agora
-          </button>
+          </Button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }

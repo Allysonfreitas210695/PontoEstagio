@@ -1,19 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "../../../../public/assets/image/logo.png";
 import CoordenadorImg from "../../../../public/assets/image/coordenador.png";
 import AlunoImg from "../../../../public/assets/image/aluno.png";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { useRouter } from "next/navigation";
+import Header from "@/app/components/header/page";
+import Footer from "@/app/components/footer/page";
 export default function SelectPage() {
+  const router = useRouter();
   return (
     <section className="flex flex-col items-center min-h-screen bg-white px-4 py-10">
       {/* Logo */}
-      <div className="mb-10">
-        <Image src={Logo} alt="Logo" width={150} height={40} />
-      </div>
+      <Header />
 
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -34,6 +34,7 @@ export default function SelectPage() {
             processo e muito mais!
           </p>
           <Button
+            onClick={() => router.push("/register/coordenador")}
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
@@ -56,6 +57,7 @@ export default function SelectPage() {
             aprovações e muito mais!
           </p>
           <Button
+            onClick={() => router.push("/register/aluno")}
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
@@ -63,6 +65,7 @@ export default function SelectPage() {
           </Button>
         </div>
       </div>
+      <Footer />
     </section>
   );
 }
