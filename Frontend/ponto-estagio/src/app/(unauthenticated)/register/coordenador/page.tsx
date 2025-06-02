@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import Logo from "../../../../public/assets/image/logo.png";
-import { CheckCircle, Eye } from "lucide-react";
+import { CheckCircle, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
+import Header from "@/app/components/header/page";
+import Footer from "@/app/components/footer/page";
 
 export default function RegisterPage() {
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const passwordRules = [
     {
@@ -37,11 +39,7 @@ export default function RegisterPage() {
   return (
     <div className="bg-white p-6 flex flex-col items-center ">
       {/* Logo */}
-      <div className="absolute top-8 left-8 pl-12">
-        <a href="/">
-          <Image src={Logo} alt="Logo" width={150} height={40} />
-        </a>
-      </div>
+      <Header />
 
       {/* Card de Cadastro */}
       <div className="flex flex-col w-[350] items-center justify-center min-h-screen bg-white p-6 gap-2">
@@ -52,17 +50,28 @@ export default function RegisterPage() {
         </p>
 
         {/* Formulário */}
-        <div className="space-y-4">
+        <form className="space-y-4">
           <Input type="email" placeholder="E-mail" />
 
           {/* Campo de senha */}
           <div className="relative">
             <Input
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full border border-gray-500 rounded-md 
+              py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500
+              text-gray-700"
             />
+            <button
+              type="button"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
           </div>
 
           {/* Validação da senha */}
@@ -89,11 +98,16 @@ export default function RegisterPage() {
           </p>
 
           {/* Botão */}
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full mt-4">
+
+          <Button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white w-full mt-4"
+          >
             Aceitar e cadastrar-se
           </Button>
-        </div>
+        </form>
       </div>
+      <Footer />
     </div>
   );
 }

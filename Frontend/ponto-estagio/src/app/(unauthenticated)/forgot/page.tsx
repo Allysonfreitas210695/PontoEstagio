@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-//import { Eye, EyeOff } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import logo from "../../../../public/assets/image/logo.png";
-
+import Header from "@/app/components/header/page";
+import Footer from "@/app/components/footer/page";
 export default function LoginPage() {
   //const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -50,11 +48,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-      <div className="absolute top-8 left-8 pl-12">
-        <a href="/">
-          <Image src={logo} alt="Logo" width={150} height={40} />
-        </a>
-      </div>
+      <Header />
 
       <div
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
@@ -115,6 +109,7 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
+      <Footer />
     </div>
   );
 }
