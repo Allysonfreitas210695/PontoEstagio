@@ -1,6 +1,6 @@
-# 📘 Resgitra
+# 📘 Registra
 
-**Resgitra** é um sistema de controle de frequência e atividades desenvolvido para estagiários, estudantes ou membros de projetos. Ele permite o registro diário de presença e tarefas, além de possibilitar o acompanhamento e validação por parte de supervisores.
+**Registra** é um sistema de controle de frequência e atividades desenvolvido para estagiários, estudantes ou membros de projetos. Ele permite o registro diário de presença e tarefas, além de possibilitar o acompanhamento e validação por parte de supervisores.
 
 ---
 
