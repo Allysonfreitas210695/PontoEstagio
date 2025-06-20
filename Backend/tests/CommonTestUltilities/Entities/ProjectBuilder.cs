@@ -16,7 +16,9 @@ public class ProjectBuilder
         ProjectStatus? status = null,
         DateTime? startDate = null,
         DateTime? endDate = null,
-        Guid? createdBy = null)
+        Guid? createdBy = null,
+        ProjectClassification? classification = null
+    )
     {
         var faker = new Faker();
 
@@ -30,7 +32,8 @@ public class ProjectBuilder
             status: status ?? faker.PickRandom<ProjectStatus>(),
             startDate: startDate ?? faker.Date.Past(),
             endDate: endDate ?? faker.Date.Future(),
-            createdBy: createdBy ?? Guid.NewGuid()
+            createdBy: createdBy ?? Guid.NewGuid(),
+            classification: classification ?? faker.PickRandom<ProjectClassification>()
         );
     }
 }

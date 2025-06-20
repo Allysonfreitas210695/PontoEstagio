@@ -1,3 +1,4 @@
+
 using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Exceptions.Exceptions;
@@ -19,6 +20,7 @@ public class Project : Entity
     public virtual Company Company { get; private set; }  = default!;
     public Guid UniversityId { get; private set; } 
     public virtual University University { get; private set; }  = default!;
+    public ProjectClassification Classification { get; private set; } = ProjectClassification.Mandatory;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
     public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
 
@@ -34,8 +36,9 @@ public class Project : Entity
         ProjectStatus status, 
         DateTime startDate, 
         DateTime? endDate,
-        Guid createdBy
-)
+        Guid createdBy,
+        ProjectClassification classification
+    )
     {
         Id = id ?? Guid.NewGuid();
 
@@ -51,6 +54,12 @@ public class Project : Entity
         if (universityId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
+        if (!System.Enum.IsDefined(typeof(ProjectClassification), classification))
+            throw new ErrorOnValidationException(new List<string> { "Classificação de estágio inválida." });
+
+        if (totalHours <= 0)
+            throw new ArgumentException(ErrorMessages.InvalidTotalHours);
+
         Name = name;
         Description = description;
         Status = status;
@@ -59,10 +68,7 @@ public class Project : Entity
         CreatedBy = createdBy;
         CompanyId = companyId;
         UniversityId = universityId;
-
-        if (totalHours <= 0)
-            throw new ArgumentException(ErrorMessages.InvalidTotalHours);
-
+        Classification = classification;
         TotalHours = totalHours;
     }
 
@@ -112,6 +118,14 @@ public class Project : Entity
         if (totalHours <= 0)
             throw new ArgumentException(ErrorMessages.InvalidTotalHours);
         TotalHours = totalHours;
+        UpdateTimestamp();
+    } 
+
+    public void UpdateClassification(ProjectClassification classification) {
+        if (!System.Enum.IsDefined(typeof(ProjectClassification), classification))
+            throw new ErrorOnValidationException(new List<string> { "Classificação de estágio inválida." });
+
+        Classification = classification;
         UpdateTimestamp();
     } 
 

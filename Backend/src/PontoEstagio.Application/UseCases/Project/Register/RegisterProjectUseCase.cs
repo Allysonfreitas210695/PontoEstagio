@@ -59,7 +59,8 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
             ProjectStatus.Pending, 
             request.StartDate,
             request.EndDate,
-            user.Id
+            user.Id,
+            (Domain.Enum.ProjectClassification)request.Classification
         );
 
         await _projectWriteOnlyRepository.AddAsync(_project);

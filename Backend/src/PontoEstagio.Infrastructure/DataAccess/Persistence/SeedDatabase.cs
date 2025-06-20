@@ -265,7 +265,8 @@ public static class SeedDatabaseInitial
                 faker.PickRandom<ProjectStatus>(),
                 faker.Date.Past(1, DateTime.UtcNow),
                 faker.Date.Soon(3, DateTime.UtcNow),
-                supervisor.Id
+                supervisor.Id,
+                faker.PickRandom<ProjectClassification>()
             );
 
             projects.Add(project);
