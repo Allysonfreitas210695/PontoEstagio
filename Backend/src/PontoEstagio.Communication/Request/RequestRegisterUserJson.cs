@@ -9,6 +9,7 @@ public class RequestRegisterUserJson
     public string Registration { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
+    public string VerificationCode { get; set; } = string.Empty;
     public Guid UniversityId { get; set; }
     public Guid? CourseId { get; set; }
     public bool? isActive { get; set; }

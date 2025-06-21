@@ -17,6 +17,7 @@ public class PontoEstagioDbContext : DbContext
     public DbSet<EmailTemplates> EmailTemplates { get; set; }
     public DbSet<PasswordRecovery> PasswordRecoveries { get; set; }
     public DbSet<LegalRepresentative> LegalRepresentatives { get; set; }
+    public DbSet<VerificationCodeUniversity> VerificationCodeUniversities { get; set; }
 
     public PontoEstagioDbContext(DbContextOptions<PontoEstagioDbContext> options)
         : base(options) { }

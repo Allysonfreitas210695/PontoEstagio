@@ -382,24 +382,36 @@ public static class SeedDatabaseInitial
 
     private static async Task SeedEmailTemplates(PontoEstagioDbContext dbContext)
     {
-        
-
-        var verificationCodeTemplate = new EmailTemplates
+        var resetPasswordTemplate = new EmailTemplates
         {
             Title = "Redefinição de Senha",
             Subject = "Código de verificação para redefinição de senha",
             Body = @"
-            <h2>Olá, {{UserName}}!</h2>
-            <p>Recebemos uma solicitação para redefinir sua senha.</p>
-            <p>Seu código de verificação é: <strong>{{VerificationCode}}</strong></p>
-            <p>Use este código no aplicativo para confirmar sua identidade e redefinir sua senha.</p>
-            <p><strong>O código é válido por até 3 minutos</strong> e deve ser usado apenas por você.</p>
-            <p>Se você não solicitou isso, ignore este e-mail ou entre em contato conosco.</p>
-            <br />
-            <p>Atenciosamente,<br />Equipe Ponto Estágio</p>"
+                <h2>Olá, {{UserName}}!</h2>
+                <p>Recebemos uma solicitação para redefinir sua senha.</p>
+                <p>Seu código de verificação é: <strong>{{VerificationCode}}</strong></p>
+                <p>Use este código no aplicativo para confirmar sua identidade e redefinir sua senha.</p>
+                <p><strong>O código é válido por até 3 minutos</strong> e deve ser usado apenas por você.</p>
+                <p>Se você não solicitou isso, ignore este e-mail ou entre em contato conosco.</p>
+                <br />
+                <p>Atenciosamente,<br />Equipe Ponto Estágio</p>"
         };
 
-        dbContext.EmailTemplates.Add(verificationCodeTemplate);
+        var coordinatorVerificationTemplate = new EmailTemplates
+        {
+            Title = "Cadastro de Coordenação",
+            Subject = "Código de Verificação - Cadastro de Coordenação",
+            Body = @"
+                <h2>Olá!</h2>
+                <p>Para concluir o cadastro da coordenação, utilize o seguinte código de verificação:</p>
+                <p><strong>Código: {{VerificationCode}}</strong></p>
+                <p>Este código é necessário para validar a criação de uma conta vinculada à universidade no sistema PontoEstágio.</p>
+                <p>Caso você não tenha solicitado este cadastro, ignore esta mensagem.</p>
+                <br />
+                <p>Atenciosamente,<br />Equipe PontoEstágio</p>"
+        };
+
+        dbContext.EmailTemplates.AddRange(resetPasswordTemplate, coordinatorVerificationTemplate);
         await dbContext.SaveChangesAsync();
     }
 }

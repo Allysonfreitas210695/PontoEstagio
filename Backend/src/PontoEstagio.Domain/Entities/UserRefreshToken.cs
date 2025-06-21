@@ -24,7 +24,7 @@ public class UserRefreshToken
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidToken });
 
         if (expirationDate.Date <= DateTime.Now.Date)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidExpirationDate });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidExpirationDate });
 
         UserId = userId;
         Token = token;

@@ -585,9 +585,9 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data não pode ser anterior ao dia de hoje..
         /// </summary>
-        public static string invalidExpirationDate {
+        public static string InvalidExpirationDate {
             get {
-                return ResourceManager.GetString("invalidExpirationDate", resourceCulture);
+                return ResourceManager.GetString("InvalidExpirationDate", resourceCulture);
             }
         }
         
@@ -768,6 +768,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string InvalidUserTypeForListing {
             get {
                 return ResourceManager.GetString("InvalidUserTypeForListing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O código de verificação é inválido..
+        /// </summary>
+        public static string InvalidVerificationCode {
+            get {
+                return ResourceManager.GetString("InvalidVerificationCode", resourceCulture);
             }
         }
         
@@ -1200,6 +1209,42 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string UserNotSupervisor {
             get {
                 return ResourceManager.GetString("UserNotSupervisor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Já existe um código ativo para cadastro da coordenação..
+        /// </summary>
+        public static string VerificationCodeAlreadyExists {
+            get {
+                return ResourceManager.GetString("VerificationCodeAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O código de verificação é inválido ou expirou..
+        /// </summary>
+        public static string VerificationCodeInvalidOrExpired {
+            get {
+                return ResourceManager.GetString("VerificationCodeInvalidOrExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O código não está ativo para ser usado..
+        /// </summary>
+        public static string VerificationCodeNotActive {
+            get {
+                return ResourceManager.GetString("VerificationCodeNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O código de verificação é obrigatório para este cadastro..
+        /// </summary>
+        public static string VerificationCodeRequired {
+            get {
+                return ResourceManager.GetString("VerificationCodeRequired", resourceCulture);
             }
         }
         

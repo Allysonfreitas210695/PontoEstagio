@@ -36,7 +36,7 @@ public class UserRefreshTokenTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-           .And.Errors.Should().Contain(ErrorMessages.invalidExpirationDate);
+           .And.Errors.Should().Contain(ErrorMessages.InvalidExpirationDate);
     }
 
 }

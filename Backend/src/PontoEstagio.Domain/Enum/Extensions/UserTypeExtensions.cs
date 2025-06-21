@@ -10,6 +10,7 @@ public static class UserTypeExtensions
             UserType.Intern => "Intern",
             UserType.Supervisor => "Supervisor",
             UserType.Admin => "Admin",
+            UserType.Coordinator => "Coordenador",
             _ => throw new ArgumentOutOfRangeException(nameof(userType), userType, null)
         };
     }

@@ -14,6 +14,7 @@ using PontoEstagio.Domain.Repositories.Report;
 using PontoEstagio.Domain.Repositories.University;
 using PontoEstagio.Domain.Repositories.User;
 using PontoEstagio.Domain.Repositories.UserProjects;
+using PontoEstagio.Domain.Repositories.VerificationCodeUniversity;
 using PontoEstagio.Domain.Security.Cryptography;
 using PontoEstagio.Domain.Security.Token;
 using PontoEstagio.Domain.Services.Email;
@@ -96,6 +97,11 @@ public static class DependencyInjection
         services.AddScoped<IUniversityReadOnlyRepository, UniversityRepository>();
         services.AddScoped<IUniversityWriteOnlyRepository, UniversityRepository>();
         services.AddScoped<IUniversityUpdateOnlyRepository, UniversityRepository>();
+
+
+        services.AddScoped<IVerificationCodeUniversityOnlyReadRepository, VerificationCodeUniversityRepository>();
+        services.AddScoped<IVerificationCodeUniversityOnlyUpdateRepository, VerificationCodeUniversityRepository>();
+        services.AddScoped<IVerificationCodeUniversityOnlyWriteRepository, VerificationCodeUniversityRepository>();
 
         services.AddScoped<IReportReadOnlyRepository, ReportRepository>();
     }

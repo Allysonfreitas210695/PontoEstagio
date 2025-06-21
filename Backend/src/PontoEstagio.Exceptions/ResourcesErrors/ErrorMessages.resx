@@ -324,7 +324,7 @@
   <data name="InvalidToken" xml:space="preserve">
     <value>O token não pode ser vazio.</value>
   </data>
-  <data name="invalidExpirationDate" xml:space="preserve">
+  <data name="InvalidExpirationDate" xml:space="preserve">
     <value>A data não pode ser anterior ao dia de hoje.</value>
   </data>
   <data name="InvalidProofImage" xml:space="preserve">
@@ -509,5 +509,20 @@
   </data>
   <data name="SupervisorMaxProjectsExceeded" xml:space="preserve">
     <value>O supervisor já está atribuído ao número máximo de 10 projetos em andamento.</value>
+  </data>
+  <data name="InvalidVerificationCode" xml:space="preserve">
+    <value>O código de verificação é inválido.</value>
+  </data>
+  <data name="VerificationCodeNotActive" xml:space="preserve">
+    <value>O código não está ativo para ser usado.</value>
+  </data>
+  <data name="VerificationCodeAlreadyExists" xml:space="preserve">
+    <value>Já existe um código ativo para cadastro da coordenação.</value>
+  </data>
+  <data name="VerificationCodeRequired" xml:space="preserve">
+    <value>O código de verificação é obrigatório para este cadastro.</value>
+  </data>
+  <data name="VerificationCodeInvalidOrExpired" xml:space="preserve">
+    <value>O código de verificação é inválido ou expirou.</value>
   </data>
 </root>

@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
-using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Infrastructure.Context;
 
 namespace PontoEstagio.Infrastructure.Repositories;
