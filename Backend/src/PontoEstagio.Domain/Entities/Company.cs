@@ -14,6 +14,8 @@ public class Company : Entity
     public Address Address { get; private set; } = default!;
     
     public virtual ICollection<Project> Projects { get; private set; } = new List<Project>();
+    public virtual ICollection<LegalRepresentative> LegalRepresentatives { get; private set; } = new List<LegalRepresentative>();
+
 
     protected Company() { } 
 
