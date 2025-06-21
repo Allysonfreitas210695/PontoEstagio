@@ -507,4 +507,7 @@
   <data name="RepresentativeEmailInvalid" xml:space="preserve">
     <value>O e-mail informado não é válido.</value>
   </data>
+  <data name="SupervisorMaxProjectsExceeded" xml:space="preserve">
+    <value>O supervisor já está atribuído ao número máximo de 10 projetos em andamento.</value>
+  </data>
 </root>

@@ -1078,6 +1078,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O supervisor já está atribuído ao número máximo de 10 projetos em andamento..
+        /// </summary>
+        public static string SupervisorMaxProjectsExceeded {
+            get {
+                return ResourceManager.GetString("SupervisorMaxProjectsExceeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O supervisor não existe ou não tem o tipo de usuário Supervisor..
         /// </summary>
         public static string SupervisorNotFoundOrNotSupervisor {

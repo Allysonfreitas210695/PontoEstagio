@@ -63,6 +63,10 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (supervisor.Type != UserType.Supervisor)
             throw new ForbiddenException(ErrorMessages.UserNotIntern);
 
+        var activeProjectsOfSupervisor = await _userProjectsReadOnlyRepository.CountActiveProjectsForSupervisorAsync(request.Supervisor_Id);
+        if (activeProjectsOfSupervisor >= 10)
+            throw new BusinessRuleException(ErrorMessages.SupervisorMaxProjectsExceeded);
+
         var projectAlreadyHasSupervisor = await _userProjectsReadOnlyRepository.IsSupervisorAlreadyAssignedToProjectAsync(projectId);
         if (projectAlreadyHasSupervisor)
             throw new BusinessRuleException(ErrorMessages.SupervisorAlreadyAssignedToProject);

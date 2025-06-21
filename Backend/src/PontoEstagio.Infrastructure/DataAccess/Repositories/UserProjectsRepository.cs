@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PontoEstagio.Domain.Entities;
+using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Infrastructure.Context;
 
@@ -57,4 +58,12 @@ public class UserProjectsRepository : IUserProjectsReadOnlyRepository, IUserProj
     {
         _dbContext.UserProjects.Update(userProject);
     }
+
+    public async Task<int> CountActiveProjectsForSupervisorAsync(Guid supervisorId)
+    {
+        return await _dbContext.UserProjects
+                                .Where(up => up.UserId == supervisorId && up.User.Type == UserType.Supervisor)
+                                .CountAsync(up => up.Project.Status == ProjectStatus.InProgress);
+    }
+
 }
