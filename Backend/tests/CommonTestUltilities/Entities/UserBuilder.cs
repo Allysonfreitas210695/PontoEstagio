@@ -1,4 +1,5 @@
 using Bogus;
+using Bogus.Extensions.Brazil;
 using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.ValueObjects;
@@ -16,7 +17,9 @@ public class UserBuilder
         Email? email = null, 
         UserType? type = null, 
         string? password = null,
-        string? phone = null
+        string? phone = null,
+        string? cpf = null,
+        string? department = null
     )
     {
         var faker = new Faker();
@@ -30,7 +33,9 @@ public class UserBuilder
             email ?? Email.Criar(faker.Internet.Email()),
             type ?? faker.PickRandom<UserType>(),
             password ?? faker.Internet.Password(12),
-            phone: phone ?? faker.Phone.PhoneNumber()
+            phone: phone ?? faker.Phone.PhoneNumber(),
+            cpf: cpf ?? faker.Person.Cpf(false),
+            department: department ?? faker.Commerce.Department()
         );
     } 
 }

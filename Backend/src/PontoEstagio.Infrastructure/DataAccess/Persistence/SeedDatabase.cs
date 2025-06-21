@@ -77,7 +77,9 @@ public static class SeedDatabaseInitial
                                     Email.Criar("admin@admin.com"), 
                                     UserType.Admin,
                                     BCrypt.Net.BCrypt.HashPassword("!Aa1234567"),
-                                    faker.Phone.PhoneNumber()
+                                    faker.Phone.PhoneNumber(),
+                                    string.Empty,
+                                    string.Empty    
                                 );
         await dbContext.Users.AddAsync(adminUser);
         await dbContext.SaveChangesAsync();
@@ -112,7 +114,9 @@ public static class SeedDatabaseInitial
                 Email.Criar(faker.Internet.Email()),
                 userType,
                 faker.Internet.Password(prefix: "!Aa1"),
-                faker.Phone.PhoneNumber()
+                faker.Phone.PhoneNumber(),
+                string.Empty,
+                string.Empty    
             );
             users.Add(user);
         }

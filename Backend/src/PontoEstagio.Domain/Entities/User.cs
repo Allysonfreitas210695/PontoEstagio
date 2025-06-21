@@ -16,6 +16,8 @@ public class User : Entity
     public string Registration { get; private set; } = string.Empty;
     public string Password { get; private set; } = string.Empty;
     public string Phone { get; private set; } = string.Empty;
+    public string Cpf { get; private set; } = string.Empty;
+    public string Department { get; private set; } = string.Empty;
     public Guid UniversityId { get; private set; }
     public virtual University University { get; private set; } = default!;
     public Guid? CourseId { get; set; }
@@ -35,7 +37,9 @@ public class User : Entity
             Email email,
             UserType type,
             string password,
-            string phone
+            string phone,
+            string cpf,
+            string department
     )
     {
 
@@ -63,6 +67,19 @@ public class User : Entity
         if (phone.Length > 20)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneMaxLength });
 
+        if(type == UserType.Advisor)
+        {
+            if (string.IsNullOrWhiteSpace(cpf))
+                throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCpf });
+
+            if (!System.Text.RegularExpressions.Regex.IsMatch(cpf, @"^\d{11}$"))
+                throw new ErrorOnValidationException(new List<string> { ErrorMessages.UserInvalidCpfFormat });
+
+            if (type == UserType.Advisor)
+                throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidDepartment });
+        }
+
+
         Id = id is null ? Guid.NewGuid() : id.Value;
         Name = name;
         Email = email;
@@ -73,6 +90,8 @@ public class User : Entity
         UniversityId = universityId;
         CourseId = courseId;
         Phone = phone;
+        Cpf = cpf;
+        Department = department;
     }
 
     public void Inactivate()
@@ -140,13 +159,13 @@ public class User : Entity
 
     public void UpdateCourseId(Guid courseId)
     {
-        if ((Type == UserType.Intern || Type == UserType.Coordinator) && courseId == Guid.Empty)
+        if ((Type == UserType.Intern || Type == UserType.Coordinator || Type == UserType.Advisor) && courseId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseIdForUserType });
 
         CourseId = courseId;
         UpdateTimestamp();
     }
-    
+
     public void UpdatePhone(string phone)
     {
         if (string.IsNullOrWhiteSpace(phone))
@@ -156,6 +175,31 @@ public class User : Entity
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneMaxLength });
 
         Phone = phone;
+        UpdateTimestamp();
+    }
+    
+    public void UpdateCpf(string cpf)
+    {
+        if (Type != UserType.Advisor) return;
+
+        if (string.IsNullOrWhiteSpace(cpf))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCpf });
+
+        if (!System.Text.RegularExpressions.Regex.IsMatch(cpf, @"^\d{11}$"))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.UserInvalidCpfFormat });
+
+        Cpf = cpf;
+        UpdateTimestamp();
+    }
+
+    public void UpdateDepartment(string department)
+    {
+        if (Type != UserType.Advisor) return;
+
+        if (string.IsNullOrWhiteSpace(department))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidDepartment });
+
+        Department = department;
         UpdateTimestamp();
     }
 }

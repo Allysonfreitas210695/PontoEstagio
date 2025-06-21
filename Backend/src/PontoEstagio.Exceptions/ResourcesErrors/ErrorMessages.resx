@@ -525,4 +525,19 @@
   <data name="VerificationCodeInvalidOrExpired" xml:space="preserve">
     <value>O código de verificação é inválido ou expirou.</value>
   </data>
+  <data name="InvalidCpf" xml:space="preserve">
+    <value>O campo CPF é obrigatório.</value>
+  </data>
+  <data name="InvalidDepartment" xml:space="preserve">
+    <value>O campo Departamento é obrigatório.</value>
+  </data>
+  <data name="UserInvalidCpfFormat" xml:space="preserve">
+    <value>O CPF deve conter exatamente 11 dígitos numéricos.</value>
+  </data>
+  <data name="DepartmentIsRequired" xml:space="preserve">
+    <value>O Departamento deve ser informado.</value>
+  </data>
+  <data name="CpfIsRequired" xml:space="preserve">
+    <value>O CPF deve ser informado.</value>
+  </data>
 </root>

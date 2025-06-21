@@ -90,7 +90,9 @@ public class RegisterUserUseCase : IRegisterUserUseCase
             Email.Criar(request.Email), 
             (UserType)request.Type, 
             _passwordHash,
-            request.Phone
+            request.Phone,
+            request.CPF,
+            request.Department
         );
 
         await _userWriteOnlyRepository.AddAsync(user);

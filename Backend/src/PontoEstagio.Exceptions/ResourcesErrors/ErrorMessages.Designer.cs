@@ -403,6 +403,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O CPF deve ser informado..
+        /// </summary>
+        public static string CpfIsRequired {
+            get {
+                return ResourceManager.GetString("CpfIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a A data não pode ser no futuro..
         /// </summary>
         public static string DateCannotBeInTheFuture {
@@ -417,6 +426,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string DateIsRequired {
             get {
                 return ResourceManager.GetString("DateIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O Departamento deve ser informado..
+        /// </summary>
+        public static string DepartmentIsRequired {
+            get {
+                return ResourceManager.GetString("DepartmentIsRequired", resourceCulture);
             }
         }
         
@@ -570,6 +588,24 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string InvalidCourseName {
             get {
                 return ResourceManager.GetString("InvalidCourseName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O campo CPF é obrigatório..
+        /// </summary>
+        public static string InvalidCpf {
+            get {
+                return ResourceManager.GetString("InvalidCpf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O campo Departamento é obrigatório..
+        /// </summary>
+        public static string InvalidDepartment {
+            get {
+                return ResourceManager.GetString("InvalidDepartment", resourceCulture);
             }
         }
         
@@ -1164,6 +1200,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string UserHasNoOngoingProject {
             get {
                 return ResourceManager.GetString("UserHasNoOngoingProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O CPF deve conter exatamente 11 dígitos numéricos..
+        /// </summary>
+        public static string UserInvalidCpfFormat {
+            get {
+                return ResourceManager.GetString("UserInvalidCpfFormat", resourceCulture);
             }
         }
         

@@ -28,6 +28,10 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
             })
             .WithMessage(ErrorMessages.InvalidCourseIdForUserType);
 
+        RuleFor(user => user.Registration)
+            .NotEmpty()
+            .WithMessage(ErrorMessages.InvalidRegistration);
+
         RuleFor(user => user.Email)
             .NotEmpty()
             .WithMessage(ErrorMessages.EmailCannotBeEmpty)
@@ -40,6 +44,19 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
             .WithMessage(ErrorMessages.PhoneIsRequired)
             .MaximumLength(20)
             .WithMessage(ErrorMessages.PhoneMaxLength);
+
+        RuleFor(user => user.CPF)
+            .NotEmpty()
+            .WithMessage(ErrorMessages.CpfIsRequired)
+            .Matches(@"^\d{11}$")
+            .WithMessage(ErrorMessages.UserInvalidCpfFormat)
+            .When(user => user.Type == PontoEstagio.Communication.Enum.UserType.Advisor);
+
+        RuleFor(user => user.Department)
+            .NotEmpty()
+            .WithMessage(ErrorMessages.DepartmentIsRequired)
+            .When(user => user.Type == PontoEstagio.Communication.Enum.UserType.Advisor);
+
 
         RuleFor(user => user.Password)
             .SetValidator(new PasswordValidator<RequestRegisterUserJson>());

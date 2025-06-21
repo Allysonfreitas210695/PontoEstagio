@@ -5,5 +5,6 @@ public enum UserType
     Intern,
     Supervisor,
     Admin,
-    Coordinator
+    Coordinator,
+    Advisor
 }

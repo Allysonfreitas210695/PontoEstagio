@@ -43,6 +43,22 @@ public class UpdateUserUseCase : IUpdateUserUseCase
         _user.UpdateEmail(request.Email);
         _user.UpdateUniversityId(request.UniversityId);
         _user.UpdatePhone(request.Phone);
+
+        if(string.IsNullOrWhiteSpace(request.Registration))
+            _user.UpdateRegistration(request.Registration);
+
+        if(request.CourseId is not null)
+             _user.UpdateCourseId(request.CourseId.Value);
+
+        if(request.Type == Communication.Enum.UserType.Advisor)
+        {
+            if(string.IsNullOrWhiteSpace(request.CPF))
+                _user.UpdateCpf(request.CPF);
+
+            if (string.IsNullOrWhiteSpace(request.Department))
+                _user.UpdateCpf(request.Department);
+        }
+
        
         if (request.isActive == true) _user.Activate();
         else if (request.isActive == false) _user.Inactivate();
