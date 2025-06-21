@@ -619,6 +619,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Classificação de estágio inválida..
+        /// </summary>
+        public static string InvalidProjectClassification {
+            get {
+                return ResourceManager.GetString("InvalidProjectClassification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O ID do projeto não pode ser vazio..
         /// </summary>
         public static string InvalidProjectId {
@@ -912,6 +921,42 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string RegistrationAlreadyInUse {
             get {
                 return ResourceManager.GetString("RegistrationAlreadyInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Representante legal informado já está cadastrado no sistema..
+        /// </summary>
+        public static string RepresentativeAlreadyExists {
+            get {
+                return ResourceManager.GetString("RepresentativeAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O CPF do representante legal é obrigatório..
+        /// </summary>
+        public static string RepresentativeCpfRequired {
+            get {
+                return ResourceManager.GetString("RepresentativeCpfRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O nome do representante legal é obrigatório..
+        /// </summary>
+        public static string RepresentativeNameRequired {
+            get {
+                return ResourceManager.GetString("RepresentativeNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O cargo/função do representante legal é obrigatório..
+        /// </summary>
+        public static string RepresentativePositionRequired {
+            get {
+                return ResourceManager.GetString("RepresentativePositionRequired", resourceCulture);
             }
         }
         

@@ -55,7 +55,7 @@ public class Project : Entity
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
         if (!System.Enum.IsDefined(typeof(ProjectClassification), classification))
-            throw new ErrorOnValidationException(new List<string> { "Classificação de estágio inválida." });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectClassification });
 
         if (totalHours <= 0)
             throw new ArgumentException(ErrorMessages.InvalidTotalHours);
@@ -123,7 +123,7 @@ public class Project : Entity
 
     public void UpdateClassification(ProjectClassification classification) {
         if (!System.Enum.IsDefined(typeof(ProjectClassification), classification))
-            throw new ErrorOnValidationException(new List<string> { "Classificação de estágio inválida." });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectClassification });
 
         Classification = classification;
         UpdateTimestamp();
