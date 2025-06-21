@@ -1,262 +1,296 @@
 @startuml
-
-' Definindo os enums
-enum ActivityStatus {
-    Pending
-    Approved
-    Rejected
+namespace PontoEstagio.Domain.Common {
+    abstract class Entity {
+        + Guid Id { get; protected set; }
+        + DateTime CreatedAt { get; protected set; }
+        + DateTime UpdatedAt { get; protected set; }
+        + void UpdateTimestamp()
+    }
 }
 
-enum AttendanceStatus {
-    Pending
-    Approved
-    Rejected
+namespace PontoEstagio.Domain.ValueObjects {
+
+    class Email {
+        + string Endereco { get; private set; }
+        + Email()
+        + static Email Criar(string endereco)
+        + override string ToString()
+        --
+        Validação:
+        - Não pode ser vazio
+        - Formato válido (regex)
+    }
+
+    class Address {
+        + string Street { get; }
+        + string Number { get; }
+        + string District { get; }
+        + string City { get; }
+        + string State { get; }
+        + string ZipCode { get; }
+        + string Complement { get; }
+        --
+        + Address(
+            string street, 
+            string number, 
+            string district,
+            string city,
+            string state,
+            string zipCode,
+            string complement
+        )
+        + override string ToString()
+        --
+        Validações:
+        - Todos campos obrigatórios
+        - CEP no formato 99999-999
+    }
 }
 
-enum ProjectStatus {
-    Planning
-    InProgress
-    Completed
-    Canceled
+namespace PontoEstagio.Domain.Enum {
+    enum ActivityStatus {
+        Pending
+        Approved
+        Rejected
+    }
+
+    enum AttendanceStatus {
+        Pending
+        Approved
+        Rejected
+    }
+
+    enum ProjectStatus {
+        Pending
+        InProgress
+        Completed
+        Canceled
+    }
+
+    enum ProjectClassification {
+        Mandatory = 1
+        NonMandatory = 2
+    }
+
+    enum UserType {
+        Intern
+        Supervisor
+        Admin
+        Coordinator
+        Advisor
+    }
+
+    enum VerificationCodeStatus {
+        Active = 1
+        Used = 2
+        Expired = 3
+    }
 }
 
-enum UserType {
-    Intern
-    Supervisor
-    Admin
-    Coordinator
-}
+namespace PontoEstagio.Domain.Entities {
 
-' Entidades principais
-class Activity {
-    + Guid Id
-    + Guid AttendanceId
-    + Guid UserId
-    + string Description
-    + DateTime RecordedAt
-    + string? ProofFilePath
-    + ActivityStatus Status
-    --
-    + Activity(Guid?, Guid, Guid, string, DateTime, string?)
-    + UpdateStatus(ActivityStatus)
-}
+    class Activity {
+        + Guid AttendanceId { get; }
+        + Guid UserId { get; }
+        + string Description { get; }
+        + DateTime RecordedAt { get; }
+        + string? ProofFilePath { get; }
+        + ActivityStatus Status { get; }
+        + Attendance Attendance { get; }
+        + User User { get; }
+    }
 
-class Attendance {
-    + Guid Id
-    + Guid UserId
-    + DateTime Date
-    + TimeSpan CheckIn
-    + TimeSpan CheckOut
-    + Guid ProjectId
-    + AttendanceStatus Status
-    + string ProofImageBase64
-    --
-    + Attendance(Guid?, Guid, Guid, DateTime, TimeSpan, TimeSpan, AttendanceStatus, string)
-    + AddProofImageBase64(string)
-    + UpdateStatus(AttendanceStatus)
-}
+    class Attendance {
+        + Guid UserId { get; }
+        + DateTime Date { get; }
+        + TimeSpan CheckIn { get; }
+        + TimeSpan CheckOut { get; }
+        + Guid ProjectId { get; }
+        + Project Project { get; }
+        + AttendanceStatus Status { get; set; }
+        + string ProofImageBase64 { get; }
+        + User User { get; }
+        + ICollection<Activity> Activities { get; }
+        + void AddProofImageBase64(string base64Image)
+        + void UpdateStatus(AttendanceStatus status)
+    }
 
-class Company {
-    + Guid Id
-    + string Name
-    + string CNPJ
-    + string Phone
-    + Email Email
-    + bool IsActive
-    + Address Address
-    --
-    + Company(Guid?, string, string, string, Email, Address)
-    + UpdateName(string)
-    + UpdateCNPJ(string)
-    + UpdatePhone(string)
-    + UpdateEmail(string)
-    + Activate()
-    + Deactivate()
-    + UpdateAddress(Address)
-    - ValidateCNPJ(string): bool
-}
+    class Company {
+        + string Name { get; }
+        + string CNPJ { get; }
+        + string Phone { get; }
+        + Email Email { get; }
+        + bool IsActive { get; }
+        + Address Address { get; }
+        + ICollection<Project> Projects { get; }
+        + ICollection<LegalRepresentative> LegalRepresentatives { get; }
+        + void UpdateName(string name)
+        + void UpdateCNPJ(string cnpj)
+        // Outros métodos omitidos
+    }
 
-class Course {
-    + Guid Id
-    + string Name
-    + int WorkloadHours
-    + Guid UniversityId
-    --
-    + Course(Guid?, string, int, Guid)
-    + UpdateName(string)
-    + UpdateWorkloadHours(int)
-    + UpdateUniversityId(Guid)
-}
+    class Course {
+        + string Name { get; set; }
+        + int WorkloadHours { get; set; }
+        + Guid UniversityId { get; set; }
+        + University University { get; set; }
+        + ICollection<User> Users { get; set; }
+    }
 
-class EmailTemplates {
-    + Guid Id
-    + string Title
-    + string Subject
-    + string Body
-}
+    class EmailTemplates {
+        + string Title { get; set; }
+        + string Subject { get; set; }
+        + string Body { get; set; }
+    }
 
-class Project {
-    + Guid Id
-    + string Name
-    + string Description
-    + ProjectStatus Status
-    + DateTime StartDate
-    + DateTime? EndDate
-    + long TotalHours
-    + Guid CreatedBy
-    + Guid CompanyId
-    + Guid UniversityId
-    --
-    + Project(Guid?, Guid, Guid, string, string, long, ProjectStatus, DateTime, DateTime?, Guid)
-    + UpdateName(string)
-    + UpdateDescription(string)
-    + UpdateStatus(ProjectStatus)
-    + UpdateStartDate(DateTime)
-    + UpdateEndDate(DateTime?)
-    + UpdateCreatedBy(Guid)
-    + UpdateTotalHours(long)
-    + UpdateCompanyId(Guid)
-}
+    class LegalRepresentative {
+        + string FullName { get; }
+        + string CPF { get; }
+        + string Position { get; }
+        + Email Email { get; }
+        + Guid CompanyId { get; }
+        + Company Company { get; }
+    }
 
-class University {
-    + Guid Id
-    + string Name
-    + string Acronym
-    + string CNPJ
-    + Email Email
-    + string Phone
-    + bool IsActive
-    + Address Address
-    --
-    + University(Guid?, string, string, string, Email, string, bool, Address)
-    + UpdateName(string)
-    + UpdateAcronym(string)
-    + UpdateCNPJ(string)
-    + UpdatePhone(string)
-    + UpdateEmail(string)
-    + UpdateAddress(Address)
-    + Activate()
-    + Deactivate()
-    - ValidateCNPJ(string): bool
-}
+    class PasswordRecovery {
+        + Guid UserId { get; }
+        + string Code { get; }
+        + bool Used { get; }
+        + User User { get; }
+        + void MarkAsUsed()
+        + bool IsExpired()
+        + void EnsureUsable()
+    }
 
-class User {
-    + Guid Id
-    + string Name
-    + Email Email
-    + UserType Type
-    + bool IsActive
-    + string Registration
-    + string Password
-    + Guid UniversityId
-    + Guid CourseId
-    --
-    + User(Guid?, Guid, string, string, Email, UserType, string, bool)
-    + Inactivate()
-    + Activate()
-    + UpdateType(UserType)
-    + UpdateName(string)
-    + UpdateEmail(string)
-    + UpdatePassword(string)
-}
+    class Project {
+        + string Name { get; set; }
+        + string Description { get; set; }
+        + ProjectStatus Status { get; set; }
+        + DateTime StartDate { get; set; }
+        + DateTime? EndDate { get; set; }
+        + long TotalHours { get; set; }
+        + Guid CreatedBy { get; }
+        + User Creator { get; }
+        + Guid CompanyId { get; }
+        + Company Company { get; }
+        + Guid UniversityId { get; }
+        + University University { get; }
+        + ProjectClassification Classification { get; }
+        + ICollection<UserProject> UserProjects { get; }
+        + ICollection<Attendance> Attendances { get; }
+    }
 
-class UserProject {
-    + Guid Id
-    + Guid UserId
-    + Guid ProjectId
-    + DateTime AssignedAt
-    + bool IsCurrent
-    + UserType Role
-    --
-    + UserProject(Guid?, Guid, Guid, UserType)
-    + MarkAsInactive()
-}
+    class University {
+        + string Name { get; }
+        + string Acronym { get; }
+        + string CNPJ { get; }
+        + Email Email { get; }
+        + string Phone { get; }
+        + bool IsActive { get; }
+        + Address Address { get; }
+        + ICollection<User> Users { get; }
+        + ICollection<Project> Projects { get; }
+        + ICollection<Course> Courses { get; }
+    }
 
-class UserRefreshToken {
-    + Guid Id
-    + Guid UserId
-    + string Token
-    + DateTime ExpirationDate
-    --
-    + UserRefreshToken(Guid?, Guid, string, DateTime)
-}
+    class User {
+        + string Name { get; }
+        + Email Email { get; }
+        + UserType Type { get; }
+        + bool IsActive { get; }
+        + string Registration { get; }
+        + string Password { get; }
+        + string Phone { get; }
+        + string Cpf { get; }
+        + string Department { get; }
+        + Guid UniversityId { get; }
+        + University University { get; }
+        + Guid? CourseId { get; }
+        + Course Course { get; }
+        + ICollection<UserProject> UserProjects { get; }
+        + ICollection<Activity> Activities { get; }
+        + ICollection<Attendance> Attendances { get; }
+    }
 
-' Value Objects
-class Email {
-    + string Value
-    --
-    + Criar(string): Email
-}
+    class UserProject {
+        + Guid UserId { get; }
+        + Guid ProjectId { get; }
+        + DateTime AssignedAt { get; }
+        + bool IsCurrent { get; }
+        + UserType Role { get; }
+        + User User { get; }
+        + Project Project { get; }
+        + void MarkAsInactive()
+    }
 
-class Address {
-    + string Street
-    + string Number
-    + string Complement
-    + string Neighborhood
-    + string City
-    + string State
-    + string ZipCode
-    + string Country
+    class UserRefreshToken {
+        + Guid Id { get; set; }
+        + Guid UserId { get; set; }
+        + string Token { get; set; }
+        + DateTime ExpirationDate { get; set; }
+        + User User { get; set; }
+    }
+
+    class VerificationCodeUniversity {
+        + Email Email { get; }
+        + string Code { get; }
+        + DateTime Expiration { get; }
+        + VerificationCodeStatus Status { get; }
+        + void MarkAsUsed()
+        + void MarkAsExpired()
+    }
 }
 
 ' Relacionamentos
+Entity <|-- Activity
+Entity <|-- Attendance
+Entity <|-- Company
+Entity <|-- Course
+Entity <|-- EmailTemplates
+Entity <|-- LegalRepresentative
+Entity <|-- PasswordRecovery
+Entity <|-- Project
+Entity <|-- University
+Entity <|-- User
+Entity <|-- UserProject
+Entity <|-- VerificationCodeUniversity
 
-' Activity relationships
-Activity "1" --> "1" Attendance
-Activity "1" --> "1" User
+Activity "1" *-- "1" Attendance
+Activity "1" *-- "1" User
 
-' Attendance relationships
-Attendance "1" --> "1" Project
-Attendance "1" --> "1" User
-Attendance "1" *-- "0..*" Activity
+Attendance "1" *-- "1" Project
+Attendance "1" *-- "1" User
+Attendance "1" *-- "*" Activity
 
-' Company relationships
-Company "1" *-- "0..*" Project
+Company "1" *-- "*" Project
+Company "1" *-- "*" LegalRepresentative
 
-' Course relationships
-Course "1" --> "1" University
-Course "1" *-- "0..*" User
+Course "1" *-- "1" University
+Course "1" *-- "*" User
 
-' Project relationships
-Project "1" --> "1" Company
-Project "1" --> "1" University
-Project "1" *-- "0..*" UserProject
-Project "1" *-- "0..*" Attendance
-Project "1" --> "1" User : CreatedBy
+LegalRepresentative "1" *-- "1" Company
 
-' University relationships
-University "1" *-- "0..*" Project
-University "1" *-- "0..*" User
-University "1" *-- "0..*" Course
+PasswordRecovery "1" *-- "1" User
 
-' User relationships
-User "1" --> "1" University
-User "1" --> "1" Course
-User "1" *-- "0..*" UserProject
-User "1" *-- "0..*" Activity
-User "1" *-- "0..*" Attendance
-User "1" *-- "0..*" Project : CreatedBy
-User "1" *-- "0..*" UserRefreshToken
+Project "1" *-- "1" Company
+Project "1" *-- "1" University
+Project "1" *-- "*" Attendance
+Project "1" *-- "*" UserProject
 
-' UserProject relationships
-UserProject "1" --> "1" User
-UserProject "1" --> "1" Project
+University "1" *-- "*" User
+University "1" *-- "*" Project
+University "1" *-- "*" Course
 
-' UserRefreshToken relationships
-UserRefreshToken "1" --> "1" User
+User "1" *-- "1" University
+User "1" *-- "0..1" Course
+User "1" *-- "*" Activity
+User "1" *-- "*" Attendance
+User "1" *-- "*" UserProject
 
-' Value Objects relationships
-Company "1" --> "1" Address
-Company "1" --> "1" Email
-University "1" --> "1" Address
-University "1" --> "1" Email
-User "1" --> "1" Email
+UserProject "1" *-- "1" User
+UserProject "1" *-- "1" Project
 
-' Notas sobre regras de negócio
-note top of UserType
-  **Regra de aprovação de projetos:**
-  - Intern: Cadastra projetos
-  - Coordinator: Aprova/Rejeita projetos
-end note
+UserRefreshToken "1" *-- "1" User
 
+VerificationCodeUniversity "1" *-- "1" Email
 @enduml
