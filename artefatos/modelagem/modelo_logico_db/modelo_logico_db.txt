@@ -1,153 +1,194 @@
-// Base: Modelo PontoEstagio - Com limites de campos
+
+// Use DBML to define your database structure
 // Docs: https://dbml.dbdiagram.io/docs
+// Enums
 
-Table companies {
-  id uuid [primary key]
-  name varchar(100) [not null]
-  cnpj varchar(14) [not null, unique]
-  phone varchar(20)
-  email varchar(100) [not null]
-  is_active boolean [default: true]
-  street varchar(100)
-  number varchar(10)
-  complement varchar(50)
-  neighborhood varchar(50)
-  city varchar(50)
-  state varchar(2)
-  zip_code varchar(9)
-  country varchar(50) [default: 'Brasil']
-  created_at timestamp
-  updated_at timestamp
+// Enums
+
+Enum ActivityStatus {
+  Pending
+  Approved
+  Rejected
 }
 
-Table universities {
-  id uuid [primary key]
-  name varchar(100) [not null]
-  acronym varchar(10) [not null]
-  cnpj varchar(14) [not null, unique]
-  phone varchar(20) [not null]
-  email varchar(100) [not null]
-  is_active boolean [default: true]
-  street varchar(100)
-  number varchar(10)
-  complement varchar(50)
-  neighborhood varchar(50)
-  city varchar(50)
-  state varchar(2)
-  zip_code varchar(9)
-  country varchar(50) [default: 'Brasil']
-  created_at timestamp
-  updated_at timestamp
+Enum AttendanceStatus {
+  Pending
+  Approved
+  Rejected
 }
 
-Table courses {
-  id uuid [primary key]
-  name varchar(100) [not null]
-  workload_hours integer [not null]
-  university_id uuid [not null]
-  created_at timestamp
-  updated_at timestamp
+Enum ProjectStatus {
+  Pending
+  InProgress
+  Completed
+  Canceled
 }
 
-Table users {
-  id uuid [primary key]
-  name varchar(100) [not null]
-  email varchar(100) [not null, unique]
-  type varchar(20) [not null, note: 'UserType: Intern, Supervisor, Admin, Coordinator']
-  is_active boolean [default: true]
-  registration varchar(20) [not null]
-  password varchar(100) [not null]
-  university_id uuid [not null]
-  course_id uuid [not null]
-  created_at timestamp
-  updated_at timestamp
+Enum ProjectClassification {
+  Mandatory
+  NonMandatory
 }
 
-Table projects {
-  id uuid [primary key]
-  name varchar(100) [not null]
-  description varchar(500)
-  status varchar(20) [not null, note: 'ProjectStatus: Planning, InProgress, Completed, Canceled']
-  start_date timestamp [not null]
-  end_date timestamp
-  total_hours bigint [not null]
-  created_by uuid [not null]
-  company_id uuid [not null]
-  university_id uuid [not null]
-  created_at timestamp
-  updated_at timestamp
+Enum UserType {
+  Intern
+  Supervisor
+  Admin
+  Coordinator
+  Advisor
 }
 
-Table attendances {
-  id uuid [primary key]
-  user_id uuid [not null]
-  project_id uuid [not null]
-  date date [not null]
-  check_in time [not null]
-  check_out time [not null]
-  status varchar(20) [not null, note: 'AttendanceStatus: Pending, Approved, Rejected']
-  proof_image_base64 text [not null]
-  created_at timestamp
-  updated_at timestamp
+Enum VerificationCodeStatus {
+  Active
+  Used
+  Expired
 }
 
-Table activities {
-  id uuid [primary key]
-  attendance_id uuid [not null]
-  user_id uuid [not null]
-  description varchar(500) [not null]
-  recorded_at timestamp [not null]
-  proof_file_path varchar(255)
-  status varchar(20) [not null, note: 'ActivityStatus: Pending, Approved, Rejected']
-  created_at timestamp
-  updated_at timestamp
+// Tabelas
+
+Table University {
+  Id varchar [pk]
+  Name varchar
+  Acronym varchar
+  CNPJ varchar
+  Email varchar
+  Phone varchar
+  IsActive boolean
 }
 
-Table user_projects {
-  id uuid [primary key]
-  user_id uuid [not null]
-  project_id uuid [not null]
-  assigned_at timestamp [not null, default: `now()`]
-  is_current boolean [not null, default: true]
-  role varchar(20) [not null, note: 'UserType no projeto']
-  created_at timestamp
-  updated_at timestamp
+Table Course {
+  Id varchar [pk]
+  Name varchar
+  WorkloadHours int
+  UniversityId varchar
 }
 
-Table user_refresh_tokens {
-  id uuid [primary key]
-  user_id uuid [not null]
-  token varchar(255) [not null]
-  expiration_date timestamp [not null]
-  created_at timestamp
+Table User {
+  Id varchar [pk]
+  Name varchar
+  Email varchar
+  Type UserType
+  IsActive boolean
+  Registration varchar
+  Password varchar
+  Phone varchar
+  Cpf varchar
+  Department varchar
+  UniversityId varchar
+  CourseId varchar
 }
 
-Table email_templates {
-  id uuid [primary key]
-  title varchar(100) [not null]
-  subject varchar(200) [not null]
-  body text [not null]
-  created_at timestamp
-  updated_at timestamp
+Table Company {
+  Id varchar [pk]
+  Name varchar
+  CNPJ varchar
+  Phone varchar
+  Email varchar
+  IsActive boolean
+  Street varchar
+  Number varchar
+  District varchar
+  City varchar
+  State varchar
+  ZipCode varchar
+  Complement varchar
 }
 
-// Relacionamentos (mantidos os mesmos)
-Ref: users.university_id > universities.id
-Ref: users.course_id > courses.id
+Table LegalRepresentative {
+  Id varchar [pk]
+  FullName varchar
+  CPF varchar
+  Position varchar
+  Email varchar
+  CompanyId varchar
+}
 
-Ref: courses.university_id > universities.id
+Table Project {
+  Id varchar [pk]
+  Name varchar
+  Description text
+  Status ProjectStatus
+  StartDate datetime
+  EndDate datetime
+  TotalHours int
+  CreatedBy varchar
+  CompanyId varchar
+  UniversityId varchar
+  Classification ProjectClassification
+}
 
-Ref: projects.company_id > companies.id
-Ref: projects.university_id > universities.id
-Ref: projects.created_by > users.id
+Table UserProject {
+  Id varchar [pk]
+  UserId varchar
+  ProjectId varchar
+  AssignedAt datetime
+  IsCurrent boolean
+  Role UserType
+}
 
-Ref: attendances.user_id > users.id
-Ref: attendances.project_id > projects.id
+Table Attendance {
+  Id varchar [pk]
+  UserId varchar
+  Date datetime
+  CheckIn varchar
+  CheckOut varchar
+  ProjectId varchar
+  ProofImageBase64 text
+  Status AttendanceStatus
+}
 
-Ref: activities.attendance_id > attendances.id
-Ref: activities.user_id > users.id
+Table Activity {
+  Id varchar [pk]
+  AttendanceId varchar
+  UserId varchar
+  Description text
+  RecordedAt datetime
+  ProofFilePath varchar
+  Status ActivityStatus
+}
 
-Ref: user_projects.user_id > users.id
-Ref: user_projects.project_id > projects.id
+Table PasswordRecovery {
+  Id varchar [pk]
+  UserId varchar
+  Code varchar
+  Used boolean
+}
 
-Ref: user_refresh_tokens.user_id > users.id
+Table EmailTemplates {
+  Id varchar [pk]
+  Title varchar
+  Subject varchar
+  Body text
+}
+
+Table UserRefreshToken {
+  Id varchar [pk]
+  UserId varchar
+  Token text
+  ExpirationDate datetime
+}
+
+Table VerificationCodeUniversity {
+  Id varchar [pk]
+  Email varchar
+  Code varchar
+  Expiration datetime
+  Status VerificationCodeStatus
+}
+
+// Relacionamentos
+
+Ref: Course.UniversityId > University.Id
+Ref: User.UniversityId > University.Id
+Ref: User.CourseId > Course.Id
+Ref: LegalRepresentative.CompanyId > Company.Id
+Ref: Project.CompanyId > Company.Id
+Ref: Project.UniversityId > University.Id
+Ref: Project.CreatedBy > User.Id
+Ref: UserProject.UserId > User.Id
+Ref: UserProject.ProjectId > Project.Id
+Ref: Attendance.UserId > User.Id
+Ref: Attendance.ProjectId > Project.Id
+Ref: Activity.AttendanceId > Attendance.Id
+Ref: Activity.UserId > User.Id
+Ref: PasswordRecovery.UserId > User.Id
+Ref: UserRefreshToken.UserId > User.Id
