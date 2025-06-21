@@ -13,10 +13,15 @@ using PontoEstagio.Application.UseCases.Attendance.UpdateStatus;
 using PontoEstagio.Application.UseCases.Auth.ForgotPassword;
 using PontoEstagio.Application.UseCases.Auth.Refresh;
 using PontoEstagio.Application.UseCases.Auth.ResetPassword;
+using PontoEstagio.Application.UseCases.Company.DeleteLegalRepresentative;
 using PontoEstagio.Application.UseCases.Company.GetAllCompany;
+using PontoEstagio.Application.UseCases.Company.GetAllRepresentativesFromCompany;
 using PontoEstagio.Application.UseCases.Company.GetCompanyById;
+using PontoEstagio.Application.UseCases.Company.GetLegalRepresentativeById;
 using PontoEstagio.Application.UseCases.Company.Register;
+using PontoEstagio.Application.UseCases.Company.RegisterLegalRepresentative;
 using PontoEstagio.Application.UseCases.Company.Update;
+using PontoEstagio.Application.UseCases.Company.UpdateLegalRepresentative;
 using PontoEstagio.Application.UseCases.Cource.GetAllCources;
 using PontoEstagio.Application.UseCases.Cource.GetCourceById;
 using PontoEstagio.Application.UseCases.Cource.Register;
@@ -82,6 +87,12 @@ public static class DependencyInjectionExtension
         services.AddScoped<IGetAllCompanyUseCase, GetAllCompanyUseCase>();
         services.AddScoped<IGetCompanyByIdUseCase, GetCompanyByIdUseCase>();
         services.AddScoped<ICompanyUpdateUseCase, CompanyUpdateUseCase>();
+        
+        services.AddScoped<IRegisterLegalRepresentativeUseCase, RegisterLegalRepresentativeUseCase>();
+        services.AddScoped<IGetAllRepresentativesFromCompanyUseCase, GetAllRepresentativesFromCompanyUseCase>();
+        services.AddScoped<IGetLegalRepresentativeByIdUseCase, GetLegalRepresentativeByIdUseCase>();
+        services.AddScoped<IUpdateLegalRepresentativeUseCase, UpdateLegalRepresentativeUseCase>();
+        services.AddScoped<IDeleteLegalRepresentativeUseCase, DeleteLegalRepresentativeUseCase>();
 
         services.AddScoped<IGetAllCourcesUseCase, GetAllCourcesUseCase>();
         services.AddScoped<IGetCourceByIdUseCase, GetCourceByIdUseCase>();

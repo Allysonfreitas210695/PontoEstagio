@@ -2,6 +2,7 @@
 using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PontoEstagio.Domain.Entities;
 public class LegalRepresentative : Entity
@@ -32,8 +33,14 @@ public class LegalRepresentative : Entity
         if (string.IsNullOrWhiteSpace(cpf))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.RepresentativeCpfRequired });
 
+        if (!System.Text.RegularExpressions.Regex.IsMatch(cpf, @"^\d{11}$"))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.RepresentativeCpfInvalid });
+
         if (string.IsNullOrWhiteSpace(position))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.RepresentativePositionRequired });
+
+        if (position.Length > 100)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.RepresentativePositionTooLong });
 
         FullName = fullName;
         CPF = cpf;

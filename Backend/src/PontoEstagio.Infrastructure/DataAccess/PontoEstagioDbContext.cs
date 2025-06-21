@@ -16,6 +16,7 @@ public class PontoEstagioDbContext : DbContext
     public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
     public DbSet<EmailTemplates> EmailTemplates { get; set; }
     public DbSet<PasswordRecovery> PasswordRecoveries { get; set; }
+    public DbSet<LegalRepresentative> LegalRepresentatives { get; set; }
 
     public PontoEstagioDbContext(DbContextOptions<PontoEstagioDbContext> options)
         : base(options) { }

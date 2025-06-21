@@ -781,6 +781,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Representante legal não encontrado para esta empresa..
+        /// </summary>
+        public static string LegalRepresentativeNotFound {
+            get {
+                return ResourceManager.GetString("LegalRepresentativeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Nome não pode ser vazio..
         /// </summary>
         public static string NameCannotBeEmpty {
@@ -934,11 +943,38 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O CPF deve conter exatamente 11 dígitos numéricos..
+        /// </summary>
+        public static string RepresentativeCpfInvalid {
+            get {
+                return ResourceManager.GetString("RepresentativeCpfInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a O CPF do representante legal é obrigatório..
         /// </summary>
         public static string RepresentativeCpfRequired {
             get {
                 return ResourceManager.GetString("RepresentativeCpfRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O e-mail informado não é válido..
+        /// </summary>
+        public static string RepresentativeEmailInvalid {
+            get {
+                return ResourceManager.GetString("RepresentativeEmailInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O e-mail é obrigatório..
+        /// </summary>
+        public static string RepresentativeEmailRequired {
+            get {
+                return ResourceManager.GetString("RepresentativeEmailRequired", resourceCulture);
             }
         }
         
@@ -957,6 +993,15 @@ namespace PontoEstagio.Exceptions.ResourcesErrors {
         public static string RepresentativePositionRequired {
             get {
                 return ResourceManager.GetString("RepresentativePositionRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O cargo do representante não pode exceder 100 caracteres..
+        /// </summary>
+        public static string RepresentativePositionTooLong {
+            get {
+                return ResourceManager.GetString("RepresentativePositionTooLong", resourceCulture);
             }
         }
         

@@ -492,4 +492,19 @@
   <data name="RepresentativeAlreadyExists" xml:space="preserve">
     <value>Representante legal informado já está cadastrado no sistema.</value>
   </data>
+  <data name="LegalRepresentativeNotFound" xml:space="preserve">
+    <value>Representante legal não encontrado para esta empresa.</value>
+  </data>
+  <data name="RepresentativeCpfInvalid" xml:space="preserve">
+    <value>O CPF deve conter exatamente 11 dígitos numéricos.</value>
+  </data>
+  <data name="RepresentativePositionTooLong" xml:space="preserve">
+    <value>O cargo do representante não pode exceder 100 caracteres.</value>
+  </data>
+  <data name="RepresentativeEmailRequired" xml:space="preserve">
+    <value>O e-mail é obrigatório.</value>
+  </data>
+  <data name="RepresentativeEmailInvalid" xml:space="preserve">
+    <value>O e-mail informado não é válido.</value>
+  </data>
 </root>

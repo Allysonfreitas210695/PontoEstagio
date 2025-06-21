@@ -37,7 +37,10 @@ public static class SeedDatabaseInitial
                 await SeedAdminUser(dbContext);
 
             await SeedUsers(dbContext);
+
             await SeedCompanies(dbContext);
+            await SeedLegalRepresentatives(dbContext);
+
             await SeedProjects(dbContext);
             await SeedUserProjectsAndRelatedData(dbContext);
 
@@ -195,7 +198,33 @@ public static class SeedDatabaseInitial
 
         await dbContext.Courses.AddRangeAsync(courses);
         await dbContext.SaveChangesAsync();
-    }   
+    }
+
+    private static async Task SeedLegalRepresentatives(PontoEstagioDbContext dbContext)
+    {
+        var faker = new Faker("pt_BR");
+        var representatives = new List<LegalRepresentative>();
+
+        var companies = await dbContext.Companies.ToListAsync();
+
+        foreach (var company in companies)
+        {
+            var representative = new LegalRepresentative(
+                id: null,
+                fullName: faker.Name.FullName(),
+                cpf: faker.Person.Cpf(false),
+                position: faker.Name.JobTitle(),
+                email: Email.Criar(faker.Internet.Email()),
+                companyId: company.Id
+            );
+
+            representatives.Add(representative);
+        }
+
+        await dbContext.LegalRepresentatives.AddRangeAsync(representatives);
+        await dbContext.SaveChangesAsync();
+    }
+
     private static async Task SeedCompanies(PontoEstagioDbContext dbContext)
     {
         var faker = new Faker("pt_BR");
@@ -329,7 +358,7 @@ public static class SeedDatabaseInitial
         }
         catch (Exception ex)
         {
-            Console.Write(ex?.InnerException?.Message ?? ex.Message);
+            Console.Write(ex?.InnerException?.Message ?? ex?.Message);
         }
 
         var savedAttendances = await dbContext.Attendances.AsNoTracking().ToListAsync();
