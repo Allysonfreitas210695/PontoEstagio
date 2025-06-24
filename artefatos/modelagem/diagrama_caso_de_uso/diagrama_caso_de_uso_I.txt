@@ -1,0 +1,60 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+
+' ### Atores ###
+actor Aluno as aluno
+actor Supervisor as supervisor
+
+' ### Casos de Uso Principais ###
+rectangle Sistema {
+(RF01 - Selecionar a classificação do usuário) as rf01
+(RF02 - Cadastrar aluno) as rf02
+(RF04 - Logar usuário) as rf04
+(RF05 - Recuperar senha do usuário) as rf05
+(RF06 - Selecionar a classificação do estágio) as rf06
+(RF07 - Solicitar cadastro de estágio) as rf07
+(RF08 - Solicitar cadastro da empresa) as rf08
+(RF09 - Solicitar cadastro do representante legal) as rf09
+(RF10 - Solicitação de cadastro do supervisor) as rf10
+(RF11 - Cadastrar frequência do estágio) as rf11
+(RF14 - Aprovar frequência do estagiário) as rf14
+(RF15 - Visualizar progresso do estágio) as rf15
+(RF16 - Gerar relatório de estágio) as rf16
+(RF17 - Baixar documentação) as rf17
+(RF18 - Editar informações) as rf18
+
+' ### Conexões dos Atores ###
+aluno --> rf01
+rf01 <|-- rf02 : <<include>>
+
+aluno --> rf04
+supervisor --> rf04
+
+aluno --> rf05
+supervisor --> rf05
+
+aluno --> rf06
+rf06 <|-- rf07 : <<include>>
+
+aluno --> rf11
+
+supervisor --> rf14
+
+aluno --> rf15
+
+aluno --> rf16
+
+aluno --> rf17
+
+aluno --> rf18
+supervisor --> rf18
+
+' ### Extensões e Relacionamentos ###
+rf07 .> rf08 : <<extend>> "se empresa não existir"
+rf07 .> rf09 : <<extend>> "se representante legal não existir"
+rf07 .> rf10 : <<extend>> "se supervisor não existir"
+
+rf11 <.. rf14 : <<extend>> "validação"
+}
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+
+' ### Atores ###
+actor Coordenador as coordenador
+actor Professor as professor
+
+' ### Casos de Uso Principais ###
+rectangle Sistema {
+(RF01 - Selecionar a classificação do usuário) as rf01
+(RF03 - Cadastrar coordenação) as rf03
+(RF04 - Logar usuário) as rf04
+(RF05 - Recuperar senha do usuário) as rf05
+(RF12 - Cadastrar professor orientador) as rf12
+(RF13 - Aprovar cadastro do estágio) as rf13
+(RF18 - Editar informações) as rf18
+
+' ### Conexões dos Atores ###
+coordenador --> rf01
+rf01 <|-- rf03 : <<include>>
+
+coordenador --> rf04
+professor --> rf04
+
+coordenador --> rf05
+professor --> rf05
+
+coordenador --> rf12
+
+coordenador --> rf13
+
+coordenador --> rf18
+professor --> rf18
+
+' ### Extensões e Relacionamentos ###
+
+@enduml
