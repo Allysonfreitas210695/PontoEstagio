@@ -1,0 +1,543 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivityNotFound" xml:space="preserve">
+    <value>Atividade não encontrada.</value>
+  </data>
+  <data name="AssociationNotFoundOrInactive" xml:space="preserve">
+    <value>Associação não encontrada ou já está inativa.</value>
+  </data>
+  <data name="AttendanceAlreadyExists" xml:space="preserve">
+    <value>O usuário já tem uma presença registrada para esta data.</value>
+  </data>
+  <data name="AttendanceMustHaveLinkedActivity" xml:space="preserve">
+    <value>A presença deve ter pelo menos uma atividade vinculada a um projeto.</value>
+  </data>
+  <data name="AttendanceNotFound" xml:space="preserve">
+    <value>Presença não encontrada.</value>
+  </data>
+  <data name="CannotRemoveSelfFromProject" xml:space="preserve">
+    <value>Você não pode remover a si mesmo deste projeto.</value>
+  </data>
+  <data name="CheckInTimeIsRequired" xml:space="preserve">
+    <value>O horário de check-in é obrigatório.</value>
+  </data>
+  <data name="CheckInTimeMustBeValid" xml:space="preserve">
+    <value>O horário de check-in deve ser um horário válido.</value>
+  </data>
+  <data name="CheckOutMustBeLaterThanCheckIn" xml:space="preserve">
+    <value>O horário de check-out deve ser posterior ao horário de check-in.</value>
+  </data>
+  <data name="CheckOutTimeIsRequired" xml:space="preserve">
+    <value>O horário de check-out é obrigatório.</value>
+  </data>
+  <data name="CheckOutTimeMustBeValid" xml:space="preserve">
+    <value>O horário de check-out deve ser um horário válido.</value>
+  </data>
+  <data name="DateCannotBeInTheFuture" xml:space="preserve">
+    <value>A data não pode ser no futuro.</value>
+  </data>
+  <data name="DateIsRequired" xml:space="preserve">
+    <value>A data é obrigatória.</value>
+  </data>
+  <data name="EmailCannotBeEmpty" xml:space="preserve">
+    <value>O email não pode estar vazio.</value>
+  </data>
+  <data name="InvalidEmailFormat" xml:space="preserve">
+    <value>O formato do email é inválido.</value>
+  </data>
+  <data name="InvalidLogin" xml:space="preserve">
+    <value>Login inválido. Verifique seu email e senha.</value>
+  </data>
+  <data name="InvalidStatus" xml:space="preserve">
+    <value>Status inválido.</value>
+  </data>
+  <data name="InvalidUserType" xml:space="preserve">
+    <value>Tipo de usuário inválido. Acesso negado.</value>
+  </data>
+  <data name="InvalidUserTypeForListing" xml:space="preserve">
+    <value>Tipo de usuário inválido para listagem de atividades.</value>
+  </data>
+  <data name="PasswordCannotBeEmpty" xml:space="preserve">
+    <value>A senha não pode estar vazia.</value>
+  </data>
+  <data name="ProjectNotFound" xml:space="preserve">
+    <value>Projeto não encontrado.</value>
+  </data>
+  <data name="SupervisorAlreadyAssignedToProject" xml:space="preserve">
+    <value>O supervisor já está atribuído a este projeto.</value>
+  </data>
+  <data name="SupervisorAssociationNotFound" xml:space="preserve">
+    <value>Associação do supervisor não encontrada ou já está inativa.</value>
+  </data>
+  <data name="SupervisorNotFoundOrNotSupervisor" xml:space="preserve">
+    <value>O supervisor não existe ou não tem o tipo de usuário Supervisor.</value>
+  </data>
+  <data name="UserAlreadyAssignedToProject" xml:space="preserve">
+    <value>O usuário já está atribuído a este projeto.</value>
+  </data>
+  <data name="UserAlreadyHasOngoingProject" xml:space="preserve">
+    <value>O usuário já tem um projeto em andamento e não pode ser atribuído a outro.</value>
+  </data>
+  <data name="UserNotIntern" xml:space="preserve">
+    <value>O usuário não é um estagiário.</value>
+  </data>
+  <data name="UserNotSupervisor" xml:space="preserve">
+    <value>O usuário não é um supervisor.</value>
+  </data>
+  <data name="UserNotActive" xml:space="preserve">
+    <value>Usuário está inativo.</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Usuário não encontrado.</value>
+  </data>
+  <data name="ProjectNameRequired" xml:space="preserve">
+    <value>O nome do projeto é obrigatório.</value>
+  </data>
+  <data name="StartDateMustBeTodayOrFuture" xml:space="preserve">
+    <value>A data de início deve ser hoje ou uma data futura.</value>
+  </data>
+  <data name="EndDateMustBeLaterThanStartDate" xml:space="preserve">
+    <value>A data de término deve ser posterior à data de início.</value>
+  </data>
+  <data name="InvalidPeriodFormat" xml:space="preserve">
+    <value>Período inválido. Use o formato 'yyyy-MM'.</value>
+  </data>
+  <data name="EmailAlreadyInUse" xml:space="preserve">
+    <value>Email já está em uso.</value>
+  </data>
+  <data name="PasswordEmpty" xml:space="preserve">
+    <value>A senha não pode estar vazia.</value>
+  </data>
+  <data name="PasswordTooShort" xml:space="preserve">
+    <value>A senha deve ter pelo menos 8 caracteres.</value>
+  </data>
+  <data name="PasswordMissingUppercase" xml:space="preserve">
+    <value>A senha deve conter pelo menos uma letra maiúscula.</value>
+  </data>
+  <data name="PasswordMissingLowercase" xml:space="preserve">
+    <value>A senha deve conter pelo menos uma letra minúscula.</value>
+  </data>
+  <data name="PasswordMissingNumber" xml:space="preserve">
+    <value>A senha deve conter pelo menos um número.</value>
+  </data>
+  <data name="PasswordMissingSpecialCharacter" xml:space="preserve">
+    <value>A senha deve conter pelo menos um caractere especial.</value>
+  </data>
+  <data name="NameCannotBeEmpty" xml:space="preserve">
+    <value>Nome não pode ser vazio.</value>
+  </data>
+  <data name="InvalidTotalHours" xml:space="preserve">
+    <value>O valor de TotalHours deve ser maior que 0.</value>
+  </data>
+  <data name="InvalidProjectNameLength" xml:space="preserve">
+    <value>O nome do projeto deve ter pelo menos 3 caracteres.</value>
+  </data>
+  <data name="InvalidProjectName" xml:space="preserve">
+    <value>O nome do projeto não pode ser vazio.</value>
+  </data>
+  <data name="InvalidUserId" xml:space="preserve">
+    <value>O ID do usuário não pode ser vazio.</value>
+  </data>
+  <data name="InvalidAttendanceDate" xml:space="preserve">
+    <value>A frequência só pode ser registrada para a data atual.</value>
+  </data>
+  <data name="InvalidCheckOutTime" xml:space="preserve">
+    <value>O horário de saída não pode ser anterior ao horário de entrada.</value>
+  </data>
+  <data name="InvalidAttendanceId" xml:space="preserve">
+    <value>O ID de presença não pode ser vazio.</value>
+  </data>
+  <data name="InvalidProjectId" xml:space="preserve">
+    <value>O ID do projeto não pode ser vazio.</value>
+  </data>
+  <data name="invalidRecordedAtDate" xml:space="preserve">
+    <value>A data de registro da atividade não pode ser no futuro.</value>
+  </data>
+  <data name="InvalidProofFilePath" xml:space="preserve">
+    <value>O caminho do arquivo de comprovação não pode ser vazio.</value>
+  </data>
+  <data name="InvalidUserName" xml:space="preserve">
+    <value>O nome do usuário não pode ser vazio.</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>A senha do usuário não pode ser vazia.</value>
+  </data>
+  <data name="InvalidCompanyId" xml:space="preserve">
+    <value>O ID da empresa não pode ser vazio.</value>
+  </data>
+  <data name="CnpjCannotBeEmpty" xml:space="preserve">
+    <value>CNPJ não pode ser vazio.</value>
+  </data>
+  <data name="InvalidCnpjFormat" xml:space="preserve">
+    <value>Formato de CNPJ inválido.</value>
+  </data>
+  <data name="CnpjAlreadyExists" xml:space="preserve">
+    <value>CNPJ já cadastrado</value>
+  </data>
+  <data name="UserNotAdmin" xml:space="preserve">
+    <value>O usuário não é um adiministrador.</value>
+  </data>
+  <data name="Company_Name_Required" xml:space="preserve">
+    <value>Nome da empresa é obrigatório.</value>
+  </data>
+  <data name="Company_Name_MinLength" xml:space="preserve">
+    <value>Nome da empresa deve ter no mínimo 3 caracteres.</value>
+  </data>
+  <data name="Company_CNPJ_Required" xml:space="preserve">
+    <value>CNPJ é obrigatório.</value>
+  </data>
+  <data name="Company_CNPJ_InvalidFormat" xml:space="preserve">
+    <value>CNPJ deve estar no formato XX.XXX.XXX/XXXX-XX.</value>
+  </data>
+  <data name="Company_Email_Required" xml:space="preserve">
+    <value>E-mail é obrigatório.</value>
+  </data>
+  <data name="Company_Email_Invalid" xml:space="preserve">
+    <value>Formato de e-mail inválido.</value>
+  </data>
+  <data name="Company_Phone_Required" xml:space="preserve">
+    <value>Número de telefone é obrigatório.</value>
+  </data>
+  <data name="Company_Phone_InvalidFormat" xml:space="preserve">
+    <value>Número de telefone deve estar no formato (XX) XXXX-XXXX ou (XX) XXXXX-XXXX.</value>
+  </data>
+  <data name="Company_NotFound" xml:space="preserve">
+    <value>Empresa não encontrada.</value>
+  </data>
+  <data name="InvalidToken" xml:space="preserve">
+    <value>O token não pode ser vazio.</value>
+  </data>
+  <data name="InvalidExpirationDate" xml:space="preserve">
+    <value>A data não pode ser anterior ao dia de hoje.</value>
+  </data>
+  <data name="InvalidProofImage" xml:space="preserve">
+    <value>A imagem de comprovação é inválida.</value>
+  </data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve">
+    <value>Email já registrado.</value>
+  </data>
+  <data name="CNPJAlreadyRegistered" xml:space="preserve">
+    <value>CNPJ já registrado.</value>
+  </data>
+  <data name="EmailTemplatePasswordResetNotFound" xml:space="preserve">
+    <value>Template de e-mail para redefinição de senha não encontrado.</value>
+  </data>
+  <data name="CodeRequired" xml:space="preserve">
+    <value>Código de recuperação é obrigatório.</value>
+  </data>
+  <data name="ExpirationInPast" xml:space="preserve">
+    <value>Data de expiração deve ser futura.</value>
+  </data>
+  <data name="AlreadyUsed" xml:space="preserve">
+    <value>Este código já foi utilizado.</value>
+  </data>
+  <data name="Expired" xml:space="preserve">
+    <value>Este código de recuperação está expirado.</value>
+  </data>
+  <data name="InvalidUser" xml:space="preserve">
+    <value>Usuário inválido.</value>
+  </data>
+  <data name="ResetPassword_Code_Required" xml:space="preserve">
+    <value>O código de recuperação é obrigatório.</value>
+  </data>
+  <data name="ResetPassword_Code_Length" xml:space="preserve">
+    <value>O código deve ter exatamente 6 caracteres.</value>
+  </data>
+  <data name="PasswordRecovery_Code_Invalid" xml:space="preserve">
+    <value>Código de recuperação inválido ou expirado.</value>
+  </data>
+  <data name="AttendanceIdIsRequired" xml:space="preserve">
+    <value>O ID da presença é obrigatório.</value>
+  </data>
+  <data name="InvalidBase64" xml:space="preserve">
+    <value>O comprovante deve estar em formato Base64 válido.</value>
+  </data>
+  <data name="FileTooLarge" xml:space="preserve">
+    <value>O comprovante não pode exceder 5MB.</value>
+  </data>
+  <data name="Address_StreetRequired" xml:space="preserve">
+    <value>Rua é obrigatória.</value>
+  </data>
+  <data name="Address_NumberRequired" xml:space="preserve">
+    <value>Número é obrigatório.</value>
+  </data>
+  <data name="Address_DistrictRequired" xml:space="preserve">
+    <value>Bairro é obrigatório.</value>
+  </data>
+  <data name="Address_CityRequired" xml:space="preserve">
+    <value>Cidade é obrigatória.</value>
+  </data>
+  <data name="Address_StateRequired" xml:space="preserve">
+    <value>Estado é obrigatório.</value>
+  </data>
+  <data name="Address_ZipCodeRequired" xml:space="preserve">
+    <value>CEP é obrigatório.</value>
+  </data>
+  <data name="Address_ZipCodeInvalid" xml:space="preserve">
+    <value>CEP deve conter 8 dígitos.</value>
+  </data>
+  <data name="InvalidUniversityId" xml:space="preserve">
+    <value>O campo de universidade é obrigatório.</value>
+  </data>
+  <data name="University_NameRequired" xml:space="preserve">
+    <value>Nome da universidade é obrigatório.</value>
+  </data>
+  <data name="University_AcronymRequired" xml:space="preserve">
+    <value>Sigla da universidade é obrigatória.</value>
+  </data>
+  <data name="University_PhoneRequired" xml:space="preserve">
+    <value>Telefone da universidade é obrigatório.</value>
+  </data>
+  <data name="InvalidCourseName" xml:space="preserve">
+    <value>O nome do curso é inválido ou está em branco.</value>
+  </data>
+  <data name="InvalidWorkloadHours" xml:space="preserve">
+    <value>A carga horária deve ser maior que zero.</value>
+  </data>
+  <data name="CourseNameRequired" xml:space="preserve">
+    <value>O nome do curso é obrigatório.</value>
+  </data>
+  <data name="CourseNameMinLength" xml:space="preserve">
+    <value>O nome do curso deve ter pelo menos 3 caracteres.</value>
+  </data>
+  <data name="WorkloadHoursRequired" xml:space="preserve">
+    <value>A carga horária é obrigatória.</value>
+  </data>
+  <data name="WorkloadHoursGreaterThanZero" xml:space="preserve">
+    <value>A carga horária deve ser maior que zero.</value>
+  </data>
+  <data name="UniversityIdRequired" xml:space="preserve">
+    <value>O ID da universidade é obrigatório.</value>
+  </data>
+  <data name="CourseNotFound" xml:space="preserve">
+    <value>Curso não encontrado.</value>
+  </data>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>O endereço é obrigatório.</value>
+  </data>
+  <data name="StreetRequired" xml:space="preserve">
+    <value>A rua é obrigatória.</value>
+  </data>
+  <data name="NumberRequired" xml:space="preserve">
+    <value>O número é obrigatório.</value>
+  </data>
+  <data name="CityRequired" xml:space="preserve">
+    <value>A cidade é obrigatória.</value>
+  </data>
+  <data name="StateRequired" xml:space="preserve">
+    <value>O estado é obrigatório.</value>
+  </data>
+  <data name="StateInvalidLength" xml:space="preserve">
+    <value>O estado deve conter 2 letras (UF).</value>
+  </data>
+  <data name="ZipCodeRequired" xml:space="preserve">
+    <value>O CEP é obrigatório.</value>
+  </data>
+  <data name="ZipCodeInvalid" xml:space="preserve">
+    <value>O CEP deve conter exatamente 8 dígitos.</value>
+  </data>
+  <data name="InvalidRegistration" xml:space="preserve">
+    <value>A matrícula é obrigatória.</value>
+  </data>
+  <data name="InvalidCourseIdForUserType" xml:space="preserve">
+    <value>Usuários do tipo Estagiário ou Coordenador devem estar vinculados a um curso.</value>
+  </data>
+  <data name="UserHasNoOngoingProject" xml:space="preserve">
+    <value>O usuário não possui cadastro de estágio em andamento.</value>
+  </data>
+  <data name="ProjectNotApprovedYet" xml:space="preserve">
+    <value>O cadastro de estágio ainda não foi aprovado pelo coordenador.</value>
+  </data>
+  <data name="RegistrationAlreadyInUse" xml:space="preserve">
+    <value>Já existe um usuário cadastrado com esta matrícula.</value>
+  </data>
+  <data name="InternAlreadyAssignedToActiveProject" xml:space="preserve">
+    <value>O aluno já está vinculado a um projeto de estágio com status ativo.</value>
+  </data>
+  <data name="PhoneIsRequired" xml:space="preserve">
+    <value>O número de telefone é obrigatório.</value>
+  </data>
+  <data name="PhoneMaxLength" xml:space="preserve">
+    <value>O número de telefone deve ter no máximo 20 caracteres.</value>
+  </data>
+  <data name="InvalidProjectClassification" xml:space="preserve">
+    <value>Classificação de estágio inválida.</value>
+  </data>
+  <data name="RepresentativeNameRequired" xml:space="preserve">
+    <value>O nome do representante legal é obrigatório.</value>
+  </data>
+  <data name="RepresentativeCpfRequired" xml:space="preserve">
+    <value>O CPF do representante legal é obrigatório.</value>
+  </data>
+  <data name="RepresentativePositionRequired" xml:space="preserve">
+    <value>O cargo/função do representante legal é obrigatório.</value>
+  </data>
+  <data name="RepresentativeAlreadyExists" xml:space="preserve">
+    <value>Representante legal informado já está cadastrado no sistema.</value>
+  </data>
+  <data name="LegalRepresentativeNotFound" xml:space="preserve">
+    <value>Representante legal não encontrado para esta empresa.</value>
+  </data>
+  <data name="RepresentativeCpfInvalid" xml:space="preserve">
+    <value>O CPF deve conter exatamente 11 dígitos numéricos.</value>
+  </data>
+  <data name="RepresentativePositionTooLong" xml:space="preserve">
+    <value>O cargo do representante não pode exceder 100 caracteres.</value>
+  </data>
+  <data name="RepresentativeEmailRequired" xml:space="preserve">
+    <value>O e-mail é obrigatório.</value>
+  </data>
+  <data name="RepresentativeEmailInvalid" xml:space="preserve">
+    <value>O e-mail informado não é válido.</value>
+  </data>
+  <data name="SupervisorMaxProjectsExceeded" xml:space="preserve">
+    <value>O supervisor já está atribuído ao número máximo de 10 projetos em andamento.</value>
+  </data>
+  <data name="InvalidVerificationCode" xml:space="preserve">
+    <value>O código de verificação é inválido.</value>
+  </data>
+  <data name="VerificationCodeNotActive" xml:space="preserve">
+    <value>O código não está ativo para ser usado.</value>
+  </data>
+  <data name="VerificationCodeAlreadyExists" xml:space="preserve">
+    <value>Já existe um código ativo para cadastro da coordenação.</value>
+  </data>
+  <data name="VerificationCodeRequired" xml:space="preserve">
+    <value>O código de verificação é obrigatório para este cadastro.</value>
+  </data>
+  <data name="VerificationCodeInvalidOrExpired" xml:space="preserve">
+    <value>O código de verificação é inválido ou expirou.</value>
+  </data>
+  <data name="InvalidCpf" xml:space="preserve">
+    <value>O campo CPF é obrigatório.</value>
+  </data>
+  <data name="InvalidDepartment" xml:space="preserve">
+    <value>O campo Departamento é obrigatório.</value>
+  </data>
+  <data name="UserInvalidCpfFormat" xml:space="preserve">
+    <value>O CPF deve conter exatamente 11 dígitos numéricos.</value>
+  </data>
+  <data name="DepartmentIsRequired" xml:space="preserve">
+    <value>O Departamento deve ser informado.</value>
+  </data>
+  <data name="CpfIsRequired" xml:space="preserve">
+    <value>O CPF deve ser informado.</value>
+  </data>
+</root>
