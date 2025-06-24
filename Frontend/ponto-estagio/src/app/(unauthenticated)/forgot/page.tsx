@@ -5,42 +5,32 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Header from "@/app/components/header/page";
 import Footer from "@/app/components/footer/page";
-export default function LoginPage() {
-  //const [showPassword, setShowPassword] = useState(false);
+import PasswordResetModal from "@/app/components/passwordResetModal/PasswordResetModal";
+
+export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
-  const [senha] = useState("");
-
+  const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
 
-  //const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!email) {
+      toast.error("Por favor, insira seu e-mail.");
+      return;
+    }
 
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, senha }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success("Login realizado com sucesso!");
-        // redireciona, se necessário
-        router.push("/dashboard");
-      } else {
-        toast.error(data?.message || "Falha ao fazer login.");
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // Simular chamada à API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast.success("Código enviado para seu e-mail.");
+      setModalOpen(true);
     } catch (error) {
-      toast.error("Erro inesperado ao tentar logar.");
+      toast.error("Erro ao enviar código de verificação.");
     } finally {
       setLoading(false);
     }
@@ -56,7 +46,7 @@ export default function LoginPage() {
       >
         <h2 className="text-3xl font-bold mb-2 text-black">Recuperar Senha</h2>
 
-        <form className="space-y-4" onSubmit={handleLogin}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="relative">
             <input
               type="email"
@@ -77,16 +67,12 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              handleLogin(e);
-            }}
             disabled={loading}
             className={`w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {loading ? "Avançando..." : "Avançar"}
+            {loading ? "Enviando..." : "Avançar"}
           </button>
 
           <div className="flex items-center my-4">
@@ -109,6 +95,13 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
+      
+      <PasswordResetModal 
+        isOpen={modalOpen} 
+        onClose={() => setModalOpen(false)}
+        email={email}
+      />
+      
       <Footer />
     </div>
   );
