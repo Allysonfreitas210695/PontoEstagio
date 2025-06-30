@@ -34,7 +34,7 @@ export default function SelectPage() {
             processo e muito mais!
           </p>
           <Button
-            onClick={() => router.push("/register/coordenador")}
+            onClick={() => router.push("/register")}
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
@@ -57,7 +57,7 @@ export default function SelectPage() {
             aprovações e muito mais!
           </p>
           <Button
-            onClick={() => router.push("/register/aluno")}
+            onClick={() => router.push("/register")}
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
