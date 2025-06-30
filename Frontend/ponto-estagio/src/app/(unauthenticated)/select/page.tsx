@@ -8,8 +8,16 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Header from "@/app/components/header/page";
 import Footer from "@/app/components/footer/page";
+
 export default function SelectPage() {
   const router = useRouter();
+  
+  const handleNavigation = (userType: string) => {
+    // Armazena o tipo de usuário no localStorage antes de navegar
+    localStorage.setItem('userType', userType);
+    router.push("/register");
+  };
+
   return (
     <section className="flex flex-col items-center min-h-screen bg-white px-4 py-10">
       {/* Logo */}
@@ -34,7 +42,7 @@ export default function SelectPage() {
             processo e muito mais!
           </p>
           <Button
-            onClick={() => router.push("/register")}
+            onClick={() => handleNavigation("3")} // Valor 3 para Coordenador
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
@@ -57,7 +65,7 @@ export default function SelectPage() {
             aprovações e muito mais!
           </p>
           <Button
-            onClick={() => router.push("/register")}
+            onClick={() => handleNavigation("0")} // Valor 0 para Aluno
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
