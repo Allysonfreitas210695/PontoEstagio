@@ -1,16 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import clsx from "clsx";
 import Header from "@/app/components/header/page";
 import Footer from "@/app/components/footer/page";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+import { log } from "console";
 
 export default function RegisterPage() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  
+  useEffect(() => {
+    // Recupera o tipo de usuário do localStorage quando a página carrega
+    const storedUserType = localStorage.getItem('userType');
+    if (storedUserType) {
+      setUserType(storedUserType);
+    }
+  }, []);
+
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const passwordRules = [
@@ -36,6 +52,58 @@ export default function RegisterPage() {
     },
   ];
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    // Verifica se todas as regras de senha são válidas
+    const isPasswordValid = passwordRules.every(rule => rule.isValid);
+    if (!isPasswordValid) {
+      toast.error("Por favor, crie uma senha que atenda a todos os requisitos");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+  console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
+  
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}api/users/check-user`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      type: userType
+    }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Erro ao cadastrar usuário');
+  }
+
+  toast.success('Cadastro realizado com sucesso!');
+      
+      // Redireciona conforme o tipo de usuário
+      if (userType === "0") {
+        router.push('/register/aluno');
+      } else if (userType === "3") {
+        router.push('/register/coordenador');
+      } else {
+        // Caso não tenha um tipo definido, redireciona para uma página padrão
+        router.push('/');
+      }
+      
+    } catch (error: any) {
+      toast.error(error.message || 'Erro ao cadastrar usuário');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="bg-white p-6 flex flex-col items-center ">
       {/* Logo */}
@@ -45,13 +113,18 @@ export default function RegisterPage() {
       <div className="flex flex-col w-[350] items-center justify-center min-h-screen bg-white p-6 gap-2">
         <h1 className="text-2xl font-bold mb-2">Cadastre-se</h1>
         <p className="text-sm text-gray-600 mb-6">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Etiam eget
-          ligula eu lectus lobortis.
+          {userType === "0" ? "Cadastro de Aluno" : userType === "3" ? "Cadastro de Coordenador" : "Cadastro"}
         </p>
 
         {/* Formulário */}
-        <form className="space-y-4">
-          <Input type="email" placeholder="E-mail" />
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <Input 
+            type="email" 
+            placeholder="E-mail" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
           {/* Campo de senha */}
           <div className="relative">
@@ -98,12 +171,12 @@ export default function RegisterPage() {
           </p>
 
           {/* Botão */}
-
           <Button
             type="submit"
             className="bg-blue-600 hover:bg-blue-700 text-white w-full mt-4"
+            disabled={isLoading}
           >
-            Aceitar e cadastrar-se
+            {isLoading ? "Cadastrando..." : "Aceitar e cadastrar-se"}
           </Button>
         </form>
       </div>
