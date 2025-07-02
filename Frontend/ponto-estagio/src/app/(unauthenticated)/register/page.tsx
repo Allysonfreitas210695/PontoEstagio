@@ -67,7 +67,7 @@ export default function RegisterPage() {
     try {
   console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
   
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}api/users/check-user`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}users/check-user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,14 +86,14 @@ export default function RegisterPage() {
   }
 
   toast.success('Cadastro realizado com sucesso!');
-      
-      // Redireciona conforme o tipo de usuário
+      localStorage.setItem("userEmail", email);
+      localStorage.setItem("userPassword", password);
+
       if (userType === "0") {
         router.push('/register/aluno');
       } else if (userType === "3") {
         router.push('/register/coordenador');
       } else {
-        // Caso não tenha um tipo definido, redireciona para uma página padrão
         router.push('/');
       }
       
