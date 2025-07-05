@@ -24,7 +24,7 @@ public class ActivityTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidAttendanceId);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidAttendanceId);
     }
 
     [Fact]
@@ -35,18 +35,7 @@ public class ActivityTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidUserId);
-    }
-
-    [Fact]
-    public void CreateActivity_WithEmptyProjectId_ShouldThrowException()
-    {
-        // Arrange & Act
-        Action act = () => ActivityBuilder.Build(projectId: Guid.Empty);
-
-        // Assert
-        act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidProjectId);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidUserId);
     }
 
     [Fact]
@@ -69,7 +58,7 @@ public class ActivityTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidProofFilePath);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidProofFilePath);
     }
 
     [Fact]

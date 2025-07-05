@@ -4,8 +4,8 @@ import Image from 'next/image';
 import logo from "../../../../public/assets/image/logo2.png"; 
 
 // Assuming these paths are correct relative to where this new file will be
-import Sidebar from "../../dashboard/Sidebar";
-import DashboardLayout from "../../dashboard/DashboardLayout";
+import Sidebar from "../dashboard/Sidebar";
+import DashboardLayout from "../dashboard/DashboardLayout";
 
 export default function DadosEmpresaCompleto() {
   // State for Empresa Data

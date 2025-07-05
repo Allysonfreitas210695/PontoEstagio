@@ -1,4 +1,5 @@
 using PontoEstagio.Communication.Responses;
+using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Repositories.Projects; 
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
@@ -18,7 +19,7 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
     {
         var _project = await _projectRepository.GetProjectByIdAsync(id);
         if(_project is null)
-             throw new NotFoundException(ErrorMessages.ProjectNotFound);
+            throw new NotFoundException(ErrorMessages.ProjectNotFound);
 
         return new ResponseProjectJson(){
             Id = _project.Id,
@@ -28,31 +29,15 @@ public class GetProjectByIdUseCase : IGetProjectByIdUseCase
             EndDate = _project.EndDate,
             Status = _project.Status.ToString(),
             CreatedAt = _project.CreatedAt,
-            Activities = _project.Activities.Select(x => new ResponseActivityJson()
+            Attendances = _project.Attendances.Select(z => new ResponseAttendanceJson()
             {
-                Id = x.Id,
-                Attendance = new ResponseAttendanceJson()
-                {
-                    Id = x.Attendance.Id,
-                    UserId = x.Attendance.UserId,
-                    CheckIn = x.Attendance.CheckIn,
-                    CheckOut = x.Attendance.CheckOut,
-                    Date = x.Attendance.Date,
-                    Status = x.Attendance.Status.ToString(),
-                },
-                UserId = x.UserId,
-                RecordedAt = x.RecordedAt,
-                ProofFilePath = x.ProofFilePath,
-                Project = new ResponseProjectJson()
-                {
-                    Id = x.Project.Id,
-                    Name = x.Project.Name,
-                    Description = x.Project.Description,
-                    Status = x.Project.Status.ToString(),
-                    StartDate = x.Project.StartDate,
-                    EndDate = x.Project.EndDate,
-                },
-                Description = x.Description,
+                Id = z.Id,
+                CheckIn = z.CheckIn,
+                Status = z.Status.ToString(),
+                Date = z.Date,
+                CheckOut = z.CheckOut,
+                UserId = z.UserId,
+                CreatedAt = z.CreatedAt
             }).ToList()
         };
      }

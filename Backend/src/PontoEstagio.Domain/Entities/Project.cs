@@ -1,3 +1,4 @@
+
 using PontoEstagio.Domain.Common;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Exceptions.Exceptions;
@@ -9,7 +10,7 @@ public class Project : Entity
 {
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
-    public ProjectStatus Status { get; set; } = ProjectStatus.Planning;
+    public ProjectStatus Status { get; set; } = ProjectStatus.Pending;
     public DateTime StartDate { get;  set; }
     public DateTime? EndDate { get;  set; } 
     public long TotalHours { get; set; } 
@@ -17,33 +18,47 @@ public class Project : Entity
     public User Creator { get; private set; } = default!;
     public Guid CompanyId { get; private set; } 
     public virtual Company Company { get; private set; }  = default!;
+    public Guid UniversityId { get; private set; } 
+    public virtual University University { get; private set; }  = default!;
+    public ProjectClassification Classification { get; private set; } = ProjectClassification.Mandatory;
     public ICollection<UserProject> UserProjects { get; private set; } = new List<UserProject>();
-    public ICollection<Activity> Activities { get; private set; } = new List<Activity>();
+    public ICollection<Attendance> Attendances { get; private set; } = new List<Attendance>();
 
     public Project() { }
 
     public Project(
         Guid? id, 
         Guid companyId, 
+        Guid universityId,
         string name, 
         string description, 
         long totalHours, 
         ProjectStatus status, 
         DateTime startDate, 
         DateTime? endDate,
-        Guid createdBy
-)
+        Guid createdBy,
+        ProjectClassification classification
+    )
     {
         Id = id ?? Guid.NewGuid();
 
         if (string.IsNullOrEmpty(name))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectName });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectName });
 
         if (name.Length < 3)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidProjectNameLength });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectNameLength });
 
         if (companyId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCompanyId });
+
+        if (universityId == Guid.Empty)
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
+
+        if (!System.Enum.IsDefined(typeof(ProjectClassification), classification))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectClassification });
+
+        if (totalHours <= 0)
+            throw new ArgumentException(ErrorMessages.InvalidTotalHours);
 
         Name = name;
         Description = description;
@@ -52,20 +67,18 @@ public class Project : Entity
         EndDate = endDate;
         CreatedBy = createdBy;
         CompanyId = companyId;
-
-        if (totalHours <= 0)
-            throw new ArgumentException(ErrorMessages.invalidTotalHours);
-
+        UniversityId = universityId;
+        Classification = classification;
         TotalHours = totalHours;
     }
 
     public void UpdateName(string name)
     {
         if (string.IsNullOrEmpty(name))
-            throw new ArgumentException(ErrorMessages.invalidProjectName);
+            throw new ArgumentException(ErrorMessages.InvalidProjectName);
 
         if (name.Length < 3)
-            throw new ArgumentException(ErrorMessages.invalidProjectNameLength);
+            throw new ArgumentException(ErrorMessages.InvalidProjectNameLength);
 
         Name = name;
         UpdateTimestamp();
@@ -103,8 +116,16 @@ public class Project : Entity
 
     public void UpdateTotalHours(long totalHours) {
         if (totalHours <= 0)
-            throw new ArgumentException(ErrorMessages.invalidTotalHours);
+            throw new ArgumentException(ErrorMessages.InvalidTotalHours);
         TotalHours = totalHours;
+        UpdateTimestamp();
+    } 
+
+    public void UpdateClassification(ProjectClassification classification) {
+        if (!System.Enum.IsDefined(typeof(ProjectClassification), classification))
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidProjectClassification });
+
+        Classification = classification;
         UpdateTimestamp();
     } 
 

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using PontoEstagio.API.Extensions;
+using System.Text; 
 using PontoEstagio.API.Filters;
 using PontoEstagio.Infrastructure;
 using PontoEstagio.Infrastructure.DataAccess.Persistence;
@@ -10,9 +9,15 @@ using Newtonsoft.Json;
 using PontoEstagio.API.Token;
 using PontoEstagio.Infrastructure.Security.Tokens;
 using PontoEstagio.API.Middleware;
+using PontoEstagio.Domain.Services.Configuration;
+using PontoEstagio.Infrastructure.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+builder.Configuration.EnsureDirectoryExists();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +32,7 @@ builder.Services.AddApplication();
 builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddCors(options =>
 {

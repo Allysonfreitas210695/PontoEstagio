@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PontoEstagio.Domain.Entities;
+using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories.UserProjects;
 using PontoEstagio.Infrastructure.Context;
 
@@ -28,6 +29,11 @@ public class UserProjectsRepository : IUserProjectsReadOnlyRepository, IUserProj
                                          );
     }
 
+    public async Task<bool> IsSupervisorAlreadyAssignedToProjectAsync(Guid projectId)
+    {
+        return await _dbContext.UserProjects.AsNoTracking().AnyAsync(up => up.ProjectId == projectId && up.User.Type == Domain.Enum.UserType.Supervisor);
+    }
+
     public async Task<UserProject?> GetActiveUserProjectAsync(Guid projectId, Guid userId)
     {
         return await _dbContext.UserProjects
@@ -52,4 +58,12 @@ public class UserProjectsRepository : IUserProjectsReadOnlyRepository, IUserProj
     {
         _dbContext.UserProjects.Update(userProject);
     }
+
+    public async Task<int> CountActiveProjectsForSupervisorAsync(Guid supervisorId)
+    {
+        return await _dbContext.UserProjects
+                                .Where(up => up.UserId == supervisorId && up.User.Type == UserType.Supervisor)
+                                .CountAsync(up => up.Project.Status == ProjectStatus.InProgress);
+    }
+
 }

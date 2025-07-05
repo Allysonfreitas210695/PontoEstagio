@@ -1,0 +1,194 @@
+
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+// Enums
+
+// Enums
+
+Enum ActivityStatus {
+  Pending
+  Approved
+  Rejected
+}
+
+Enum AttendanceStatus {
+  Pending
+  Approved
+  Rejected
+}
+
+Enum ProjectStatus {
+  Pending
+  InProgress
+  Completed
+  Canceled
+}
+
+Enum ProjectClassification {
+  Mandatory
+  NonMandatory
+}
+
+Enum UserType {
+  Intern
+  Supervisor
+  Admin
+  Coordinator
+  Advisor
+}
+
+Enum VerificationCodeStatus {
+  Active
+  Used
+  Expired
+}
+
+// Tabelas
+
+Table University {
+  Id varchar [pk]
+  Name varchar
+  Acronym varchar
+  CNPJ varchar
+  Email varchar
+  Phone varchar
+  IsActive boolean
+}
+
+Table Course {
+  Id varchar [pk]
+  Name varchar
+  WorkloadHours int
+  UniversityId varchar
+}
+
+Table User {
+  Id varchar [pk]
+  Name varchar
+  Email varchar
+  Type UserType
+  IsActive boolean
+  Registration varchar
+  Password varchar
+  Phone varchar
+  Cpf varchar
+  Department varchar
+  UniversityId varchar
+  CourseId varchar
+}
+
+Table Company {
+  Id varchar [pk]
+  Name varchar
+  CNPJ varchar
+  Phone varchar
+  Email varchar
+  IsActive boolean
+  Street varchar
+  Number varchar
+  District varchar
+  City varchar
+  State varchar
+  ZipCode varchar
+  Complement varchar
+}
+
+Table LegalRepresentative {
+  Id varchar [pk]
+  FullName varchar
+  CPF varchar
+  Position varchar
+  Email varchar
+  CompanyId varchar
+}
+
+Table Project {
+  Id varchar [pk]
+  Name varchar
+  Description text
+  Status ProjectStatus
+  StartDate datetime
+  EndDate datetime
+  TotalHours int
+  CreatedBy varchar
+  CompanyId varchar
+  UniversityId varchar
+  Classification ProjectClassification
+}
+
+Table UserProject {
+  Id varchar [pk]
+  UserId varchar
+  ProjectId varchar
+  AssignedAt datetime
+  IsCurrent boolean
+  Role UserType
+}
+
+Table Attendance {
+  Id varchar [pk]
+  UserId varchar
+  Date datetime
+  CheckIn varchar
+  CheckOut varchar
+  ProjectId varchar
+  ProofImageBase64 text
+  Status AttendanceStatus
+}
+
+Table Activity {
+  Id varchar [pk]
+  AttendanceId varchar
+  UserId varchar
+  Description text
+  RecordedAt datetime
+  ProofFilePath varchar
+  Status ActivityStatus
+}
+
+Table PasswordRecovery {
+  Id varchar [pk]
+  UserId varchar
+  Code varchar
+  Used boolean
+}
+
+Table EmailTemplates {
+  Id varchar [pk]
+  Title varchar
+  Subject varchar
+  Body text
+}
+
+Table UserRefreshToken {
+  Id varchar [pk]
+  UserId varchar
+  Token text
+  ExpirationDate datetime
+}
+
+Table VerificationCodeUniversity {
+  Id varchar [pk]
+  Email varchar
+  Code varchar
+  Expiration datetime
+  Status VerificationCodeStatus
+}
+
+// Relacionamentos
+
+Ref: Course.UniversityId > University.Id
+Ref: User.UniversityId > University.Id
+Ref: User.CourseId > Course.Id
+Ref: LegalRepresentative.CompanyId > Company.Id
+Ref: Project.CompanyId > Company.Id
+Ref: Project.UniversityId > University.Id
+Ref: Project.CreatedBy > User.Id
+Ref: UserProject.UserId > User.Id
+Ref: UserProject.ProjectId > Project.Id
+Ref: Attendance.UserId > User.Id
+Ref: Attendance.ProjectId > Project.Id
+Ref: Activity.AttendanceId > Attendance.Id
+Ref: Activity.UserId > User.Id
+Ref: PasswordRecovery.UserId > User.Id
+Ref: UserRefreshToken.UserId > User.Id

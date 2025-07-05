@@ -7,16 +7,11 @@ namespace Validators.Test.Company.Register.RegisterCompanyValidatorTest;
 
 public class RegisterCompanyValidatorTest
 {
-    private readonly RegisterCompanyValidator _validator;
-
-    public RegisterCompanyValidatorTest()
-    {
-        _validator = new RegisterCompanyValidator();
-    }
-
+  
     [Fact]
     public void Success()
     {
+        var _validator = new RegisterCompanyValidator();
         var request = RequestRegisterCompanyJsonBuilder.Build();
         var result = _validator.Validate(request);
         result.IsValid.Should().BeTrue();
@@ -25,6 +20,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_Name_Is_Empty()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.Name = string.Empty;
 
@@ -37,6 +34,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_Name_Is_Too_Short()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.Name = "AB";
 
@@ -49,6 +48,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_CNPJ_Is_Empty()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.CNPJ = string.Empty;
 
@@ -61,6 +62,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_CNPJ_Is_Invalid_Format()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.CNPJ = "123456789";
 
@@ -73,6 +76,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_Email_Is_Empty()
     {
+        var _validator = new RegisterCompanyValidator(); 
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.Email = string.Empty;
 
@@ -85,6 +90,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_Email_Is_Invalid()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.Email = "invalid-email";
 
@@ -97,6 +104,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_Phone_Is_Empty()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.Phone = string.Empty;
 
@@ -109,6 +118,8 @@ public class RegisterCompanyValidatorTest
     [Fact]
     public void Should_Have_Error_When_Phone_Has_Invalid_Format()
     {
+        var _validator = new RegisterCompanyValidator();
+
         var request = RequestRegisterCompanyJsonBuilder.Build();
         request.Phone = "12345678";
 

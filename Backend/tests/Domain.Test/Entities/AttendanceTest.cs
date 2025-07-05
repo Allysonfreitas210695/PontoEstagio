@@ -20,11 +20,11 @@ public class AttendanceTest
     public void CreateAttendance_WithEmptyUserId_ShouldThrowException()
     {
         // Arrange & Act
-        Action act = () => AttendanceBuilder.Build(userId: Guid.Empty);
+        Action act = () => AttendanceBuilder.Build(userId: Guid.Empty, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-        .Which.Errors.Should().Contain(ErrorMessages.invalidUserId);
+        .Which.Errors.Should().Contain(ErrorMessages.InvalidUserId);
     }
 
     [Fact]
@@ -38,7 +38,19 @@ public class AttendanceTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidAttendanceDate);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidAttendanceDate);
+    }
+
+
+    [Fact]
+    public void CreateActivity_WithEmptyProjectId_ShouldThrowException()
+    {
+        // Arrange & Act
+        Action act = () => AttendanceBuilder.Build(projectId: Guid.Empty, date: DateTime.Now);
+
+        // Assert
+        act.Should().Throw<ErrorOnValidationException>()
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidProjectId);
     }
 
     [Fact]
@@ -49,11 +61,11 @@ public class AttendanceTest
         var checkOut = new TimeSpan(9, 0, 0);  
 
         // Act
-        Action act = () => AttendanceBuilder.Build(checkIn: checkIn, checkOut: checkOut);
+        Action act = () => AttendanceBuilder.Build(checkIn: checkIn, checkOut: checkOut, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidCheckOutTime);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidCheckOutTime);
     }
 
     [Fact]
@@ -63,10 +75,10 @@ public class AttendanceTest
         var time = new TimeSpan(9, 0, 0); 
 
         // Act
-        Action act = () => AttendanceBuilder.Build(checkIn: time, checkOut: time);
+        Action act = () => AttendanceBuilder.Build(checkIn: time, checkOut: time, date: DateTime.Now);
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-            .Which.Errors.Should().Contain(ErrorMessages.invalidCheckOutTime);
+            .Which.Errors.Should().Contain(ErrorMessages.InvalidCheckOutTime);
     }
 }

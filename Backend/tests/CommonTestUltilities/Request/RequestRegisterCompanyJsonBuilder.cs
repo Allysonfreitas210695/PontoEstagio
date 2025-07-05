@@ -5,14 +5,30 @@ public class RequestRegisterCompanyJsonBuilder
 {
     public static RequestRegisterCompanytJson Build()
     {
-        var faker = new Faker<RequestRegisterCompanytJson>()
-            .RuleFor(c => c.Name, f => f.Company.CompanyName()) 
-            .RuleFor(c => c.CNPJ, f => GenerateValidCNPJ())   
-            .RuleFor(c => c.Phone, f => f.Phone.PhoneNumber("(##) #####-####")) 
-            .RuleFor(c => c.Email, f => f.Internet.Email())   
-            .RuleFor(c => c.IsActive, f => true);       
+        var faker = new Faker("pt_BR");
 
-        return faker.Generate();
+        var address = new RequestAddressJson
+        {
+            Street = faker.Address.StreetName(),
+            Number = faker.Address.BuildingNumber(),
+            District = faker.Address.County(),
+            City = faker.Address.City(),
+            State = faker.Address.StateAbbr(),
+            ZipCode = faker.Address.ZipCode("#####-###"),
+            Complement = faker.Address.SecondaryAddress()
+        };
+
+        var company = new Faker<RequestRegisterCompanytJson>()
+            .RuleFor(c => c.Name, f => f.Company.CompanyName())
+            .RuleFor(c => c.CNPJ, f => GenerateValidCNPJ())
+            .RuleFor(c => c.Phone, f => f.Phone.PhoneNumber("(##) #####-####"))
+            .RuleFor(c => c.Email, f => f.Internet.Email())
+            .RuleFor(c => c.IsActive, f => true)
+            .Generate();
+
+        company.Address = address;
+
+        return company;
     }
 
     private static string GenerateValidCNPJ()
@@ -20,7 +36,7 @@ public class RequestRegisterCompanyJsonBuilder
         var random = new Random();
 
         int[] cnpjBase = new int[12];
-        for (int i = 0; i < 8; i++) cnpjBase[i] = random.Next(0, 9); // raiz
+        for (int i = 0; i < 8; i++) cnpjBase[i] = random.Next(0, 9);
         cnpjBase[8] = 0;
         cnpjBase[9] = 0;
         cnpjBase[10] = 0;

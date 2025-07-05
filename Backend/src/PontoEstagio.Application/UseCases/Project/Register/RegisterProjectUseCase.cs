@@ -2,6 +2,7 @@
 using PontoEstagio.Communication.Responses;
 using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
+using PontoEstagio.Domain.Repositories.Comapany;
 using PontoEstagio.Domain.Repositories.Projects; 
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
@@ -10,15 +11,21 @@ namespace PontoEstagio.Application.UseCases.Projects.Register;
 public class RegisterProjectUseCase : IRegisterProjectUseCase
 {
     private readonly IProjectWriteOnlyRepository _projectWriteOnlyRepository;
+    private readonly ICompanyReadOnlyRepository _companyReadOnlyRepository;
+    private readonly IUserReadOnlyRepository _userReadOnlyRepository;
     private readonly ILoggedUser _loggedUser;
     private readonly IUnitOfWork _unitOfWork;
     public RegisterProjectUseCase(
         IProjectWriteOnlyRepository projectWriteOnlyRepository,
+        ICompanyReadOnlyRepository companyReadOnlyRepository,
+        IUserReadOnlyRepository userReadOnlyRepository,
         ILoggedUser loggedUser, 
         IUnitOfWork unitOfWork
     )
     {
         _projectWriteOnlyRepository = projectWriteOnlyRepository;
+        _companyReadOnlyRepository = companyReadOnlyRepository;
+        _userReadOnlyRepository = userReadOnlyRepository;
         _loggedUser = loggedUser;
         _unitOfWork = unitOfWork;
     }
@@ -34,16 +41,26 @@ public class RegisterProjectUseCase : IRegisterProjectUseCase
         if (user.Type != UserType.Admin)
             throw new ForbiddenException(ErrorMessages.UserNotAdmin);
 
+        var usuarioAuthenticate = await _userReadOnlyRepository.GetUserByIdAsync(user.Id);
+        if(usuarioAuthenticate is null)
+            throw new ForbiddenException(ErrorMessages.UserNotFound);
+
+        var companyExists = await _companyReadOnlyRepository.GetByIdAsync(request.CompanyId);
+        if (companyExists is null)
+            throw new NotFoundException(ErrorMessages.Company_NotFound);
+
         var _project = new Domain.Entities.Project(
             Guid.NewGuid(),
             request.CompanyId,
+            usuarioAuthenticate.UniversityId,
             request.Name, 
             request.Description, 
             request.TotalHours,
-            ProjectStatus.Planning, 
+            ProjectStatus.Pending, 
             request.StartDate,
             request.EndDate,
-            user.Id
+            user.Id,
+            (Domain.Enum.ProjectClassification)request.Classification
         );
 
         await _projectWriteOnlyRepository.AddAsync(_project);

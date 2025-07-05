@@ -1,4 +1,6 @@
 using System.Text.RegularExpressions;
+using PontoEstagio.Exceptions.Exceptions;
+using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace PontoEstagio.Domain.ValueObjects;
 
@@ -18,12 +20,13 @@ public class Email
     public static Email Criar(string endereco)
     {
         if (string.IsNullOrWhiteSpace(endereco))
-            throw new ArgumentException("Email não pode ser vazio");
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.EmailCannotBeEmpty});
 
         var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 
         if (!regex.IsMatch(endereco))
-            throw new ArgumentException("Formato de email inválido");
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidEmailFormat});
+
 
         return new Email(endereco);
     }

@@ -4,6 +4,7 @@ using PontoEstagio.Domain.Enum;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.Attendance;
 using PontoEstagio.Domain.Repositories.UserProjects;
+using PontoEstagio.Domain.Services.Storage;
 using PontoEstagio.Exceptions.Exceptions;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
@@ -16,13 +17,15 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
     private readonly IUserProjectsReadOnlyRepository _userProjectsReadOnlyRepository;
     private readonly ILoggedUser _loggedUser;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IFileStorage _fileStorage;
 
     public RegisterAttendanceUseCase(
         IAttendanceReadOnlyRepository attendanceReadOnlyRepository,
         IAttendanceWriteOnlyRepository attendanceWriteOnlyRepository,
-        ILoggedUser loggedUser, 
+        ILoggedUser loggedUser,
         IUnitOfWork unitOfWork,
-        IUserProjectsReadOnlyRepository userProjectsReadOnlyRepository
+        IUserProjectsReadOnlyRepository userProjectsReadOnlyRepository,
+        IFileStorage fileStorage
     )
     {
         _attendanceReadOnlyRepository = attendanceReadOnlyRepository;
@@ -30,6 +33,7 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
         _loggedUser = loggedUser;
         _unitOfWork = unitOfWork;
         _userProjectsReadOnlyRepository = userProjectsReadOnlyRepository;
+        _fileStorage = fileStorage;
     }
 
     public async Task<ResponseShortAttendanceJson> Execute(RequestRegisterAttendanceJson request)
@@ -46,25 +50,31 @@ public class RegisterAttendanceUseCase : IRegisterAttendanceUseCase
         if (_user.Type != UserType.Intern)
             throw new ForbiddenException(ErrorMessages.InvalidUserType);
 
-       var existingProject = _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(_user.Id);
-        if (existingProject != null)
-            throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
+        var existingProject = await _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(_user.Id);
 
-        var existingAttendance = await _attendanceReadOnlyRepository
-                .GetByUserIdAndDateAsync(_user.Id, request.Date);
+        if (existingProject == null)
+            throw new NotFoundException(ErrorMessages.UserHasNoOngoingProject);
+
+        if (existingProject.Status != ProjectStatus.InProgress)
+            throw new BusinessRuleException(ErrorMessages.ProjectNotApprovedYet);
+
+        var existingAttendance = await _attendanceReadOnlyRepository.GetByUserIdAndDateAsync(_user.Id, request.Date);
         if (existingAttendance != null)
             throw new BusinessRuleException(ErrorMessages.AttendanceAlreadyExists);
 
-        //TODO: salvar imagem no servidor
+        string? proofFilePath = string.Empty;
+        if (!string.IsNullOrWhiteSpace(request.ProofImageBase64))
+            proofFilePath = await _fileStorage.SaveBase64FileAsync(request.ProofImageBase64);
 
         var newAttendance = new Domain.Entities.Attendance(
             Guid.NewGuid(),
             _user.Id,
+            existingProject!.Id,
             request.Date,
             request.CheckIn,
             request.CheckOut,
             (AttendanceStatus)request.Status,
-            request.ProofImageBase64
+            proofFilePath
         );
 
         await _attendanceWriteOnlyRepository.AddAsync(newAttendance);

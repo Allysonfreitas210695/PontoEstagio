@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import logo from "../../../../../public/assets/image/logo2.png";
-import Sidebar from "../../../dashboard/Sidebar";
-import DashboardLayout from "../../../dashboard/DashboardLayout";
+import Sidebar from "../../dashboard/Sidebar";
+import DashboardLayout from "../../dashboard/DashboardLayout";
 import { ArrowRight, Link as LinkIcon } from 'lucide-react';
 import Link from 'next/link';
 

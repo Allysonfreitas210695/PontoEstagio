@@ -5,8 +5,7 @@ using PontoEstagio.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Infrastructure.Context;
-using Bogus.Extensions.Brazil;
-using PontoEstagio.Domain.Security.Cryptography;
+using Bogus.Extensions.Brazil; 
 
 namespace PontoEstagio.Infrastructure.DataAccess.Persistence;
 
@@ -17,28 +16,70 @@ public static class SeedDatabaseInitial
     {
         var dbContext = serviceProvider.GetRequiredService<PontoEstagioDbContext>();
 
-        if(!await dbContext.Users.AnyAsync(x => x.Type == UserType.Admin))
-            await SeedAdminUser(dbContext);
+        await using var transaction = await dbContext.Database.BeginTransactionAsync();
 
-        if (await dbContext.Users.AnyAsync())
-            return;
+        try
+        {
 
-        await SeedUsers(dbContext);
-        await SeedCompanies(dbContext);
-        await SeedProjects(dbContext);
-        await SeedUserProjectsAndRelatedData(dbContext);
+            if (!await dbContext.EmailTemplates.AsNoTracking().AnyAsync())
+                await SeedEmailTemplates(dbContext);
+
+            if (!await dbContext.Universities.AnyAsync())
+                await SeedUniversities(dbContext);
+                
+            if (!await dbContext.Courses.AsNoTracking().AnyAsync())
+                await SeedCourses(dbContext);
+
+            if (await dbContext.Users.AnyAsync())
+                return;
+
+            if (!await dbContext.Users.AsNoTracking().AnyAsync(x => x.Type == UserType.Admin))
+                await SeedAdminUser(dbContext);
+
+            await SeedUsers(dbContext);
+
+            await SeedCompanies(dbContext);
+            await SeedLegalRepresentatives(dbContext);
+
+            await SeedProjects(dbContext);
+            await SeedUserProjectsAndRelatedData(dbContext);
+
+            await transaction.CommitAsync();
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+        }
     }
+
 
     private static async Task SeedAdminUser(PontoEstagioDbContext dbContext)
     {
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
+        var courses = await dbContext.Courses.AsNoTracking().ToListAsync();
+        if (!courses.Any())
+            throw new InvalidOperationException("Nenhum curso encontrado para associar ao projeto.");
+
+        var faker = new Faker("pt_BR");
+
+        var university = faker.PickRandom(universities);
+        var course = faker.PickRandom(courses);
 
         var adminUser = new User(
-                                    Guid.NewGuid(), 
+                                    Guid.NewGuid(),
+                                    university.Id,
+                                    course.Id,
                                     "Admin", 
+                                    new Random().Next(100000, 999999).ToString(),
                                     Email.Criar("admin@admin.com"), 
                                     UserType.Admin,
                                     BCrypt.Net.BCrypt.HashPassword("!Aa1234567"),
-                                    true
+                                    faker.Phone.PhoneNumber(),
+                                    string.Empty,
+                                    string.Empty    
                                 );
         await dbContext.Users.AddAsync(adminUser);
         await dbContext.SaveChangesAsync();
@@ -49,21 +90,142 @@ public static class SeedDatabaseInitial
         var faker = new Faker("pt_BR");
         var users = new List<User>();
 
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
+        var university = faker.PickRandom(universities);
+
+         var courses = await dbContext.Courses.AsNoTracking().ToListAsync();
+        if (!courses.Any())
+            throw new InvalidOperationException("Nenhum curso encontrado para associar ao projeto.");
+
+        var course = faker.PickRandom(courses);
+
         for (int i = 0; i < 3; i++)
         {
             var userType = i % 2 == 0 ? UserType.Intern : UserType.Supervisor;
             var user = new User(
                 Guid.NewGuid(),
+                university.Id,
+                course.Id,
+                new Random().Next(100000, 999999).ToString(),
                 faker.Name.FullName(),
                 Email.Criar(faker.Internet.Email()),
                 userType,
                 faker.Internet.Password(prefix: "!Aa1"),
-                true
+                faker.Phone.PhoneNumber(),
+                string.Empty,
+                string.Empty    
             );
             users.Add(user);
         }
 
         await dbContext.Users.AddRangeAsync(users);
+        await dbContext.SaveChangesAsync();
+    }
+
+    private static async Task SeedUniversities(PontoEstagioDbContext dbContext)
+    { 
+        var faker = new Faker("pt_BR");
+        var universities = new List<University>();
+
+        for (int i = 0; i < 2; i++)
+        {
+            var name = faker.Company.CompanyName();
+            var acronym = new string(name
+                    .Where(char.IsUpper)
+                    .DefaultIfEmpty(name[0])
+                    .ToArray());
+
+            var cnpj = faker.Company.Cnpj();
+            var phone = faker.Phone.PhoneNumber();
+            var email = Email.Criar(faker.Internet.Email());
+
+            var address = new Address(
+                street: faker.Address.StreetName(),
+                number: faker.Address.BuildingNumber(),
+                district: faker.Address.County(),
+                city: faker.Address.City(),
+                state: faker.Address.StateAbbr(),
+                zipCode: faker.Address.ZipCode("#####-###"),
+                complement: faker.Address.SecondaryAddress()
+            );
+
+            var university = new University(
+                id: Guid.NewGuid(),
+                name: name,
+                acronym: acronym,
+                cnpj: cnpj,
+                phone: phone,
+                email: email,
+                address: address,
+                isActive: true
+            );
+
+            universities.Add(university);
+        }
+
+        await dbContext.Universities.AddRangeAsync(universities);
+        await dbContext.SaveChangesAsync(); 
+    }
+
+    private static async Task SeedCourses(PontoEstagioDbContext dbContext)
+    {
+        var faker = new Faker("pt_BR");
+
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
+        var university = faker.PickRandom(universities);
+
+
+        var courses = new List<Course>();
+
+        var courseNames = new[] {
+            "Engenharia de Software", "Administração", "Direito", "Psicologia",
+            "Medicina", "Arquitetura", "Ciência da Computação", "Pedagogia"
+        };
+
+        for (int i = 0; i < 2; i++)
+        {
+            var course = new Course(
+                Guid.NewGuid(),
+                faker.PickRandom(courseNames),
+                faker.Random.Number(1, 10),
+                university.Id
+            );
+
+            courses.Add(course);
+        }
+
+        await dbContext.Courses.AddRangeAsync(courses);
+        await dbContext.SaveChangesAsync();
+    }
+
+    private static async Task SeedLegalRepresentatives(PontoEstagioDbContext dbContext)
+    {
+        var faker = new Faker("pt_BR");
+        var representatives = new List<LegalRepresentative>();
+
+        var companies = await dbContext.Companies.ToListAsync();
+
+        foreach (var company in companies)
+        {
+            var representative = new LegalRepresentative(
+                id: null,
+                fullName: faker.Name.FullName(),
+                cpf: faker.Person.Cpf(false),
+                position: faker.Name.JobTitle(),
+                email: Email.Criar(faker.Internet.Email()),
+                companyId: company.Id
+            );
+
+            representatives.Add(representative);
+        }
+
+        await dbContext.LegalRepresentatives.AddRangeAsync(representatives);
         await dbContext.SaveChangesAsync();
     }
 
@@ -79,7 +241,16 @@ public static class SeedDatabaseInitial
                 faker.Company.CompanyName(),
                 faker.Company.Cnpj(),
                 faker.Phone.PhoneNumber(),
-                faker.Internet.Email()
+                Email.Criar(faker.Internet.Email()),
+                new Address(
+                    faker.Address.StreetName(),           
+                    faker.Random.Number(1, 9999).ToString(), 
+                    faker.Address.County(),              
+                    faker.Address.City(),             
+                    faker.Address.StateAbbr(),           
+                    faker.Address.ZipCode("#####-###"),   
+                    faker.Address.SecondaryAddress()      
+                )
             );
 
             companies.Add(company);
@@ -104,6 +275,10 @@ public static class SeedDatabaseInitial
         if (!companies.Any())
             throw new InvalidOperationException("Nenhuma empresa encontrada para associar ao projeto.");
 
+        var universities = await dbContext.Universities.AsNoTracking().ToListAsync();
+        if (!universities.Any())
+            throw new InvalidOperationException("Nenhuma universidade encontrada para associar ao projeto.");
+
         var faker = new Faker("pt_BR");
         var projects = new List<Project>();
 
@@ -111,17 +286,20 @@ public static class SeedDatabaseInitial
         {
             var supervisor = faker.PickRandom(supervisors);
             var company = faker.PickRandom(companies); 
+            var university = faker.PickRandom(universities); 
 
             var project = new Project(
                 Guid.NewGuid(),
                 company.Id,
+                university.Id,
                 faker.Commerce.ProductName(),
                 faker.Lorem.Sentence(),
                 faker.Random.Number(200, 480),
                 faker.PickRandom<ProjectStatus>(),
                 faker.Date.Past(1, DateTime.UtcNow),
                 faker.Date.Soon(3, DateTime.UtcNow),
-                supervisor.Id
+                supervisor.Id,
+                faker.PickRandom<ProjectClassification>()
             );
 
             projects.Add(project);
@@ -140,7 +318,6 @@ public static class SeedDatabaseInitial
 
         var userProjects = new List<UserProject>();
         var attendances = new List<Attendance>();
-        var activities = new List<Activity>();
 
         foreach (var project in projects)
         {
@@ -150,38 +327,95 @@ public static class SeedDatabaseInitial
             if (intern != null && supervisor != null)
             {
                 var userProjectIntern = new UserProject(null, intern.Id, project.Id, UserType.Intern);
-                userProjects.Add(userProjectIntern);
-
                 var userProjectSupervisor = new UserProject(null, supervisor.Id, project.Id, UserType.Supervisor);
-                userProjects.Add(userProjectSupervisor);
 
+                userProjects.Add(userProjectIntern);
+                userProjects.Add(userProjectSupervisor);
+            }
+        }
+
+        await dbContext.UserProjects.AddRangeAsync(userProjects);
+        await dbContext.SaveChangesAsync();
+
+        var savedUserProjects = await dbContext.UserProjects.AsNoTracking().ToListAsync();
+
+        try
+        {
+            foreach (var up in savedUserProjects.Where(up => up.Role == UserType.Intern))
+            {
                 var attendance = new Attendance(
                     Guid.NewGuid(),
-                    intern.Id,
-                    DateTime.Today,
+                    up.UserId,
+                    up.ProjectId,
+                    DateTime.UtcNow,
                     new TimeSpan(8, 0, 0),
                     new TimeSpan(17, 0, 0),
                     faker.PickRandom<AttendanceStatus>(),
                     faker.Image.PicsumUrl(200, 200)
                 );
                 attendances.Add(attendance);
-
-                var activity = new Activity(
-                    Guid.NewGuid(),
-                    attendance.Id,
-                    intern.Id,
-                    project.Id,
-                    faker.Lorem.Sentence(),
-                    DateTime.Now
-                );
-                activities.Add(activity);
             }
+
+            await dbContext.Attendances.AddRangeAsync(attendances);
+            await dbContext.SaveChangesAsync();
+
+        }
+        catch (Exception ex)
+        {
+            Console.Write(ex?.InnerException?.Message ?? ex?.Message);
         }
 
-        await dbContext.UserProjects.AddRangeAsync(userProjects);
-        await dbContext.Attendances.AddRangeAsync(attendances);
+        var savedAttendances = await dbContext.Attendances.AsNoTracking().ToListAsync();
+
+        var activities = new List<Activity>();
+        foreach (var attendance in savedAttendances)
+        {
+            var activity = new Activity(
+                Guid.NewGuid(),
+                attendance.Id,
+                attendance.UserId,
+                faker.Lorem.Sentence(),
+                DateTime.UtcNow
+            );
+            activities.Add(activity);
+        }
+ 
         await dbContext.Activitys.AddRangeAsync(activities);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(); 
     }
 
+    private static async Task SeedEmailTemplates(PontoEstagioDbContext dbContext)
+    {
+        var resetPasswordTemplate = new EmailTemplates
+        {
+            Title = "Redefinição de Senha",
+            Subject = "Código de verificação para redefinição de senha",
+            Body = @"
+                <h2>Olá, {{UserName}}!</h2>
+                <p>Recebemos uma solicitação para redefinir sua senha.</p>
+                <p>Seu código de verificação é: <strong>{{VerificationCode}}</strong></p>
+                <p>Use este código no aplicativo para confirmar sua identidade e redefinir sua senha.</p>
+                <p><strong>O código é válido por até 3 minutos</strong> e deve ser usado apenas por você.</p>
+                <p>Se você não solicitou isso, ignore este e-mail ou entre em contato conosco.</p>
+                <br />
+                <p>Atenciosamente,<br />Equipe Ponto Estágio</p>"
+        };
+
+        var coordinatorVerificationTemplate = new EmailTemplates
+        {
+            Title = "Cadastro de Coordenação",
+            Subject = "Código de Verificação - Cadastro de Coordenação",
+            Body = @"
+                <h2>Olá!</h2>
+                <p>Para concluir o cadastro da coordenação, utilize o seguinte código de verificação:</p>
+                <p><strong>Código: {{VerificationCode}}</strong></p>
+                <p>Este código é necessário para validar a criação de uma conta vinculada à universidade no sistema PontoEstágio.</p>
+                <p>Caso você não tenha solicitado este cadastro, ignore esta mensagem.</p>
+                <br />
+                <p>Atenciosamente,<br />Equipe PontoEstágio</p>"
+        };
+
+        dbContext.EmailTemplates.AddRange(resetPasswordTemplate, coordinatorVerificationTemplate);
+        await dbContext.SaveChangesAsync();
+    }
 }

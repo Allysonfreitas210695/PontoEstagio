@@ -9,8 +9,8 @@ public class RequestRegisterAttendanceJsonBuilder
     public static RequestRegisterAttendanceJson Build()
     {
         return new Faker<RequestRegisterAttendanceJson>()
-            .RuleFor(x => x.Date, f => f.Date.Past(30).Date)
-            .RuleFor(x => x.CheckIn, f => new TimeSpan(f.Random.Int(7, 10), f.Random.Int(0, 59), 0)) // Ex: 07:00 - 10:59
+            .RuleFor(x => x.Date, f => DateTime.Now.Date)
+            .RuleFor(x => x.CheckIn, f => new TimeSpan(f.Random.Int(7, 10), f.Random.Int(0, 59), 0)) 
             .RuleFor(x => x.CheckOut, (f, x) =>
             {
                 var checkOutHour = x.CheckIn.Hours + f.Random.Int(1, 5); 

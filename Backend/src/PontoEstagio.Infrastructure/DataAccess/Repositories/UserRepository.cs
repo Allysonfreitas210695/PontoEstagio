@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using PontoEstagio.Domain.Entities;
 using PontoEstagio.Domain.Repositories;
 using PontoEstagio.Domain.Repositories.User;
-using PontoEstagio.Domain.ValueObjects;
 using PontoEstagio.Infrastructure.Context;
 
 namespace PontoEstagio.Infrastructure.Repositories;
@@ -23,6 +22,17 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository,
         return await _dbContext.Users.AnyAsync(user => user.Email.Endereco.Equals(email));
     }
 
+    public async Task<bool> ExistActiveUserWithRegistrationAsync(string registration)
+    {
+        return await _dbContext.Users.AnyAsync(u => u.Registration == registration && u.IsActive);
+    }
+
+    public async Task<bool> ExistOtherUserWithSameRegistrationAsync(Guid userId, string registration)
+    {
+        return await _dbContext.Users
+            .AnyAsync(u => u.Registration == registration && u.Id != userId && u.IsActive);
+    }
+
     public async Task<List<User>> GetAllUsersAsync()
     {
         return await _dbContext.Users.AsNoTracking().AsNoTracking().ToListAsync();
@@ -38,6 +48,7 @@ public class UserRepository : IUserReadOnlyRepository, IUserWriteOnlyRepository,
         return await _dbContext.Users
                                 .Include(x => x.Activities)
                                 .Include(x => x.Attendances)
+                                .Include(x => x.University)
                                 .AsNoTracking()
                                 .FirstOrDefaultAsync(user => user.Id == id);
     }

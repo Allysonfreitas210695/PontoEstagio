@@ -10,4 +10,9 @@
     <ProjectReference Include="..\PontoEstagio.Exceptions\PontoEstagio.Exceptions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+  </ItemGroup>
+
 </Project>

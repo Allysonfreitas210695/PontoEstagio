@@ -4,8 +4,8 @@ import Image from 'next/image';
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react'; // Import icons
 import logo from "../../../../../public/assets/image/logo2.png"; // Assuming this is the correct path for the logo
 // Assuming these paths are correct relative to where this new file will be
-import Sidebar from "../../../dashboard/Sidebar";
-import DashboardLayout from "../../../dashboard/DashboardLayout";
+import Sidebar from "../../dashboard/Sidebar";
+import DashboardLayout from "../../dashboard/DashboardLayout";
 import router from 'next/router';
 import Link from 'next/link';
 

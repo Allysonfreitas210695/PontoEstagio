@@ -48,15 +48,13 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (intern.Type != UserType.Intern)
             throw new ForbiddenException(ErrorMessages.UserNotIntern);
 
-        var alreadyAssignedToProject = await _userProjectsReadOnlyRepository
-            .ExistsProjectAssignedToUserAsync(projectId, intern.Id);
+        var alreadyAssignedToProject = await _userProjectsReadOnlyRepository.ExistsProjectAssignedToUserAsync(projectId, intern.Id);
         if (alreadyAssignedToProject)
             throw new NotFoundException(ErrorMessages.UserAlreadyAssignedToProject);
 
-        var existingProject = await _userProjectsReadOnlyRepository
-            .GetCurrentProjectForUserAsync(intern.Id);
-        if (existingProject != null)
-            throw new NotFoundException(ErrorMessages.UserAlreadyHasOngoingProject);
+        var existingProject = await _userProjectsReadOnlyRepository.GetCurrentProjectForUserAsync(intern.Id);
+        if (existingProject != null && existingProject.Status == ProjectStatus.InProgress)
+            throw new BusinessRuleException(ErrorMessages.InternAlreadyAssignedToActiveProject);
 
         var supervisor = await _userReadOnlyRepository.GetUserByIdAsync(request.Supervisor_Id);
         if (supervisor is null)
@@ -65,9 +63,15 @@ public class AssignUserToProjectUseCase : IAssignUserToProjectUseCase
         if (supervisor.Type != UserType.Supervisor)
             throw new ForbiddenException(ErrorMessages.UserNotIntern);
 
-        var supervisorAssigned = await _userProjectsReadOnlyRepository
-            .ExistsProjectAssignedToUserAsync(projectId, supervisor.Id);
+        var activeProjectsOfSupervisor = await _userProjectsReadOnlyRepository.CountActiveProjectsForSupervisorAsync(request.Supervisor_Id);
+        if (activeProjectsOfSupervisor >= 10)
+            throw new BusinessRuleException(ErrorMessages.SupervisorMaxProjectsExceeded);
 
+        var projectAlreadyHasSupervisor = await _userProjectsReadOnlyRepository.IsSupervisorAlreadyAssignedToProjectAsync(projectId);
+        if (projectAlreadyHasSupervisor)
+            throw new BusinessRuleException(ErrorMessages.SupervisorAlreadyAssignedToProject);
+
+        var supervisorAssigned = await _userProjectsReadOnlyRepository.ExistsProjectAssignedToUserAsync(projectId, supervisor.Id);
         if (supervisorAssigned)
             throw new NotFoundException(ErrorMessages.SupervisorAlreadyAssignedToProject);
 

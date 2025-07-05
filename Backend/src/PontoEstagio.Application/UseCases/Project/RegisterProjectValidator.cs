@@ -12,7 +12,7 @@ public class RegisterProjectValidator : AbstractValidator<RequestRegisterProject
             .NotEmpty()
             .WithMessage(ErrorMessages.ProjectNameRequired)
             .MinimumLength(3)
-            .WithMessage(ErrorMessages.invalidProjectNameLength);
+            .WithMessage(ErrorMessages.InvalidProjectNameLength);
 
         RuleFor(project => project.CompanyId)
             .NotEqual(Guid.Empty)
@@ -24,7 +24,7 @@ public class RegisterProjectValidator : AbstractValidator<RequestRegisterProject
 
         RuleFor(project => project.TotalHours)
             .GreaterThan(0)
-            .WithMessage(ErrorMessages.invalidTotalHours);
+            .WithMessage(ErrorMessages.InvalidTotalHours);
 
         RuleFor(project => project.EndDate)
             .Must((project, endDate) => endDate == null || endDate.Value.Date > project.StartDate.Date)

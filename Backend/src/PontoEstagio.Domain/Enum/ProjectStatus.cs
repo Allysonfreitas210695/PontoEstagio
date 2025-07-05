@@ -1,7 +1,7 @@
 ﻿ namespace PontoEstagio.Domain.Enum;
 public enum ProjectStatus
 {
-    Planning,
+    Pending,
     InProgress,
     Completed,
     Canceled

@@ -25,7 +25,7 @@ public class UserProjectTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-           .Which.Errors.Should().Contain(ErrorMessages.invalidUserId); 
+           .Which.Errors.Should().Contain(ErrorMessages.InvalidUserId); 
     }
 
     [Fact]
@@ -36,7 +36,7 @@ public class UserProjectTest
 
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
-           .Which.Errors.Should().Contain(ErrorMessages.invalidProjectId); 
+           .Which.Errors.Should().Contain(ErrorMessages.InvalidProjectId); 
     }
 
     [Fact]

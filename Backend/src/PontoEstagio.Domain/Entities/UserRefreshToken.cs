@@ -18,13 +18,13 @@ public class UserRefreshToken
         Id = id ?? Guid.NewGuid();
 
         if (userId == Guid.Empty)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidUserId });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserId });
 
          if (string.IsNullOrWhiteSpace(token))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidToken });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidToken });
 
         if (expirationDate.Date <= DateTime.Now.Date)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.invalidExpirationDate });
+            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidExpirationDate });
 
         UserId = userId;
         Token = token;

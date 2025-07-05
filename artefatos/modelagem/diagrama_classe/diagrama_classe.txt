@@ -1,0 +1,296 @@
+@startuml
+namespace PontoEstagio.Domain.Common {
+    abstract class Entity {
+        + Guid Id { get; protected set; }
+        + DateTime CreatedAt { get; protected set; }
+        + DateTime UpdatedAt { get; protected set; }
+        + void UpdateTimestamp()
+    }
+}
+
+namespace PontoEstagio.Domain.ValueObjects {
+
+    class Email {
+        + string Endereco { get; private set; }
+        + Email()
+        + static Email Criar(string endereco)
+        + override string ToString()
+        --
+        Validação:
+        - Não pode ser vazio
+        - Formato válido (regex)
+    }
+
+    class Address {
+        + string Street { get; }
+        + string Number { get; }
+        + string District { get; }
+        + string City { get; }
+        + string State { get; }
+        + string ZipCode { get; }
+        + string Complement { get; }
+        --
+        + Address(
+            string street, 
+            string number, 
+            string district,
+            string city,
+            string state,
+            string zipCode,
+            string complement
+        )
+        + override string ToString()
+        --
+        Validações:
+        - Todos campos obrigatórios
+        - CEP no formato 99999-999
+    }
+}
+
+namespace PontoEstagio.Domain.Enum {
+    enum ActivityStatus {
+        Pending
+        Approved
+        Rejected
+    }
+
+    enum AttendanceStatus {
+        Pending
+        Approved
+        Rejected
+    }
+
+    enum ProjectStatus {
+        Pending
+        InProgress
+        Completed
+        Canceled
+    }
+
+    enum ProjectClassification {
+        Mandatory = 1
+        NonMandatory = 2
+    }
+
+    enum UserType {
+        Intern
+        Supervisor
+        Admin
+        Coordinator
+        Advisor
+    }
+
+    enum VerificationCodeStatus {
+        Active = 1
+        Used = 2
+        Expired = 3
+    }
+}
+
+namespace PontoEstagio.Domain.Entities {
+
+    class Activity {
+        + Guid AttendanceId { get; }
+        + Guid UserId { get; }
+        + string Description { get; }
+        + DateTime RecordedAt { get; }
+        + string? ProofFilePath { get; }
+        + ActivityStatus Status { get; }
+        + Attendance Attendance { get; }
+        + User User { get; }
+    }
+
+    class Attendance {
+        + Guid UserId { get; }
+        + DateTime Date { get; }
+        + TimeSpan CheckIn { get; }
+        + TimeSpan CheckOut { get; }
+        + Guid ProjectId { get; }
+        + Project Project { get; }
+        + AttendanceStatus Status { get; set; }
+        + string ProofImageBase64 { get; }
+        + User User { get; }
+        + ICollection<Activity> Activities { get; }
+        + void AddProofImageBase64(string base64Image)
+        + void UpdateStatus(AttendanceStatus status)
+    }
+
+    class Company {
+        + string Name { get; }
+        + string CNPJ { get; }
+        + string Phone { get; }
+        + Email Email { get; }
+        + bool IsActive { get; }
+        + Address Address { get; }
+        + ICollection<Project> Projects { get; }
+        + ICollection<LegalRepresentative> LegalRepresentatives { get; }
+        + void UpdateName(string name)
+        + void UpdateCNPJ(string cnpj)
+        // Outros métodos omitidos
+    }
+
+    class Course {
+        + string Name { get; set; }
+        + int WorkloadHours { get; set; }
+        + Guid UniversityId { get; set; }
+        + University University { get; set; }
+        + ICollection<User> Users { get; set; }
+    }
+
+    class EmailTemplates {
+        + string Title { get; set; }
+        + string Subject { get; set; }
+        + string Body { get; set; }
+    }
+
+    class LegalRepresentative {
+        + string FullName { get; }
+        + string CPF { get; }
+        + string Position { get; }
+        + Email Email { get; }
+        + Guid CompanyId { get; }
+        + Company Company { get; }
+    }
+
+    class PasswordRecovery {
+        + Guid UserId { get; }
+        + string Code { get; }
+        + bool Used { get; }
+        + User User { get; }
+        + void MarkAsUsed()
+        + bool IsExpired()
+        + void EnsureUsable()
+    }
+
+    class Project {
+        + string Name { get; set; }
+        + string Description { get; set; }
+        + ProjectStatus Status { get; set; }
+        + DateTime StartDate { get; set; }
+        + DateTime? EndDate { get; set; }
+        + long TotalHours { get; set; }
+        + Guid CreatedBy { get; }
+        + User Creator { get; }
+        + Guid CompanyId { get; }
+        + Company Company { get; }
+        + Guid UniversityId { get; }
+        + University University { get; }
+        + ProjectClassification Classification { get; }
+        + ICollection<UserProject> UserProjects { get; }
+        + ICollection<Attendance> Attendances { get; }
+    }
+
+    class University {
+        + string Name { get; }
+        + string Acronym { get; }
+        + string CNPJ { get; }
+        + Email Email { get; }
+        + string Phone { get; }
+        + bool IsActive { get; }
+        + Address Address { get; }
+        + ICollection<User> Users { get; }
+        + ICollection<Project> Projects { get; }
+        + ICollection<Course> Courses { get; }
+    }
+
+    class User {
+        + string Name { get; }
+        + Email Email { get; }
+        + UserType Type { get; }
+        + bool IsActive { get; }
+        + string Registration { get; }
+        + string Password { get; }
+        + string Phone { get; }
+        + string Cpf { get; }
+        + string Department { get; }
+        + Guid UniversityId { get; }
+        + University University { get; }
+        + Guid? CourseId { get; }
+        + Course Course { get; }
+        + ICollection<UserProject> UserProjects { get; }
+        + ICollection<Activity> Activities { get; }
+        + ICollection<Attendance> Attendances { get; }
+    }
+
+    class UserProject {
+        + Guid UserId { get; }
+        + Guid ProjectId { get; }
+        + DateTime AssignedAt { get; }
+        + bool IsCurrent { get; }
+        + UserType Role { get; }
+        + User User { get; }
+        + Project Project { get; }
+        + void MarkAsInactive()
+    }
+
+    class UserRefreshToken {
+        + Guid Id { get; set; }
+        + Guid UserId { get; set; }
+        + string Token { get; set; }
+        + DateTime ExpirationDate { get; set; }
+        + User User { get; set; }
+    }
+
+    class VerificationCodeUniversity {
+        + Email Email { get; }
+        + string Code { get; }
+        + DateTime Expiration { get; }
+        + VerificationCodeStatus Status { get; }
+        + void MarkAsUsed()
+        + void MarkAsExpired()
+    }
+}
+
+' Relacionamentos
+Entity <|-- Activity
+Entity <|-- Attendance
+Entity <|-- Company
+Entity <|-- Course
+Entity <|-- EmailTemplates
+Entity <|-- LegalRepresentative
+Entity <|-- PasswordRecovery
+Entity <|-- Project
+Entity <|-- University
+Entity <|-- User
+Entity <|-- UserProject
+Entity <|-- VerificationCodeUniversity
+
+Activity "1" *-- "1" Attendance
+Activity "1" *-- "1" User
+
+Attendance "1" *-- "1" Project
+Attendance "1" *-- "1" User
+Attendance "1" *-- "*" Activity
+
+Company "1" *-- "*" Project
+Company "1" *-- "*" LegalRepresentative
+
+Course "1" *-- "1" University
+Course "1" *-- "*" User
+
+LegalRepresentative "1" *-- "1" Company
+
+PasswordRecovery "1" *-- "1" User
+
+Project "1" *-- "1" Company
+Project "1" *-- "1" University
+Project "1" *-- "*" Attendance
+Project "1" *-- "*" UserProject
+
+University "1" *-- "*" User
+University "1" *-- "*" Project
+University "1" *-- "*" Course
+
+User "1" *-- "1" University
+User "1" *-- "0..1" Course
+User "1" *-- "*" Activity
+User "1" *-- "*" Attendance
+User "1" *-- "*" UserProject
+
+UserProject "1" *-- "1" User
+UserProject "1" *-- "1" Project
+
+UserRefreshToken "1" *-- "1" User
+
+VerificationCodeUniversity "1" *-- "1" Email
+@enduml
