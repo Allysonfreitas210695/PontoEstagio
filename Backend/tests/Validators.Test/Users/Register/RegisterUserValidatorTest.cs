@@ -30,7 +30,7 @@ public class RegisterUserValidatorTest
         var result = validator.Validate(request);
         // ASSERT
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.NameCannotBeEmpty);
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidUserName);
     }
  
     [Fact]
