@@ -9,7 +9,7 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
     {
         RuleFor(user => user.Name)
             .NotEmpty()
-            .WithMessage(ErrorMessages.NameCannotBeEmpty);
+            .WithMessage(ErrorMessages.InvalidUserName);  
 
         RuleFor(user => user.UniversityId)
             .NotEmpty()
@@ -20,7 +20,7 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
         RuleFor(user => user.CourseId)
             .Must((user, courseId) =>
             {
-                if (user.Type == PontoEstagio.Communication.Enum.UserType.Intern || user.Type == PontoEstagio.Communication.Enum.UserType.Coordinator)
+                if (user.Type == PontoEstagio.Communication.Enum.UserType.Coordinator)
                 {
                     return courseId != null && courseId != Guid.Empty;
                 }
@@ -30,35 +30,37 @@ public class RegisterUserValidator : AbstractValidator<RequestRegisterUserJson>
 
         RuleFor(user => user.Registration)
             .NotEmpty()
-            .WithMessage(ErrorMessages.InvalidRegistration);
+            .WithMessage(ErrorMessages.InvalidRegistration)
+            .When(user => user.Type == PontoEstagio.Communication.Enum.UserType.Intern); 
 
         RuleFor(user => user.Email)
             .NotEmpty()
             .WithMessage(ErrorMessages.EmailCannotBeEmpty)
             .EmailAddress()
-            .When(user => string.IsNullOrWhiteSpace(user.Email) == false, ApplyConditionTo.CurrentValidator)
             .WithMessage(ErrorMessages.InvalidEmailFormat);
-        
+
         RuleFor(user => user.Phone)
             .NotEmpty()
             .WithMessage(ErrorMessages.PhoneIsRequired)
             .MaximumLength(20)
-            .WithMessage(ErrorMessages.PhoneMaxLength);
+            .WithMessage(ErrorMessages.PhoneMaxLength)
+            .When(user => user.Type == PontoEstagio.Communication.Enum.UserType.Intern);
 
         RuleFor(user => user.CPF)
             .NotEmpty()
-            .WithMessage(ErrorMessages.CpfIsRequired)
+            .WithMessage(ErrorMessages.InvalidCpf) 
             .Matches(@"^\d{11}$")
             .WithMessage(ErrorMessages.UserInvalidCpfFormat)
             .When(user => user.Type == PontoEstagio.Communication.Enum.UserType.Advisor);
 
         RuleFor(user => user.Department)
             .NotEmpty()
-            .WithMessage(ErrorMessages.DepartmentIsRequired)
+            .WithMessage(ErrorMessages.InvalidDepartment)
             .When(user => user.Type == PontoEstagio.Communication.Enum.UserType.Advisor);
 
-
         RuleFor(user => user.Password)
+            .NotEmpty()
+            .WithMessage(ErrorMessages.InvalidPassword)
             .SetValidator(new PasswordValidator<RequestRegisterUserJson>());
     }
 }

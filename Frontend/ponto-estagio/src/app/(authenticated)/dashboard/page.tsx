@@ -1,11 +1,12 @@
-"use client"; // ← ESSA LINHA É FUNDAMENTAL NO APP ROUTER
+"use client";
 
 import Image from "next/image";
-import logo from "../../../../public/assets/image/logo2.png"; 
+import logo from "../../../../public/assets/image/logo2.png";
 import userImage from "../../../../public/assets/image/user.jpg";
 import { useEffect, useState } from "react";
-import Sidebar from "./Sidebar"; 
+import Sidebar from "./Sidebar";
 import DashboardLayout from "./DashboardLayout";
+import { date } from "zod";
 
 export default function Dashboard() {
   interface Atividade {
@@ -18,63 +19,91 @@ export default function Dashboard() {
   const [atividades, setAtividades] = useState<Atividade[]>([]);
 
   useEffect(() => {
-    // Chamada à API aqui (exemplo fictício):
     fetch("/api/atividades")
-      .then(res => res.json())
-      .then(data => setAtividades(data));
+      .then((res) => res.json())
+      .then((data) => setAtividades(data));
   }, []);
 
   return (
-  
     <DashboardLayout>
-      <Sidebar/>
-      {/* Header */}
-    <div className="flex items-center justify-between w-full p-5 shadow-md" style={{ backgroundColor: '#1D4ED8' }}>
-      <Image src={logo} alt="Logo" width={130} height={70} />
-    </div>
-      <div className="p-6 space-y-6 bg-gray-100 min-h-screen text-gray-800">
-        {/* Header */}
-          <div className="flex-3 flex mt-4 p-4">
-            <Image
-              src={userImage}
-              alt="User"
-              width={30}
-              className="rounded-full"
-            />
-            <p className="text-sm">Olá,</p>
-            <p className="text-xl font-bold">Eriky Abreu Veloso</p>
-        </div>
-      
-        
-        {/* Resumo */}
-        <div className="grid grid-cols-3 gap-4 mt-6 h40">
-          <CardResumo titulo="Aprovada" cor="green" valor={64} />
-          <CardResumo titulo="Pendente" cor="orange" valor={3} />
-          <CardResumo titulo="Reprovada" cor="red" valor={1} />
+      <Sidebar />
+
+      {/* Header superior azul */}
+      <div className="flex items-center justify-start w-full p-4 fixed top-0 left-0 bg-white shadow-md z-10 " style={{ paddingLeft: '1rem', backgroundColor: '#1D4ED8'}}> 
+           <Image src={logo} alt="Logo" width={130} height={70} />
+      </div>
+
+      {/* Conteúdo */}
+      <div className="px-6 ml-12 mx-auto mt-24 bg-[#FAF9F6] ">
+        {/* Saudação */}
+        <div className="flex items-center space-x-4 mt-4">
+          <Image src={userImage} alt="User" width={40}  className="rounded-full" />
+          <div>
+            <p className="text-sm text-gray-600">Olá,</p>
+            <p className="text-lg font-semibold text-black">Eriky Abreu Veloso</p>
+          </div>
         </div>
 
-        {/* Tabela */}
-        <div className="bg-white shadow-md rounded-lg p-4 mt-8">
+        {/* Card com Cargo e barra */}
+        <div className="bg-white shadow w-full sm:w-[200px] md:w-[700px] lg:w-[1350px] rounded-lg mt-6 p-4">
+
+            <h2 className="font-semibold text-black">BRISACAT - DESIGNER II</h2>
+
+            {/* Barra de progresso */}
+            <div className="flex items-center mt-3 space-x-2 ">
+              <div className="flex-1 h-2 bg-gray-300 rounded-full relative">
+                <div className="absolute top-0 left-0 h-2 bg-blue-600 rounded-full" style={{ width: '80%' }} />
+              </div>
+              <span className="text-sm text-gray-500">180 hrs</span>
+            </div>
+        
+          {/* Resumo */}
+          <div className="flex justify-between items-center mt-5 mr-20">
+            <CardResumo titulo="Aprovada" cor="green" valor={64} />
+            <CardResumo titulo="Pendente" cor="orange" valor={3} />
+            <CardResumo titulo="Reprovada" cor="red" valor={1} />
+          </div>
+          <p className="text-sm text-gray-500 mt-1">Última atualização: 25/04/2025 | 17hrs</p>
+        </div>
+        
+
+        {/* Filtros e Tabela */}
+       <div className="bg-white shadow-md sm:w-[200px] md:w-[700px] lg:w-[1350px] rounded-lg p-6 mt-8">
+          <div className="flex flex-wrap justify-between items-center mb-4">
+              <div className="flex gap-4">
+                <select className="border border-gray-500 rounded px-3 py-1 text-sm text-black">
+                  <option className="text-black" value="todas">Todas</option>
+                  <option className="text-black" value="aprovadas">Aprovadas</option>
+                  <option className="text-black" value="pendentes">Pendentes</option>
+                </select>
+                <select className="border rounded px-3 py-1 text-sm text-black">
+                  <option className="text-black" value="semana">Semana atual</option>
+                  <option className="text-black" value="mes">Mês atual</option>
+                  <option className="text-black" value="ano">Ano atual</option>
+                </select>
+              </div>
+            </div>
+          
           <table className="w-full text-left">
-            <thead>
-              <tr className="border-b">
-                <th>Data</th>
-                <th>Situação</th>
-                <th>Atividade</th>
-                <th>Supervisor</th>
+            <thead className="bg-gray-100 text-gray-700 text-sm">
+              <tr>
+                <th className="p-2">Data</th>
+                <th className="p-2">Situação</th>
+                <th className="p-2">Atividade</th>
+                <th className="p-2">Supervisor</th>
               </tr>
             </thead>
             <tbody>
               {atividades.map((item, i) => (
-                <tr key={i} className="border-b">
-                  <td>{item.data}</td>
-                  <td>
-                    <span className={`text-${getColor(item.status)}-500`}>
+                <tr key={i} className="border-b hover:bg-gray-50 text-sm">
+                  <td className="p-2">{item.data}</td>
+                  <td className="p-2">
+                    <span className={`text-${getColor(item.status)}-600 font-medium`}>
                       {item.status}
                     </span>
                   </td>
-                  <td>{item.atividade}</td>
-                  <td>{item.supervisor}</td>
+                  <td className="p-2">{item.atividade}</td>
+                  <td className="p-2">{item.supervisor}</td>
                 </tr>
               ))}
             </tbody>
@@ -91,7 +120,6 @@ interface CardResumoProps {
   valor: number;
 }
 
-
 function getColor(status: string): string {
   switch (status) {
     case "Aprovada": return "green";
@@ -100,20 +128,15 @@ function getColor(status: string): string {
     default: return "gray";
   }
 }
+
 function CardResumo({ titulo, cor, valor }: CardResumoProps) {
   return (
-    <div className="bg-white shadow p-4 rounded-lg text-center flex items-center justify-center gap-2">
-      {/* Bolinha com cor dinâmica */}
-      <span
-        className="w-3 h-3 rounded-full"
-        style={{ backgroundColor: cor }}
-      ></span>
-      
-      {/* Texto sempre preto */}
-      <p className="text-black font-semibold">{titulo.toUpperCase()}</p>
-      
-      {/* Valor */}
-      <p className="text-2xl font-bold">{valor.toString().padStart(2, '0')}</p>
+    <div className="bg-white p-4 rounded-lg text-center flex flex-col items-center justify-center gap-1">
+      <div className="flex items-center gap-2">
+        <span className="w-3 h-3 rounded-full" style={{ backgroundColor: cor }}></span>
+        <p className="text-black font-semibold text-sm">{titulo.toUpperCase()}</p>
+      </div>
+      <p className="text-3xl font-bold text-black">{valor.toString().padStart(2, '0')}</p>
     </div>
   );
 }

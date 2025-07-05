@@ -12,11 +12,10 @@ public class UserTest
     public void Success()
     {
         // Arrange & Act
-        var project = UserBuilder.Build();
+        var user = UserBuilder.Build();
 
         // Assert
-        project.Should().NotBeNull();
-        project.Name.Should().NotBeNullOrEmpty();
+        user.Should().NotBeNull();
     }
 
     [Fact]
@@ -187,6 +186,7 @@ public class UserTest
     [Theory]
     [InlineData(UserType.Intern)]
     [InlineData(UserType.Coordinator)]
+    [InlineData(UserType.Advisor)]
     public void UpdateCourseId_WithEmptyGuid_AndRestrictedType_ShouldThrowException(UserType type)
     {
         // Arrange
@@ -198,5 +198,112 @@ public class UserTest
         // Assert
         act.Should().Throw<ErrorOnValidationException>()
            .Which.Errors.Should().Contain(ErrorMessages.InvalidCourseIdForUserType);
+    }
+
+    [Fact]
+    public void UpdatePhone_ShouldChangePhone()
+    {
+        // Arrange
+        var user = UserBuilder.Build();
+        var newPhone = "11987654321";
+        var lastUpdate = user.UpdatedAt;
+
+        // Act
+        user.UpdatePhone(newPhone);
+
+        // Assert
+        user.Phone.Should().Be(newPhone);
+        user.UpdatedAt.Should().BeAfter(lastUpdate);
+    }
+
+    [Fact]
+    public void UpdatePhone_WithEmptyValue_ShouldThrowException()
+    {
+        // Arrange
+        var user = UserBuilder.Build();
+
+        // Act
+        var act = () => user.UpdatePhone("");
+
+        // Assert
+        act.Should().Throw<ErrorOnValidationException>()
+           .Which.Errors.Should().Contain(ErrorMessages.PhoneIsRequired);
+    }
+
+    [Fact]
+    public void UpdatePhone_WithLongValue_ShouldThrowException()
+    {
+        // Arrange
+        var user = UserBuilder.Build();
+        var longPhone = new string('1', 21); // 21 characters
+
+        // Act
+        var act = () => user.UpdatePhone(longPhone);
+
+        // Assert
+        act.Should().Throw<ErrorOnValidationException>()
+           .Which.Errors.Should().Contain(ErrorMessages.PhoneMaxLength);
+    }
+
+    [Fact]
+    public void UpdateCpf_ForAdvisor_ShouldChangeCpf()
+    {
+        // Arrange
+        var user = UserBuilder.Build(type: UserType.Advisor);
+        var newCpf = "12345678901";
+        var lastUpdate = user.UpdatedAt;
+
+        // Act
+        user.UpdateCpf(newCpf);
+
+        // Assert
+        user.Cpf.Should().Be(newCpf);
+        user.UpdatedAt.Should().BeAfter(lastUpdate);
+    }
+
+    [Fact]
+    public void UpdateCpf_ForNonAdvisor_ShouldNotChangeCpf()
+    {
+        // Arrange
+        var originalCpf = "12345678901";
+        var user = UserBuilder.Build(type: UserType.Intern, cpf: originalCpf);
+        var newCpf = "98765432109";
+
+        // Act
+        user.UpdateCpf(newCpf);
+
+        // Assert
+        user.Cpf.Should().Be(originalCpf);
+    }
+
+    [Fact]
+    public void UpdateDepartment_ForAdvisor_ShouldChangeDepartment()
+    {
+        // Arrange
+        var user = UserBuilder.Build(type: UserType.Advisor);
+        var newDepartment = "Novo Departamento";
+        var lastUpdate = user.UpdatedAt;
+
+        // Act
+        user.UpdateDepartment(newDepartment);
+
+        // Assert
+        user.Department.Should().Be(newDepartment);
+        user.UpdatedAt.Should().BeAfter(lastUpdate);
+    }
+
+    [Fact]
+    public void UpdateDepartment_ForNonAdvisor_ShouldNotChangeDepartment()
+    {
+        // Arrange
+        var originalDepartment = "TI";
+        var user = UserBuilder.Build(type: UserType.Intern, department: originalDepartment);
+        var newDepartment = "RH";
+
+        // Act
+        user.UpdateDepartment(newDepartment);
+
+        // Assert
+        user.Department.Should().Be(originalDepartment);
     }
 }

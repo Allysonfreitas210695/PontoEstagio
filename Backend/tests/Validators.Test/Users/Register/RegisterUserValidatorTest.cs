@@ -1,63 +1,202 @@
 ﻿using CommonTestUltilities.Request;
 using FluentAssertions;
+using PontoEstagio.Communication.Enum;
 using PontoEstagio.Exceptions.ResourcesErrors;
 
 namespace Validators.Test.Users.Register;
+
 public class RegisterUserValidatorTest
 {
+    private readonly RegisterUserValidator _validator = new();
+
     [Fact]
-    public void Sucess()
+    public void Success()
     {
-        //ARRANGE
-        var validator = new RegisterUserValidator();
+        // Arrange
         var request = RequestRegisterUserJsonBuilder.Build();
 
-        //ACT
-        var result = validator.Validate(request);
+        // Act
+        var result = _validator.Validate(request);
 
-        //ASSERT
+        // Assert
         result.IsValid.Should().BeTrue();
     }
 
     [Fact]
     public void Validate_ShouldReturnError_WhenNameIsEmpty()
     {
-        // ARRANGE
-        var validator = new RegisterUserValidator();
+        // Arrange
         var request = RequestRegisterUserJsonBuilder.Build();
-        request.Name = string.Empty; 
-        // ACT
-        var result = validator.Validate(request);
-        // ASSERT
+        request.Name = string.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.NameCannotBeEmpty);
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidUserName);
     }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(null)]
+    public void Validate_ShouldReturnError_WhenEmailIsEmpty(string invalidEmail)
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Email = invalidEmail;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.EmailCannotBeEmpty);
+    }
+
  
     [Fact]
-    public void Validate_ShouldReturnError_WhenEmailIsInvalid()
+    public void Validate_ShouldReturnError_WhenUniversityIdIsEmpty()
     {
-        // ARRANGE
-        var validator = new RegisterUserValidator();
+        // Arrange
         var request = RequestRegisterUserJsonBuilder.Build();
-        request.Email = "invalid-email";
-        // ACT
-        var result = validator.Validate(request);
-        // ASSERT
+        request.UniversityId = Guid.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidEmailFormat);
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidUniversityId);
     }
 
     [Fact]
-    public void Validate_ShouldReturnError_WhenEmailIsEmpty()
+    public void Validate_ShouldReturnError_WhenCoordinatorHasEmptyCourseId()
     {
-        // ARRANGE
-        var validator = new RegisterUserValidator();
+        // Arrange
         var request = RequestRegisterUserJsonBuilder.Build();
-        request.Email = string.Empty;
-        // ACT
-        var result = validator.Validate(request);
-        // ASSERT
+        request.Type = UserType.Coordinator;
+        request.CourseId = null;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
         result.IsValid.Should().BeFalse();
-        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.EmailCannotBeEmpty);
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidCourseIdForUserType);
+    }
+
+    [Fact]
+    public void Validate_ShouldReturnError_WhenInternHasEmptyRegistration()
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Type = UserType.Intern;
+        request.Registration = string.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidRegistration);
+    }
+
+    [Fact]
+    public void Validate_ShouldReturnError_WhenInternHasEmptyPhone()
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Type = UserType.Intern;
+        request.Phone = string.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.PhoneIsRequired);
+    }
+
+    [Fact]
+    public void Validate_ShouldReturnError_WhenInternHasLongPhone()
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Type = UserType.Intern;
+        request.Phone = new string('1', 21); 
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.PhoneMaxLength);
+    }
+
+    [Fact]
+    public void Validate_ShouldReturnError_WhenAdvisorHasEmptyCpf()
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Type = UserType.Advisor;
+        request.CPF = string.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidCpf);
+    }
+
+    [Theory]
+    [InlineData("1234567890")]   
+    [InlineData("123456789012")] 
+    [InlineData("A2345678901")] 
+    public void Validate_ShouldReturnError_WhenAdvisorHasInvalidCpfFormat(string invalidCpf)
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Type = UserType.Advisor;
+        request.CPF = invalidCpf;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.UserInvalidCpfFormat);
+    }
+
+    [Fact]
+    public void Validate_ShouldReturnError_WhenAdvisorHasEmptyDepartment()
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Type = UserType.Advisor;
+        request.Department = string.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidDepartment);
+    }
+
+    [Fact]
+    public void Validate_ShouldReturnError_WhenPasswordIsEmpty()
+    {
+        // Arrange
+        var request = RequestRegisterUserJsonBuilder.Build();
+        request.Password = string.Empty;
+
+        // Act
+        var result = _validator.Validate(request);
+
+        // Assert
+        result.IsValid.Should().BeFalse();
+        result.Errors.Should().Contain(e => e.ErrorMessage == ErrorMessages.InvalidPassword);
     }
 }

@@ -31,16 +31,13 @@ namespace PontoEstagio.Infrastructure.Configurations
               builder.Property(u => u.Password)
                    .HasColumnName("Password")
                    .IsRequired()
-                   .HasMaxLength(100); 
+                   .HasMaxLength(100);
 
-              builder.Property(u => u.CourseId)
-                     .IsRequired();
-              
-              builder.Property(u => u.Registration)
-                     .IsRequired();
+            builder.Property(u => u.CourseId);
+
+            builder.Property(u => u.Registration);
 
               builder.Property(u => u.Phone)
-                     .IsRequired()
                      .HasMaxLength(20);
 
               builder.HasMany(u => u.UserProjects)
