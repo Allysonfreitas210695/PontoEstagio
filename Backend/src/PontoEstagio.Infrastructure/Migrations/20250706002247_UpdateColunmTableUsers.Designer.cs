@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PontoEstagio.Infrastructure.Context;
@@ -11,9 +12,11 @@ using PontoEstagio.Infrastructure.Context;
 namespace PontoEstagio.Infrastructure.Migrations
 {
     [DbContext(typeof(PontoEstagioDbContext))]
-    partial class PontoEstagioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250706002247_UpdateColunmTableUsers")]
+    partial class UpdateColunmTableUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
