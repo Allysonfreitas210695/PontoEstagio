@@ -1,9 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
-import logo from "../../../../../public/assets/image/logo2.png";
+import { useRouter } from 'next/navigation';
 import Sidebar from "../../dashboard/Sidebar";
 import DashboardLayout from "../../dashboard/DashboardLayout";
 import { ArrowRight, Link as LinkIcon } from 'lucide-react';
@@ -27,9 +25,6 @@ export default function DadosPessoais() {
       <div className="flex">
       <Sidebar />
       <div className="flex-1 bg-[#FAF9F6] min-h-screen p-8 pl-20"> 
-         <div className="flex items-center justify-start w-full p-4 fixed top-0 left-0 bg-white shadow-md z-10 " style={{ paddingLeft: '1rem', backgroundColor: '#1D4ED8'}}> 
-           <Image src={logo} alt="Logo" width={130} height={70} />
-          </div>
 
           {/* Footer de navegação de etapas */}
           <div className="pt-1 px-6 mx-auto mt-12 w-full"> 

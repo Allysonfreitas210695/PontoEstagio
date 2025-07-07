@@ -36,10 +36,6 @@ export default function DadosSupervisor() {
       <div className="flex">
         <Sidebar />
         <div className="flex-1 bg-[#FAF9F6] min-h-screen p-8 pl-24"> {/* Added pl-24 for content offset from sidebar */}
-          {/* Header Bar */}
-          <div className="flex items-center justify-start w-full p-4 fixed top-0 left-0 bg-white shadow-md z-10 " style={{ paddingLeft: '1rem', backgroundColor: '#1D4ED8'}}> 
-           <Image src={logo} alt="Logo" width={130} height={70} />
-          </div>
 
           {/* Main content area, adjusted to be below the fixed header */}
           <div className="pt-20"> {/* Adjust padding-top to account for fixed header height */}

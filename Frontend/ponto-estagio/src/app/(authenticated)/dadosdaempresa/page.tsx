@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import logo from "../../../../public/assets/image/logo2.png"; 
-
-// Assuming these paths are correct relative to where this new file will be
+import logo from "../../../../public/assets/image/logo2.png"; // Assuming this is the correct path for the logo
 import Sidebar from "../dashboard/Sidebar";
 import DashboardLayout from "../dashboard/DashboardLayout";
 
@@ -25,9 +23,7 @@ export default function DadosEmpresaCompleto() {
   // Function to handle Cancel button click
   const handleCancel = () => {
     console.log("Operação de cancelamento acionada.");
-    // In a real application, you might use router.push('/') or router.back()
-    // to navigate away or reset the form.
-    // Example: router.back(); (if using Next.js router)
+   
     console.log("Formulário resetado ou navegação de volta.");
   };
 
@@ -88,12 +84,6 @@ export default function DadosEmpresaCompleto() {
       <div className="flex overflow-hidden">
         <Sidebar />
         <div className="flex-1 bg-[#FAF9F6] min-h-screen p-8 overflow-hidden"> 
-
-          {/* Header Bar */}
-          <div className="flex items-center justify-start w-full p-4 fixed top-0 left-0 bg-white shadow-md z-10 " style={{ paddingLeft: '1rem', backgroundColor: '#1D4ED8'}}> 
-           <Image src={logo} alt="Logo" width={130} height={70} />
-          </div>
-
           <div className="pt-1 px-6 mx-auto mt-12 w-full "> 
            {/* <div className="flex justify-center items-center gap-4 mb-10 max-w-lg mx-auto"> */}
            
@@ -313,7 +303,7 @@ export default function DadosEmpresaCompleto() {
                   <button
                     type="button"
                     onClick={handleCancel}
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-md transition duration-150 ease-in-out"
+                    className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded-md flex items-center space-x-2 transition"
                   >
                     Cancelar
                   </button>

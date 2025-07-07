@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Plus, ChevronLeft, ChevronRight } from 'lucide-react'; // Import icons
+import { Plus, ChevronLeft, ChevronRight, ArrowLeft } from 'lucide-react'; // Import icons
 import logo from "../../../../../public/assets/image/logo2.png"; // Assuming this is the correct path for the logo
 // Assuming these paths are correct relative to where this new file will be
 import Sidebar from "../../dashboard/Sidebar";
 import DashboardLayout from "../../dashboard/DashboardLayout";
 import router from 'next/router';
 import Link from 'next/link';
+import { ArrowRight} from 'lucide-react'; // Importing ArrowRight icon for navigation
 
 export default function DadosEmpresaSupervisor() {
   // State for Empresa Data
@@ -24,10 +25,7 @@ export default function DadosEmpresaSupervisor() {
         <Sidebar />
         <div className="flex-1 bg-[#FAF9F6] min-h-screen p-8 pl-20">
           {/* Header Bar */}
-          <div className="flex items-center justify-start w-full p-4 fixed top-0 left-0 bg-white shadow-md z-10 " style={{ paddingLeft: '1rem', backgroundColor: '#1D4ED8'}}> 
-           <Image src={logo} alt="Logo" width={130} height={70} />
-          </div>
-
+        
           <div className="pt-1 px-6 mx-auto mt-12 w-full"> 
             {/* Progress Indicator */}
           <div className="flex justify-center items-center mb-10">
@@ -124,25 +122,25 @@ export default function DadosEmpresaSupervisor() {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between max-w-4xl mx-auto mt-8">
+            <div className="flex justify-between max-w-7xl mt-8">
               <Link
                 title="Voltar para Dados Pessoais"
                 href="/dados-1" //link de voltar
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md flex items-center space-x-2"
+                className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-2 px-4 rounded-md flex items-center space-x-2 transition"
               >
-                <ChevronLeft size={20} />
+                <ArrowLeft /> 
                 <span>Voltar</span>
               </Link>
-              <Link
-                href="/dadosdaempresa" //link de avançar
-                title="Avançar para Dados da Empresa"
-                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md flex items-center space-x-2"
-              >
-                <span>Avançar</span>
-                <ChevronRight size={20} />
-              </Link>
+                        
+             <Link
+              href="/dadosdaempresa"
+              title="Avançar para Dados Pessoais 2"
+              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded flex items-center space-x-2"
+            >
+              <span>Avançar</span>
+              <ArrowRight size={24} className="hover:text-gray-200 cursor-pointer" />
+            </Link>
             </div>
-
           </div>
         </div>
       </div>

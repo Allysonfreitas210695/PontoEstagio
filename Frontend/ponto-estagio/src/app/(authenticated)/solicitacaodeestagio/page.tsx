@@ -17,8 +17,9 @@ export default function SolicitacoesEstagio() {
     <DashboardLayout>
       <div className="flex">
         <Sidebar />
+       
+        <div className="flex-1 bg-white min-h-screen px-4 sm:px-8 md:pl-24 py-8">
 
-        <div className="flex-1 bg-white min-h-screen p-8 pl-24">
           {/* Header fixo */}
           <div
             className="flex items-center justify-between w-full fixed top-0 left-0 bg-white shadow-md z-10"
@@ -32,7 +33,7 @@ export default function SolicitacoesEstagio() {
           {/* Conteúdo principal */}
           <div className="pt-20">
             {/* Perfil do Usuário + Botão Cadastrar */}
-            <div className="bg-white rounded-lg shadow p-6 mb-8 flex items-center justify-between max-w-4xl mx-auto mt-4">
+            <div className="bg-white rounded-lg shadow p-6 mb-8 flex items-center justify-between max-w-7xl x-auto mt-4">
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center mr-4">
                   <Image
@@ -45,7 +46,7 @@ export default function SolicitacoesEstagio() {
                 </div>
                 <div>
                   <p className="font-semibold text-gray-800">Olá,</p>
-                  <p className="text-gray-600">Eriky Abreu Veloso</p>
+                  <p className="text-gray-600">Eriky</p>
                 </div>
               </div>
 
@@ -59,14 +60,16 @@ export default function SolicitacoesEstagio() {
             </div>
 
             {/* Título */}
-            <div className="max-w-4xl mx-auto mb-8">
-              <h1 className="text-2xl font-bold text-blue-700 mb-4">
-                SOLICITAÇÕES DE ESTÁGIO
-              </h1>
+            <div className="max-w-7xl mb-8">
+              
 
               {/* Card: Cadastro de Solicitação */}
               <div className="bg-white rounded-lg shadow p-6 mb-6">
-                <h2 className="font-bold text-gray-800 mb-2">
+                <h1 className=" font-bold text-gray-600 mb-">
+                SOLICITAÇÕES DE ESTÁGIO
+                </h1><br />
+
+                <h2 className="font-bold text-blue-600 mb-2 ">
                   CADASTRO DE SOLICITAÇÃO DE ESTÁGIO
                 </h2>
                 <p className="text-sm text-gray-600 mb-4">
@@ -82,12 +85,9 @@ export default function SolicitacoesEstagio() {
                   Se você já possui uma solicitação recusada ou que necessita
                   de ajustes, clique sobre ela para editar e reenviar com as
                   devidas correções.
-                </p>
-              </div>
-
-              {/* Card: Status da Solicitação */}
-              <div className="bg-white rounded-lg shadow p-6 mb-6">
-                <h2 className="font-bold text-gray-800 mb-2">
+                </p> <br />
+              
+                <h2 className="font-bold text-blue-600 mb-2 ">
                   STATUS DA SOLICITAÇÃO
                 </h2>
                 <p className="text-sm text-gray-600 mb-4">
@@ -126,25 +126,25 @@ export default function SolicitacoesEstagio() {
 
               {/* Tabela de Solicitações */}
               <div className="bg-white rounded-lg shadow p-6 overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y divide-blue-600">
                   <thead>
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
                         Contrato
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
                         Situação
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
                         Concedente
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
                         Atividade
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
                         Início
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-medium text-blue-600 uppercase tracking-wider">
                         Encerramento
                       </th>
                     </tr>

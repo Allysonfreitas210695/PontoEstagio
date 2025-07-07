@@ -27,12 +27,7 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       <Sidebar />
-
-      {/* Header superior azul */}
-      <div className="flex items-center justify-start w-full p-4 fixed top-0 left-0 bg-white shadow-md z-10 " style={{ paddingLeft: '1rem', backgroundColor: '#1D4ED8'}}> 
-           <Image src={logo} alt="Logo" width={130} height={70} />
-      </div>
-
+      
       {/* Conteúdo */}
       <div className="px-6 ml-12 mx-auto mt-24 bg-[#FAF9F6] ">
         {/* Saudação */}
