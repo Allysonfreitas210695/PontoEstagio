@@ -19,6 +19,14 @@ namespace CommonTestUltilities.Security
             return this;
         }
 
+        public PasswordEncrypterMockBuilder Encrypt(string plainPassword, string encrypted)
+        {
+            _mock.Setup(x => x.Encrypt(plainPassword))
+                .Returns(encrypted);
+            return this;
+        }
+
+
         public IPasswordEncrypter Build()
         {
             return _mock.Object;
