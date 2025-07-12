@@ -42,7 +42,7 @@ export default function SelectPage() {
             processo e muito mais!
           </p>
           <Button
-            onClick={() => handleNavigation("3")} // Valor 3 para Coordenador
+            onClick={() => handleNavigation("Coordinator")} // Valor 3 para Coordenador
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
@@ -65,7 +65,7 @@ export default function SelectPage() {
             aprovações e muito mais!
           </p>
           <Button
-            onClick={() => handleNavigation("0")} // Valor 0 para Aluno
+            onClick={() => handleNavigation("Intern")} // Valor 0 para Aluno
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
