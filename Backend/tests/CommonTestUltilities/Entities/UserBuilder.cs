@@ -9,33 +9,40 @@ namespace CommonTestUltilities.Entities;
 public class UserBuilder
 {
     public static User Build(
-        Guid? id = null, 
-        Guid? universityId = null, 
+        Guid? id = null,
+        Guid? universityId = null,
         Guid? courseId = null,
         string? name = null,
         string? registration = null,
-        Email? email = null, 
-        UserType? type = null, 
+        Email? email = null,
+        UserType? type = null,
         string? password = null,
         string? phone = null,
         string? cpf = null,
-        string? department = null
-    )
+        string? department = null,
+        bool isActive = true)
     {
-        var faker = new Faker();
+        var faker = new Faker("pt_BR");
 
-        return new User(
-            id ?? Guid.NewGuid(),
-            universityId ?? Guid.NewGuid(),
-            courseId ?? Guid.NewGuid(),
-            name ?? faker.Name.FullName(),
-            registration ?? new Random().Next(100000, 999999).ToString(),
-            email ?? Email.Criar(faker.Internet.Email()),
-            type ?? faker.PickRandom<UserType>(),
-            password ?? faker.Internet.Password(12),
-            phone: phone ?? faker.Phone.PhoneNumber(),
+        var user = new User(
+            id: id,
+            universityId: universityId ?? Guid.NewGuid(),
+            courseId: courseId ?? Guid.NewGuid(),
+            name: name ?? faker.Name.FullName(),
+            registration: registration ?? faker.Random.AlphaNumeric(8),
+            email: email ?? Email.Criar(faker.Internet.Email()),
+            type: type ?? UserType.Intern,
+            password: password ?? faker.Internet.Password(8),
+            phone: phone ?? faker.Phone.PhoneNumber("###########"),
             cpf: cpf ?? faker.Person.Cpf(false),
             department: department ?? faker.Commerce.Department()
         );
-    } 
+
+        if (isActive)
+            user.Activate();
+        else
+            user.Inactivate();
+
+        return user;
+    }
 }

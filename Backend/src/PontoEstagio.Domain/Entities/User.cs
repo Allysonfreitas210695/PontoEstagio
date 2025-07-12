@@ -46,7 +46,7 @@ public class User : Entity
         if (universityId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUniversityId });
 
-        if ((type == UserType.Intern || type == UserType.Coordinator) && courseId == Guid.Empty)
+        if (type == UserType.Coordinator && courseId == Guid.Empty)
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCourseIdForUserType });
 
         if (string.IsNullOrWhiteSpace(name))
@@ -55,28 +55,29 @@ public class User : Entity
         if (string.IsNullOrWhiteSpace(password))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidPassword });
 
-        if (string.IsNullOrWhiteSpace(registration))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidRegistration });
-
+       
         if (!UserType.IsDefined(typeof(UserType), type))
             throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidUserType });
 
-        if (string.IsNullOrWhiteSpace(phone))
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneIsRequired });
+        if (type == UserType.Intern)
+        {
+            if (string.IsNullOrWhiteSpace(registration))
+                throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidRegistration });
 
-        if (phone.Length > 20)
-            throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneMaxLength });
+            if (string.IsNullOrWhiteSpace(phone))
+                throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneIsRequired });
 
-        if(type == UserType.Advisor)
+            if (phone.Length > 20)
+                throw new ErrorOnValidationException(new List<string> { ErrorMessages.PhoneMaxLength });
+        }
+
+        if (type == UserType.Advisor)
         {
             if (string.IsNullOrWhiteSpace(cpf))
                 throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidCpf });
 
             if (!System.Text.RegularExpressions.Regex.IsMatch(cpf, @"^\d{11}$"))
                 throw new ErrorOnValidationException(new List<string> { ErrorMessages.UserInvalidCpfFormat });
-
-            if (type == UserType.Advisor)
-                throw new ErrorOnValidationException(new List<string> { ErrorMessages.InvalidDepartment });
         }
 
 
