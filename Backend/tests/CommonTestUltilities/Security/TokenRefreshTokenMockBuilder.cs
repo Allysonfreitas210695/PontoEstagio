@@ -19,6 +19,13 @@ namespace CommonTestUltilities.Security
             return this;
         }
 
+        public TokenRefreshTokenMockBuilder SetupValidateRefreshToken(string refreshToken, Guid? userId)
+        {
+            _mock.Setup(x => x.ValidateRefreshToken(refreshToken))
+                .Returns(userId);
+            return this;
+        }
+
         public ITokenRefreshToken Build()
         {
             return _mock.Object;

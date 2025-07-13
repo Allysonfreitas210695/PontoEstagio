@@ -89,7 +89,7 @@ public class User : Entity
         IsActive = true;
         Registration = registration;
         UniversityId = universityId;
-        CourseId = courseId;
+        CourseId = courseId == Guid.Empty ? null : courseId;
         Phone = phone;
         Cpf = cpf;
         Department = department;
