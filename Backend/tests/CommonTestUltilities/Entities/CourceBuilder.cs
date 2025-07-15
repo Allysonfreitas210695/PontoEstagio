@@ -2,7 +2,7 @@
 using PontoEstagio.Domain.Entities;
 
 namespace CommonTestUltilities.Entities;
-public class CourceBuilder
+public static class CourceBuilder
 {
     public static Course Build(
        Guid? id = null,
