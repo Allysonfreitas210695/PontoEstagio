@@ -9,7 +9,6 @@ import Header from "@/app/components/header/page";
 import Footer from "@/app/components/footer/page";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
-import { log } from "console";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -20,12 +19,17 @@ export default function RegisterPage() {
   const router = useRouter();
   
   useEffect(() => {
-    // Recupera o tipo de usuário do localStorage quando a página carrega
-    const storedUserType = localStorage.getItem('userType');
+    // Recupera o tipo de usuário do localStorage
+    const storedUserType = localStorage.getItem("userType");
     if (storedUserType) {
       setUserType(storedUserType);
+    } else {
+      // Se não houver userType, redireciona para a página de seleção
+      toast.error("Selecione um tipo de usuário antes de continuar.");
+      router.push("/select");
     }
-  }, []);
+  }, [router]);
+  console.log(userType);
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
@@ -57,48 +61,53 @@ export default function RegisterPage() {
     setIsLoading(true);
 
     // Verifica se todas as regras de senha são válidas
-    const isPasswordValid = passwordRules.every(rule => rule.isValid);
+    const isPasswordValid = passwordRules.every((rule) => rule.isValid);
     if (!isPasswordValid) {
       toast.error("Por favor, crie uma senha que atenda a todos os requisitos");
       setIsLoading(false);
       return;
     }
 
+    if (!userType) {
+      toast.error("Tipo de usuário não definido. Redirecionando...");
+      router.push("/select");
+      setIsLoading(false);
+      return;
+    }
+
     try {
-  console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
-  
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}users/check-user`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email,
-      password,
-      type: userType
-    }),
-  });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}users/check-user`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            type: userType, // Garante que o type está sendo enviado
+          }),
+        }
+      );
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.message || 'Erro ao cadastrar usuário');
-  }
+      if (!response.ok) {
+        throw new Error(data.message || "Erro ao cadastrar usuário");
+      }
 
-  toast.success('Cadastro realizado com sucesso!');
+      toast.success("Cadastro realizado com sucesso!");
       localStorage.setItem("userEmail", email);
       localStorage.setItem("userPassword", password);
 
-      if (userType === "0") {
-        router.push('/register/aluno');
-      } else if (userType === "3") {
-        router.push('/register/coordenador');
-      } else {
-        router.push('/');
+      if (userType === "Intern") {
+        router.push("/register/aluno");
+      } else if (userType === "Coordinator") {
+        router.push("/register/coordenador");
       }
-      
     } catch (error: any) {
-      toast.error(error.message || 'Erro ao cadastrar usuário');
+      toast.error(error.message || "Erro ao cadastrar usuário");
     } finally {
       setIsLoading(false);
     }
@@ -106,21 +115,25 @@ export default function RegisterPage() {
 
   return (
     <div className="bg-white p-6 flex flex-col items-center ">
-      {/* Logo */}
       <Header />
+      
 
       {/* Card de Cadastro */}
       <div className="flex flex-col w-[350] items-center justify-center min-h-screen bg-white p-6 gap-2">
         <h1 className="text-2xl font-bold mb-2">Cadastre-se</h1>
         <p className="text-sm text-gray-600 mb-6">
-          {userType === "0" ? "Cadastro de Aluno" : userType === "3" ? "Cadastro de Coordenador" : "Cadastro"}
+          {userType === "Intern"
+            ? "Cadastro de Aluno"
+            : userType === "Coordinator"
+            ? "Cadastro de Coordenador"
+            : "Cadastro"}
         </p>
 
         {/* Formulário */}
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <Input 
-            type="email" 
-            placeholder="E-mail" 
+          <Input
+            type="email"
+            placeholder="E-mail"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
