@@ -37,7 +37,7 @@ export interface AlunoData {
   universityId: string;
   courseId: string;
   isActive: boolean;
-  type: string;
+  type: "Intern" | "Coordinator"; // Tipagem explícita
 }
 
 export class RegisterAluno {
