@@ -8,12 +8,17 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Header from "@/app/components/header/page";
 import Footer from "@/app/components/footer/page";
+import { useState } from "react";
+
+type UserType = "Intern" | "Coordinator";
 
 export default function SelectPage() {
   const router = useRouter();
-  
-  const handleNavigation = (userType: string) => {
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  const handleNavigation = (userType: UserType) => {
     // Armazena o tipo de usuário no localStorage antes de navegar
+    setIsNavigating(true);
     localStorage.setItem('userType', userType);
     router.push("/register");
   };
@@ -42,7 +47,8 @@ export default function SelectPage() {
             processo e muito mais!
           </p>
           <Button
-            onClick={() => handleNavigation("Coordinator")} // Valor 3 para Coordenador
+            onClick={() => handleNavigation("Coordinator")}
+            disabled={isNavigating}
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
@@ -65,7 +71,8 @@ export default function SelectPage() {
             aprovações e muito mais!
           </p>
           <Button
-            onClick={() => handleNavigation("Intern")} // Valor 0 para Aluno
+            onClick={() => handleNavigation("Intern")}
+            disabled={isNavigating}
             variant="outline"
             className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
