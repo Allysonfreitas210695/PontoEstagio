@@ -1,6 +1,6 @@
 "use client";
 import { RegisterAluno, type AlunoData } from "@/api/api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,7 @@ import {
 import Header from "@/app/components/header/page";
 import Footer from "@/app/components/footer/page";
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 
 type Course = { id: string; name: string };
 type University = { id: string; name: string; courses: Course[] };
@@ -30,10 +31,19 @@ const universitiesData: University[] = [
     id: "2e22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b",
     name: "Universidade Federal Rural do Semi-Árido (UFERSA)",
     courses: [
-      { id: "1a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b", name: "Engenharia de Software" },
-      { id: "2a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b", name: "Engenharia de Computação" },
+      {
+        id: "1a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b",
+        name: "Engenharia de Software",
+      },
+      {
+        id: "2a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b",
+        name: "Engenharia de Computação",
+      },
       { id: "3a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b", name: "Engenharia Civil" },
-      { id: "4a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b", name: "Medicina Veterinária" },
+      {
+        id: "4a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b",
+        name: "Medicina Veterinária",
+      },
       { id: "5a22c3e1-4c7b-4d5a-8b9a-1c2d3e4f5a6b", name: "Agronomia" },
     ],
   },
@@ -41,7 +51,10 @@ const universitiesData: University[] = [
     id: "3f4g5h6i-7j8k-9l0m-1n2o-3p4q5r6s7t8u",
     name: "Universidade Estadual de Campinas (UNICAMP)",
     courses: [
-      { id: "1b4g5h6i-7j8k-9l0m-1n2o-3p4q5r6s7t8u", name: "Engenharia da Computação" },
+      {
+        id: "1b4g5h6i-7j8k-9l0m-1n2o-3p4q5r6s7t8u",
+        name: "Engenharia da Computação",
+      },
       { id: "2b4g5h6i-7j8k-9l0m-1n2o-3p4q5r6s7t8u", name: "Medicina" },
       { id: "3b4g5h6i-7j8k-9l0m-1n2o-3p4q5r6s7t8u", name: "Física" },
       { id: "4b4g5h6i-7j8k-9l0m-1n2o-3p4q5r6s7t8u", name: "Letras" },
@@ -53,7 +66,10 @@ const universitiesData: University[] = [
     courses: [
       { id: "1c5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d", name: "Direito" },
       { id: "2c5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d", name: "Jornalismo" },
-      { id: "3c5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d", name: "Química Industrial" },
+      {
+        id: "3c5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d",
+        name: "Química Industrial",
+      },
       { id: "4c5b6c7d-8e9f-0a1b-2c3d-4e5f6a7b8c9d", name: "Artes Cênicas" },
     ],
   },
@@ -61,8 +77,14 @@ const universitiesData: University[] = [
     id: "5d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
     name: "Universidade Federal de Minas Gerais (UFMG)",
     courses: [
-      { id: "1d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a", name: "Arquitetura e Urbanismo" },
-      { id: "2d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a", name: "Engenharia Aeroespacial" },
+      {
+        id: "1d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
+        name: "Arquitetura e Urbanismo",
+      },
+      {
+        id: "2d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
+        name: "Engenharia Aeroespacial",
+      },
       { id: "3d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a", name: "Odontologia" },
       { id: "4d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a", name: "Farmácia" },
     ],
@@ -74,7 +96,10 @@ const universitiesData: University[] = [
       { id: "1e7h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v", name: "Psicologia" },
       { id: "2e7h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v", name: "Administração" },
       { id: "3e7h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v", name: "Design Gráfico" },
-      { id: "4e7h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v", name: "Relações Internacionais" },
+      {
+        id: "4e7h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v",
+        name: "Relações Internacionais",
+      },
     ],
   },
 ];
@@ -83,10 +108,6 @@ export default function RegisterSignup() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    registration: "",
-    password: "",
-    phone: "",
     universityId: "",
     courseId: "",
   });
@@ -95,11 +116,18 @@ export default function RegisterSignup() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
   const [code, setCode] = useState(Array(6).fill(""));
+  // verifica o tipo de usuário selecionado
+  useEffect(() => {
+    const userType = localStorage.getItem("userType");
+    if (userType !== "Coordinator") {
+      toast.error("Acesso restrito a coordenadores.");
+      router.push("/select");
+    }
+  }, [router]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [id]: value
+    setFormData((prev) => ({...prev, [id]: value,
     }));
   };
   const handleCodeChange = (value: string, index: number) => {
@@ -109,20 +137,16 @@ export default function RegisterSignup() {
   };
 
   const handleUniversityChange = (value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      universityId: value,
-      courseId: ""
+    setFormData((prev) => ({...prev, universityId: value, courseId: "",
     }));
-
-    const selectedUniversity = universitiesData.find(uni => uni.id === value);
+    const selectedUniversity = universitiesData.find((uni) => uni.id === value);
     setAvailableCourses(selectedUniversity?.courses || []);
   };
 
   const handleCourseChange = (value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      courseId: value
+      courseId: value,
     }));
   };
 
@@ -133,43 +157,32 @@ export default function RegisterSignup() {
     setIsSubmitting(true);
 
     // Validação dos campos obrigatórios
-    if (!formData.name || !formData.email || !formData.registration || 
-        !formData.password || !formData.phone || !formData.universityId || !formData.courseId) {
+    if (
+      !formData.name ||
+      !formData.universityId ||
+      !formData.courseId
+    ) {
       setError("Por favor, preencha todos os campos obrigatórios.");
       setIsSubmitting(false);
       return;
     }
 
-    // Validação básica de email
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError("Por favor, insira um email válido.");
-      setIsSubmitting(false);
-      return;
-    }
 
     try {
       const alunoData: AlunoData = {
         ...formData,
         isActive: true,
-        type: "Intern"
+        type: "Coordinator",
+        email: "",
+        registration: "",
+        password: "",
+        phone: ""
       };
 
       await RegisterAluno.register(alunoData);
 
-      setSuccess("Cadastro realizado com sucesso! Redirecionando...");
-      
-      // Limpar formulário
-      setFormData({
-        name: "",
-        email: "",
-        registration: "",
-        password: "",
-        phone: "",
-        universityId: "",
-        courseId: "",
-      });
-      setAvailableCourses([]);
-
+      toast.success("Cadastro realizado com sucesso!");
+      setSuccess("Cadastro realizado com sucesso!");
       // Redirecionar após 2 segundos
       setTimeout(() => {
         router.push("/login");
@@ -199,11 +212,14 @@ export default function RegisterSignup() {
             <form className="space-y-4" onSubmit={handleSubmit}>
               {/* Universidade Dropdown */}
               <div className="space-y-2">
-                <Label htmlFor="university" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="university"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Universidade
                 </Label>
-                <Select 
-                  onValueChange={handleUniversityChange} 
+                <Select
+                  onValueChange={handleUniversityChange}
                   value={formData.universityId}
                 >
                   <SelectTrigger className="w-full border border-gray-300 rounded-md bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -221,20 +237,27 @@ export default function RegisterSignup() {
 
               {/* Curso Dropdown */}
               <div className="space-y-2">
-                <Label htmlFor="course" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="course"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Curso
                 </Label>
                 <Select
                   onValueChange={handleCourseChange}
                   value={formData.courseId}
-                  disabled={!formData.universityId || availableCourses.length === 0}
+                  disabled={
+                    !formData.universityId || availableCourses.length === 0
+                  }
                 >
                   <SelectTrigger className="w-full border border-gray-300 rounded-md bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <SelectValue placeholder={
-                      formData.universityId 
-                        ? "Selecione seu curso" 
-                        : "Selecione uma universidade primeiro"
-                    } />
+                    <SelectValue
+                      placeholder={
+                        formData.universityId
+                          ? "Selecione seu curso"
+                          : "Selecione uma universidade primeiro"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent className="max-h-60 overflow-y-auto border border-gray-300 rounded-md mt-1 bg-white z-50">
                     {availableCourses.map((course) => (
@@ -248,7 +271,10 @@ export default function RegisterSignup() {
 
               {/* Nome */}
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="name"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Nome do coordenador
                 </Label>
                 <Input
@@ -261,24 +287,23 @@ export default function RegisterSignup() {
                   required
                 />
               </div>
-          {/* Código de Verificação */}
-          <div className="mb-2">
-            <label className="text-sm font-medium text-gray-700 mb-2 block">
-              Código de Verificação <span className="text-red-500">*</span>
-            </label>
-            <div className="flex gap-2 justify-between">
-              {code.map((digit, idx) => (
-                <input
-                  key={idx}
-                  maxLength={1}
-                  className="w-10 h-10 text-center border border-gray-300 rounded-md text-lg"
-                  value={digit}
-                  onChange={(e) => handleCodeChange(e.target.value, idx)}
-                />
-              ))}
-            </div>
-          </div>
-              
+              {/* Código de Verificação */}
+              <div className="mb-2">
+                <label className="text-sm font-medium text-gray-700 mb-2 block">
+                  Código de Verificação <span className="text-red-500">*</span>
+                </label>
+                <div className="flex gap-2 justify-between">
+                  {code.map((digit, idx) => (
+                    <input
+                      key={idx}
+                      maxLength={1}
+                      className="w-10 h-10 text-center border border-gray-300 rounded-md text-lg"
+                      value={digit}
+                      onChange={(e) => handleCodeChange(e.target.value, idx)}
+                    />
+                  ))}
+                </div>
+              </div>
 
               {/* Mensagens de feedback */}
               {error && (
@@ -300,13 +325,31 @@ export default function RegisterSignup() {
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Processando...
                   </span>
-                ) : "Finalizar Cadastro"}
+                ) : (
+                  "Finalizar Cadastro"
+                )}
               </Button>
             </form>
           </CardContent>
