@@ -1,42 +1,36 @@
 "use client";
 
-import Image from "next/image";
-import CoordenadorImg from "../../../../public/assets/image/coordenador.png";
-import AlunoImg from "../../../../public/assets/image/aluno.png";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import Header from "@/app/components/header/page";
-import Footer from "@/app/components/footer/page";
 import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
-type UserType = "Intern" | "Coordinator";
+import { Button } from "@/components/ui/button";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+
+import { userTypeDTO } from "@/types/user";
 
 export default function SelectPage() {
   const router = useRouter();
   const [isNavigating, setIsNavigating] = useState(false);
 
-  const handleNavigation = (userType: UserType) => {
-    // Armazena o tipo de usuário no localStorage antes de navegar
+  const handleNavigation = (userType: userTypeDTO) => {
     setIsNavigating(true);
-    localStorage.setItem('userType', userType);
-    router.push("/register");
+    router.push(`/register?type=${userType}`);
   };
 
   return (
     <section className="flex flex-col items-center min-h-screen bg-white px-4 py-10">
-      {/* Logo */}
       <Header />
 
-      {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Coordenador */}
         <div
           className="bg-white border rounded-2xl shadow p-6 flex flex-col items-center max-w-sm text-center"
           style={{ minWidth: "100px", maxWidth: "300px", height: "auto" }}
         >
           <Image
-            src={CoordenadorImg}
+            src={"/assets/image/coordenador.png"}
             alt="Coordenador"
             width={250}
             height={250}
@@ -55,13 +49,16 @@ export default function SelectPage() {
             Avançar <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
-
-        {/* Aluno */}
         <div
           className="bg-white border rounded-2xl shadow p-6 flex flex-col items-center max-w-sm text-center"
           style={{ minWidth: "100px", maxWidth: "300px", height: "auto" }}
         >
-          <Image src={AlunoImg} alt="Aluno" width={250} height={250} />
+          <Image
+            src={"/assets/image/aluno.png"}
+            alt="Aluno"
+            width={250}
+            height={250}
+          />
           <h2 className="text-xl font-semibold mt-4">Sou aluno</h2>
           <p
             className="text-sm text-gray-600 mt-2"
