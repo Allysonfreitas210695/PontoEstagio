@@ -9,19 +9,15 @@ using PontoEstagio.Communication.Request;
 namespace WebApi.Test.Controller.Auth;
 public class RefreshTest : IClassFixture<CustomWebApplicationFactory>
 {
-    private const string METHOD = "api/auth/refresh";
-
     private readonly HttpClient _httpClient;
 
     private readonly string _email;
-    private readonly string _name;
     private readonly string _password;
 
     public RefreshTest(CustomWebApplicationFactory webApplicationFactory)
     {
         _httpClient = webApplicationFactory.CreateClient();
         _email = webApplicationFactory.GetEmail();
-        _name = webApplicationFactory.GetName();
         _password = webApplicationFactory.GetPassword();
     }
 
