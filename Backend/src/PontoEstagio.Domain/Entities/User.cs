@@ -203,5 +203,7 @@ public class User : Entity
         Department = department;
         UpdateTimestamp();
     }
+
+    public string GetEmail() => Email.Endereco;
 }
 
