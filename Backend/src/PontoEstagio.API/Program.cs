@@ -92,7 +92,12 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
 var jwtSettings = builder.Configuration.GetSection("Jwt");
+
+var jwtKey = jwtSettings.GetValue<string>("Key")!;
+var issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -105,11 +110,10 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false,
         ClockSkew = TimeSpan.Zero,
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(jwtSettings.GetValue<string>("Key")!)
-        )
+        IssuerSigningKey = issuerSigningKey
     };
 });
+
 
 var app = builder.Build();
 
