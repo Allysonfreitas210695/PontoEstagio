@@ -33,7 +33,6 @@ builder.Services.AddScoped<ITokenProvider, HttpContextTokenValue>();
 
 builder.Services.AddHttpContextAccessor();
 
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
@@ -125,6 +124,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+if (builder.Environment.IsEnvironment("Test"))
+{
+    builder.Configuration.AddJsonFile("appsettings.Test.json", optional: false, reloadOnChange: true);
+}
 
 if (builder.Configuration.IsTestEnvironment() == false)
 {
