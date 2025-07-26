@@ -1,51 +1,49 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { toast } from "sonner";
+import { Eye, EyeOff } from "lucide-react";
+import { useForm } from "react-hook-form";
+
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import Header from "@/app/components/header/page";
-import Footer from "@/app/components/footer/page";
+import { login } from "@/api/users_api";
+
+export type LoginFormData = {
+  email: string;
+  senha: string;
+};
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-
   const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>();
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
 
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, senha }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success("Login realizado com sucesso!");
-        // redireciona, se necessário
-        router.push("/dashboard");
-      } else {
-        toast.error(data?.message || "Falha ao fazer login.");
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      await login(data);
+      toast.success("Login realizado com sucesso!");
+      router.push("/dashboard");
     } catch (error) {
-      toast.error("Erro inesperado ao tentar logar.");
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Falha ao fazer login.");
+      }
     } finally {
       setLoading(false);
     }
@@ -65,25 +63,26 @@ export default function LoginPage() {
           controle de ponto.
         </p>
 
-        <form className="space-y-4" onSubmit={handleLogin}>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="relative">
             <Input
               type="email"
               placeholder="E-mail"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              {...register("email", { required: "E-mail é obrigatório" })}
               className="w-full border border-gray-500 rounded-md py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="Senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              required
+              {...register("senha", { required: "Senha é obrigatória" })}
               className="w-full border border-gray-500 rounded-md 
               py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500
               text-gray-700"
@@ -95,6 +94,11 @@ export default function LoginPage() {
             >
               {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+            {errors.senha && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.senha.message}
+              </p>
+            )}
           </div>
 
           <div className="text-left mb-4">

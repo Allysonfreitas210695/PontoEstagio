@@ -1,6 +1,6 @@
-"use client";
+import React from "react";
 
-export default function Footer() {
+export function Footer() {
   return (
     <footer className="p-6 w-full">
       <div className=" flex justify-between items-center text-sm text-gray-600">

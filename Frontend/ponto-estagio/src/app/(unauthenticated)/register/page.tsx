@@ -1,113 +1,249 @@
 "use client";
 
-import { useState } from "react";
-import { CheckCircle, Eye, EyeOff } from "lucide-react";
+import { useEffect, useState } from "react";
+import SelectTypeUser from "./components/selectTypeUser";
+import { userTypeDTO } from "@/types/user";
+import { courceDTO } from "@/types/cource";
+import { UniversityDTO } from "@/types/university";
+import { getAllCources } from "@/api/cources_api";
+import { toast } from "sonner";
+import { getAllUniversities } from "@/api/universities_api";
+import { useForm } from "react-hook-form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import clsx from "clsx";
-import Header from "@/app/components/header/page";
-import Footer from "@/app/components/footer/page";
+import { useRouter } from "next/navigation";
+import { registerUser } from "@/api/users_api";
+
+interface FormData {
+  name: string;
+  email: string;
+  registration: string;
+  password: string;
+  phone: string;
+  universityId: string;
+  courseId?: string;
+  verificationCode?: string;
+}
+
+export interface HandleSelectProps {
+  type: userTypeDTO;
+  email: string;
+  password: string;
+}
 
 export default function RegisterPage() {
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
+  const router = useRouter();
 
-  const passwordRules = [
-    {
-      label: "Caractere especial",
-      isValid: /[@#$!%*?&]/.test(password),
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+    getValues,
+    watch,
+  } = useForm<FormData>({
+    defaultValues: {
+      name: "",
+      email: "",
+      registration: "",
+      password: "",
+      phone: "",
+      universityId: "",
+      courseId: "",
+      verificationCode: "",
     },
-    {
-      label: "Letra maiúscula",
-      isValid: /[A-Z]/.test(password),
-    },
-    {
-      label: "Letra minúscula",
-      isValid: /[a-z]/.test(password),
-    },
-    {
-      label: "Número",
-      isValid: /[0-9]/.test(password),
-    },
-    {
-      label: "Oito caracteres",
-      isValid: password.length >= 8,
-    },
-  ];
+  });
+
+  const [userType, setUserType] = useState<userTypeDTO | null>(null);
+  const [availableCourses, setAvailableCourses] = useState<courceDTO[]>([]);
+  const [listUniversities, setListUniversities] = useState<UniversityDTO[]>([]);
+
+  function handleSelectUserType({ email, password, type }: HandleSelectProps) {
+    setUserType(type);
+    setValue("email", email);
+    setValue("password", password);
+  }
+
+  async function loadGetAllCources() {
+    try {
+      const cources = await getAllCources();
+      setAvailableCourses(cources);
+    } catch (error) {
+      if (error instanceof Error) return toast.error(error.message);
+      toast.error("Erro ao carregar cursos");
+    }
+  }
+
+  async function loadGetAllUniversities() {
+    try {
+      const universities = await getAllUniversities();
+      setListUniversities(universities);
+    } catch (error) {
+      if (error instanceof Error) return toast.error(error.message);
+      toast.error("Erro ao carregar universidades");
+    }
+  }
+
+  const handleUniversityChange = (value: string) => {
+    setValue("universityId", value);
+  };
+
+  const handleCourseChange = (value: string) => {
+    setValue("courseId", value);
+  };
+
+  const universityId = watch("universityId");
+  const courseId = watch("courseId");
+
+  async function onSumit(data: FormData) {
+    const {
+      email,
+      name,
+      password,
+      phone,
+      registration,
+      universityId,
+      courseId,
+      verificationCode,
+    } = data;
+    try {
+      await registerUser({
+        type: userType!,
+        email,
+        name,
+        password,
+        phone,
+        registration,
+        universityId,
+        isActive: true,
+        courseId,
+        verificationCode,
+      });
+
+      toast.success("Sucesso na operação de cadastro do usuário");
+    } catch (error) {
+      if (error instanceof Error) return toast.error(error.message);
+      toast.error("Erro ao cadastrar usuário!");
+
+      router.push("/login");
+    } finally {
+      // ver loding
+    }
+  }
+
+  useEffect(() => {
+    loadGetAllCources();
+    loadGetAllUniversities();
+  }, []);
 
   return (
-    <div className="bg-white p-6 flex flex-col items-center ">
-      {/* Logo */}
-      <Header />
+    <>
+      {!userType && <SelectTypeUser onChangeUserType={handleSelectUserType} />}
 
-      {/* Card de Cadastro */}
-      <div className="flex flex-col w-[350] items-center justify-center min-h-screen bg-white p-6 gap-2">
-        <h1 className="text-2xl font-bold mb-2">Cadastre-se</h1>
-        <p className="text-sm text-gray-600 mb-6">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Etiam eget
-          ligula eu lectus lobortis.
-        </p>
+      {userType && (
+        <div className="bg-white min-h-screen flex flex-col items-center relative px-4">
+          <main className="flex flex-col items-center justify-center flex-1 w-full max-w-md px-4 py-8">
+            <Card className="w-full">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl text-gray-900">
+                  Cadastre-se
+                </CardTitle>
+                <CardDescription className="text-sm text-gray-600 mt-2 text-center">
+                  Preencha os campos abaixo para criar sua conta
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit(onSumit)}>
+                  <div className="space-y-2 w-full">
+                    <Label htmlFor="universityId">Universidade</Label>
+                    <Select
+                      onValueChange={handleUniversityChange}
+                      value={universityId}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Selecione sua universidade" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {listUniversities.map((u) => (
+                          <SelectItem key={u.id} value={u.id}>
+                            {u.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-        {/* Formulário */}
-        <form className="space-y-4">
-          <Input type="email" placeholder="E-mail" />
+                  {userType === "Intern" && (
+                    <div className="space-y-2 w-full">
+                      <Label htmlFor="courseId">Curso</Label>
+                      <Select
+                        onValueChange={handleCourseChange}
+                        value={courseId}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Selecione seu curso" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {availableCourses.map((c) => (
+                            <SelectItem key={c.id} value={c.id}>
+                              {c.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
 
-          {/* Campo de senha */}
-          <div className="relative">
-            <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full border border-gray-500 rounded-md 
-              py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500
-              text-gray-700"
-            />
-            <button
-              type="button"
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-              onClick={togglePasswordVisibility}
-            >
-              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-            </button>
-          </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Nome</Label>
+                    <Input {...register("name", { required: true })} />
+                  </div>
 
-          {/* Validação da senha */}
-          <ul className="text-sm space-y-1 mt-2">
-            {passwordRules.map((rule, idx) => (
-              <li
-                key={idx}
-                className={clsx(
-                  "flex items-center",
-                  rule.isValid ? "text-green-600" : "text-black"
-                )}
-              >
-                <CheckCircle className="w-4 h-4 mr-2" />
-                {rule.label}
-              </li>
-            ))}
-          </ul>
+                  <div className="space-y-2">
+                    <Label htmlFor="registration">Matrícula</Label>
+                    <Input {...register("registration", { required: true })} />
+                  </div>
 
-          {/* Termos */}
-          <p className="text-xs text-gray-600 mt-4">
-            Ao clicar em Aceite e cadastre-se, você aceita os{" "}
-            <span className="font-semibold">Termos de Uso</span> e as{" "}
-            <span className="font-semibold">Políticas de Privacidade</span>
-          </p>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Telefone</Label>
+                    <Input {...register("phone", { required: true })} />
+                  </div>
 
-          {/* Botão */}
+                  {userType === "Coordinator" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="verificationCode">
+                        Código de Verificação
+                      </Label>
+                      <Input
+                        {...register("verificationCode", { required: true })}
+                      />
+                    </div>
+                  )}
 
-          <Button
-            type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white w-full mt-4"
-          >
-            Aceitar e cadastrar-se
-          </Button>
-        </form>
-      </div>
-      <Footer />
-    </div>
+                  <Button type="submit" className="w-full">
+                    Finalizar Cadastro
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </main>
+        </div>
+      )}
+    </>
   );
 }
