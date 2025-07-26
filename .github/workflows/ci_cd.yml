@@ -3,8 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - main
-      - devel
+      - main 
   workflow_dispatch:
 
 jobs:
@@ -57,9 +56,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C575C30A528C4A90BE610C3469E11BD3 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_695F7EE572704430A15B8122DBDB694A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_9678EB10290E4363A0DCA41C68F42E22 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3AEAE885541A48AFA3A990937842C3A3 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CAD4D36893504D3AA631437D0FE898D9 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F47F7636CB4D4D0ABFA64397837228F3 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
