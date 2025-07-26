@@ -15,6 +15,11 @@ using PontoEstagio.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsEnvironment("Test"))
+{
+    builder.Configuration.AddJsonFile("appsettings.Test.json", optional: false, reloadOnChange: true);
+}
+
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Configuration.EnsureDirectoryExists();
@@ -128,10 +133,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-if (builder.Environment.IsEnvironment("Test"))
-{
-    builder.Configuration.AddJsonFile("appsettings.Test.json", optional: false, reloadOnChange: true);
-}
 
 if (builder.Configuration.IsTestEnvironment() == false)
 {
