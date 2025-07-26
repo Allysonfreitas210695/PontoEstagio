@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PontoEstagio.Domain.Security.Cryptography;
 using PontoEstagio.Infrastructure.Context;
@@ -17,6 +18,10 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
     {
         builder
             .UseEnvironment("Test")
+            .ConfigureAppConfiguration((context, configBuilder) =>
+             {
+                 configBuilder.AddJsonFile("appsettings.Test.json", optional: false, reloadOnChange: true);
+             })
             .ConfigureServices(services =>
             {
                 var provider = services
