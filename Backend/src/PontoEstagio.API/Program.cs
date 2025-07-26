@@ -117,7 +117,10 @@ app.UseCors("CorsPolicy");
 
 app.UseMiddleware<CultureMiddleware>();
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 
