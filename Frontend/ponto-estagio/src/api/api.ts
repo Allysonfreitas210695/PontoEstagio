@@ -8,6 +8,16 @@ export const api = axios.create({
   }
 });
 
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+export const fetchFromApi = async (endpoint: string) => {
+  const response = await fetch(`${API_BASE_URL}${endpoint}`);
+  if (!response.ok) {
+    throw new Error(`Erro HTTP! Status: ${response.status}`);
+  }
+  return await response.json();
+};
+
 // Adicionando interceptors para tratamento global de erros
 api.interceptors.response.use(
   response => response,

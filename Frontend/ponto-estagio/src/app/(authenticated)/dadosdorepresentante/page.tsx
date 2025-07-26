@@ -64,7 +64,7 @@ export default function DadosSupervisor() {
         throw new Error("Token de autenticação não encontrado.");
       }
 
-      // 1. Cadastrar o Supervisor (POST /api/legalrepresentative)
+      // 1. Cadastrar o Supervisor (POST /api/legal-representatives)
       const supervisorData: LegalRepresentativeRegisterDTO = {
         fullName: nome, 
         cpf: cpf,
@@ -76,7 +76,7 @@ export default function DadosSupervisor() {
       console.log("Payload de cadastro do supervisor:", supervisorData);
 
       const newSupervisor = await legalRepresentativeApi.createLegalRepresentative(supervisorData, token);
-      console.log("Supervisor cadastrado com sucesso:", newSupervisor);
+      console.log("Representante cadastrado com sucesso:", newSupervisor);
       //toast.success("Dados do supervisor cadastrados com sucesso!");
 
      
@@ -87,8 +87,7 @@ export default function DadosSupervisor() {
       await authApi.updateUser(userId, userUpdateData, token);
       console.log("Usuário atualizado com supervisor associado.");
       
-      // Redirecionar para a próxima página
-      router.push(`/dadosdorepresentante?userId=${userId}&companyId=${companyId}&supervisorId=${newSupervisor.id}`);
+      router.push(`/dadosdoestagio?userId=${userId}&companyId=${companyId}&supervisorId=${newSupervisor.id}`);
 
     } catch (err: any) {
       setError(err.message || "Ocorreu um erro ao cadastrar o supervisor.");
@@ -128,7 +127,7 @@ export default function DadosSupervisor() {
             </div>
             {/* DADOS DO SUPERVISOR Card (Main Form) */}
              <div className="bg-white rounded-lg shadow p-6 mb-8 max-w-7xl">
-              <h2 className="font-bold text-gray-800 mb-2 text-xl">DADOS DO SUPERVISOR</h2>
+              <h2 className="font-bold text-gray-800 mb-2 text-xl">DADOS DO REPRESENTANDE LEGAL</h2>
               <p className="text-sm text-gray-600 mb-6">
                 Informe os dados do supervisor responsável pelo estágio.
               </p>
@@ -148,7 +147,7 @@ export default function DadosSupervisor() {
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Nome do Supervisor"
+                      placeholder="Digite o nome completo do supervisor"
                       required
                     />
                   </div>
@@ -160,7 +159,7 @@ export default function DadosSupervisor() {
                       value={cpf}
                       onChange={(e) => setCpf(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="CPF do Supervisor"
+                      placeholder="Digite o CPF do supervisor"
                       required
                     />
                   </div>
@@ -174,7 +173,7 @@ export default function DadosSupervisor() {
                       value={telefone}
                       onChange={(e) => setTelefone(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Telefone do Supervisor"
+                      placeholder="Digite o telefone do supervisor"
                       required
                     />
                   </div>
@@ -186,7 +185,7 @@ export default function DadosSupervisor() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="E-mail do Supervisor"
+                      placeholder="Digite o e-mail do supervisor"
                       required
                     />
                   </div>
@@ -199,8 +198,8 @@ export default function DadosSupervisor() {
                       type="text"
                       value={cargo}
                       onChange={(e) => setCargo(e.target.value)}
-                      className="w-151 border rounded p-2 mt-1 text-gray-600 focus:ring-gray-500 focus:border-black-800"
-                      placeholder="Cargo do Supervisor"
+                      className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-gray-500 focus:border-black-800"
+                      placeholder="Digite o cargo do supervisor"
                       required
                     />
                   </div>

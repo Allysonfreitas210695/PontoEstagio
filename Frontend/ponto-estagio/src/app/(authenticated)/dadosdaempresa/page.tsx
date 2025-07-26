@@ -1,81 +1,100 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
-import logo from "../../../../public/assets/image/logo2.png"; // Assuming this is the correct path for the logo
-import Sidebar from "../dashboard/Sidebar";
-import DashboardLayout from "../dashboard/DashboardLayout";
+import Sidebar from "@/app/(authenticated)/dashboard/Sidebar"; // Ajuste o caminho se necessário
+import DashboardLayout from "@/app/(authenticated)/dashboard/DashboardLayout"; // Ajuste o caminho se necessário
+import { useRouter } from 'next/navigation'; // Importe useRouter para redirecionamento
+import Link from 'next/link';
 
 export default function DadosEmpresaCompleto() {
+  const router = useRouter();
+
   // State for Empresa Data
-  const [nome, setNome] = useState("AltoTech");
-  const [cnpjCpf, setCnpjCpf] = useState("24.529.265/0001-40");
-  const [uf, setUf] = useState("RN");
-  const [telefone, setTelefone] = useState("+55 (84) 98147-1097");
-  const [email, setEmail] = useState("erikyabreu@alunos.ufersa.edu.br");
-  const [cep, setCep] = useState("59900-000");
-  const [logradouro, setLogradouro] = useState("Rua João Pessoa");
-  const [numero, setNumero] = useState("09-A");
-  const [bairro, setBairro] = useState("Centro");
-  const [municipio, setMunicipio] = useState("Pau dos Ferros");
-  const [registroProfissionalLiberal, setRegistroProfissionalLiberal] = useState("");
-  const [tipoPessoa, setTipoPessoa] = useState("Pessoa Jurídica"); // Default to Pessoa Jurídica
+  const [nome, setNome] = useState(""); // Nome da empresa
+  const [cnpjCpf, setCnpjCpf] = useState(""); // CNPJ/CPF da empresa
+  const [uf, setUf] = useState(""); // Estado (UF)
+  const [telefone, setTelefone] = useState(""); // Telefone da empresa
+  const [email, setEmail] = useState(""); // E-mail da empresa
+  const [cep, setCep] = useState(""); // CEP
+  const [logradouro, setLogradouro] = useState(""); // Rua
+  const [numero, setNumero] = useState(""); // Número
+  const [bairro, setBairro] = useState(""); // Bairro
+  const [municipio, setMunicipio] = useState(""); // Cidade
+  const [complemento, setComplemento] = useState(""); // Complemento (adicionado, pois está no Swagger)
+  const [registroProfissionalLiberal, setRegistroProfissionalLiberal] = useState(""); // Não mapeado diretamente no Swagger
+  const [tipoPessoa, setTipoPessoa] = useState("Pessoa Jurídica"); // Default
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Function to handle Cancel button click
   const handleCancel = () => {
-    console.log("Operação de cancelamento acionada.");
-   
-    console.log("Formulário resetado ou navegação de volta.");
+    console.log("Operação de cancelamento acionada. Redirecionando para dashboard.");
+    router.push('/dashboard'); // Redireciona para o dashboard ou página inicial
   };
 
   // Function to handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission behavior
-
-    const formData = {
-      nomeEmpresa: nome, // Example: your API might expect 'nomeEmpresa' instead of 'nome'
-      cnpjOuCpf: cnpjCpf, // Example: your API might expect 'cnpjOuCpf' instead of 'cnpjCpf'
-      estadoUf: uf, // Example: your API might expect 'estadoUf' instead of 'uf'
-      telefoneContato: telefone,
-      emailContato: email,
-      cepEndereco: cep,
-      logradouroEndereco: logradouro,
-      numeroEndereco: numero,
-      bairroEndereco: bairro,
-      municipioEndereco: municipio,
-      registroProfissional: registroProfissionalLiberal,
-      tipoPessoa: tipoPessoa, // Will send "Pessoa Jurídica" or "Pessoa Física"
-    };
-
-    console.log("Dados a serem enviados:", formData);
+    e.preventDefault();
+    setIsSaving(true);
+    setError(null);
 
     try {
-     
-      const response = await fetch('/api/empresas', {
-        method: 'POST', // Or 'PUT' if updating an existing entry
-        headers: {
-          'Content-Type': 'application/json',
+      const token = localStorage.getItem("token"); // Obtém o token do localStorage
+      if (!token) {
+        throw new Error("Token de autenticação não encontrado. Por favor, faça login.");
+      }
+
+      // Mapear os dados do formulário para o payload esperado pela API POST /api/company
+      const companyPayload = {
+        request: { // O Swagger mostra que o corpo da requisição pode ser aninhado em 'request'
+          name: nome,
+          cnpj: cnpjCpf, // Assumindo que o campo é 'cnpj' na API
+          email: email,
+          phone: telefone,
+          isActive: true, // Assumindo que a empresa é criada como ativa
+          address: {
+            street: logradouro,
+            number: numero,
+            district: bairro,
+            city: municipio,
+            state: uf,
+            zipCode: cep,
+            complement: complemento // Incluído o complemento
+          }
          
+          // professionalRegistration: registroProfissionalLiberal,
+          // personType: tipoPessoa === "Pessoa Jurídica" ? "Legal" : "Physical", // Mapear para o enum da API
+        }
+      };
+
+      console.log("Dados a serem enviados para a API (Empresa):", companyPayload);
+
+      const response = await fetch('http://localhost:5019/api/company', { // URL da API para criar empresa
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json', // Importante: JSON
+          'Authorization': `Bearer ${token}`, // Inclui o token de autenticação
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(companyPayload),
       });
 
-      if (response.ok) { // Check if the response status is 2xx (e.g., 200 OK, 201 Created)
-        const result = await response.json(); // Parse the JSON response
-        console.log("Dados cadastrados com sucesso:", result);
-        // You might want to show a success message to the user here using a custom modal
-        console.log("Dados cadastrados com sucesso! (Simulação de sucesso na API)");
-        // Optional: Clear form or redirect
+      const result = await response.json(); // Tenta ler a resposta mesmo em caso de erro
+
+      if (response.ok) {
+        console.log("Dados da empresa cadastrados com sucesso:", result);
+        // toast.success("Empresa cadastrada com sucesso!");
+        // Opcional: Redirecionar para a próxima etapa, talvez passando o ID da empresa criada
+        router.push(`/dados-empresa-supervisor?companyId=${result.id}`); // Exemplo de redirecionamento para a próxima etapa
       } else {
-        // If the response is not OK (e.g., 400 Bad Request, 500 Internal Server Error)
-        const errorData = await response.json(); // Attempt to parse error details
-        console.error("Erro ao cadastrar dados da empresa:", response.status, errorData);
-        // Show a more informative error message to the user
-        console.log(`Erro ao cadastrar dados: ${errorData.message || response.statusText || 'Erro desconhecido'}`);
+        setError(result.message || `Erro ao cadastrar dados da empresa: ${response.statusText}`);
+        console.error("Erro ao cadastrar dados da empresa:", response.status, result);
       }
-    } catch (error) {
-      // Catch network errors or issues with the fetch operation itself
-      console.error("Erro na requisição da API:", error);
-      console.log("Ocorreu um erro ao tentar se conectar com o servidor.");
+    } catch (err: any) {
+      setError(err.message || "Ocorreu um erro na requisição da API.");
+      console.error("Erro na requisição da API:", err);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -83,21 +102,20 @@ export default function DadosEmpresaCompleto() {
     <DashboardLayout>
       <div className="flex overflow-hidden">
         <Sidebar />
-        <div className="flex-1 bg-[#FAF9F6] min-h-screen p-8 overflow-hidden"> 
-          <div className="pt-1 px-6 mx-auto mt-12 w-full "> 
-           {/* <div className="flex justify-center items-center gap-4 mb-10 max-w-lg mx-auto"> */}
-           
-            <div className="flex justify-center items-center mb-10 ">
+        <div className="flex-1 bg-[#FAF9F6] min-h-screen p-6 overflow-hidden">
+          <div className="pt-1 px-14 mx-auto mt-12 w-full ">
+
+            <div className="flex justify-center items-center sm:w-[200px] md:w-[700px] lg:w-[1350px] mb-10 ">
               {/* Etapa 1 */}
               <div className="flex items-center">
                 <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">1</div>
-                <div className="h-1 bg-blue-600 w-80"></div>
+                <div className="h-1 bg-blue-600 sm:w-[50px] md:w-[120px] lg:w-[330px]"></div>
               </div>
 
               {/* Etapa 2 */}
               <div className="flex items-center">
-                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</div>
-                <div className="h-1 bg-gray-300 w-80"></div>
+                <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">2</div> {/* Corrigido para blue-600 */}
+                <div className="h-1 bg-gray-300 sm:w-[50px] md:w-[120px] lg:w-[330px]"></div>
               </div>
 
               {/* Etapa 3 */}
@@ -107,11 +125,15 @@ export default function DadosEmpresaCompleto() {
             </div>
 
             {/* DADOS DA EMPRESA Card (Main Form) */}
-            <div className="bg-white rounded-lg shadow p-6 mb-8 max-w-7xl "> 
+            <div className="bg-white sm:w-[200px] md:w-[700px] lg:w-[1350px] rounded-lg shadow p-6 mb-8 max-w-7xl ">
               <h2 className="font-bold text-gray-800 mb-2 text-xl">DADOS DA EMPRESA</h2>
               <p className="text-sm text-gray-600 mb-6">
                 Informe os dados da empresa ou do profissional liberal concedente do estágio.
               </p>
+
+              {error && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <span className="block sm:inline">{error}</span>
+              </div>}
 
               <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 mb-6">
@@ -124,6 +146,8 @@ export default function DadosEmpresaCompleto() {
                       value={nome}
                       onChange={(e) => setNome(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Informe o nome da empresa"
+                      required
                     />
                   </div>
                   <div>
@@ -134,6 +158,7 @@ export default function DadosEmpresaCompleto() {
                       value={cnpjCpf}
                       onChange={(e) => setCnpjCpf(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Informe o CNPJ/CPF"
                       required
                     />
                   </div>
@@ -146,7 +171,7 @@ export default function DadosEmpresaCompleto() {
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
                       required
                     >
-                      <option value="RN">RN</option>
+                      <option value="">Selecione um Estado</option>
                       <option value="AC">AC</option>
                       <option value="AL">AL</option>
                       <option value="AM">AM</option>
@@ -166,6 +191,7 @@ export default function DadosEmpresaCompleto() {
                       <option value="PI">PI</option>
                       <option value="PR">PR</option>
                       <option value="RJ">RJ</option>
+                      <option value="RN">RN</option>
                       <option value="RO">RO</option>
                       <option value="RR">RR</option>
                       <option value="RS">RS</option>
@@ -185,6 +211,7 @@ export default function DadosEmpresaCompleto() {
                       value={telefone}
                       onChange={(e) => setTelefone(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Digite seu telefone"
                       required
                     />
                   </div>
@@ -196,6 +223,7 @@ export default function DadosEmpresaCompleto() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Digite seu e-mail"
                       required
                     />
                   </div>
@@ -207,6 +235,7 @@ export default function DadosEmpresaCompleto() {
                       value={cep}
                       onChange={(e) => setCep(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Digite o CEP"
                       required
                     />
                   </div>
@@ -220,6 +249,7 @@ export default function DadosEmpresaCompleto() {
                       value={logradouro}
                       onChange={(e) => setLogradouro(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Informe o logradouro"
                       required
                     />
                   </div>
@@ -231,6 +261,7 @@ export default function DadosEmpresaCompleto() {
                       value={numero}
                       onChange={(e) => setNumero(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Informe o número"
                       required
                     />
                   </div>
@@ -242,6 +273,7 @@ export default function DadosEmpresaCompleto() {
                       value={bairro}
                       onChange={(e) => setBairro(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Informe o bairro"
                       required
                     />
                   </div>
@@ -255,6 +287,19 @@ export default function DadosEmpresaCompleto() {
                       value={municipio}
                       onChange={(e) => setMunicipio(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Digite o município"
+                      required // Adicionado required
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="complemento" className="block text-sm font-medium text-gray-600">Complemento</label>
+                    <input
+                      id="complemento"
+                      type="text"
+                      value={complemento}
+                      onChange={(e) => setComplemento(e.target.value)}
+                      className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Digite o complemento (opcional)"
                     />
                   </div>
                   <div>
@@ -265,6 +310,7 @@ export default function DadosEmpresaCompleto() {
                       value={registroProfissionalLiberal}
                       onChange={(e) => setRegistroProfissionalLiberal(e.target.value)}
                       className="w-full border rounded p-2 mt-1 text-gray-600 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Digite o registro profissional liberal (opcional)"
                     />
                   </div>
                 </div>
@@ -281,6 +327,7 @@ export default function DadosEmpresaCompleto() {
                       checked={tipoPessoa === "Pessoa Jurídica"}
                       onChange={(e) => setTipoPessoa(e.target.value)}
                       className="form-radio h-4 w-4 text-blue-600"
+                      required
                     />
                     <label htmlFor="pessoaJuridica" className="ml-2 text-sm text-gray-700">Pessoa Jurídica</label>
                   </div>
@@ -293,6 +340,7 @@ export default function DadosEmpresaCompleto() {
                       checked={tipoPessoa === "Pessoa Física"}
                       onChange={(e) => setTipoPessoa(e.target.value)}
                       className="form-radio h-4 w-4 text-blue-600"
+                      required
                     />
                     <label htmlFor="pessoaFisica" className="ml-2 text-sm text-gray-700">Pessoa Física</label>
                   </div>
@@ -309,9 +357,10 @@ export default function DadosEmpresaCompleto() {
                   </button>
                   <button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-150 ease-in-out"
+                    disabled={isSaving}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Cadastrar
+                    {isSaving ? "Cadastrando..." : "Cadastrar"}
                   </button>
                 </div>
               </form>
@@ -321,4 +370,6 @@ export default function DadosEmpresaCompleto() {
       </div>
     </DashboardLayout>
   );
-}
+  
+} 
+              

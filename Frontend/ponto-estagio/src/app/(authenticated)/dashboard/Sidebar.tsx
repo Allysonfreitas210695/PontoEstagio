@@ -13,7 +13,7 @@ export default function Sidebar() {
 
   const isActive = (path: string) => {
     if (path === '/solicitacaodeestagio') {
-      return pathname.startsWith('/solicitacaodeestagio') || pathname.startsWith('/dados-1') || pathname.startsWith('/dados-2') || pathname.startsWith('/dadosdaempresa'); 
+      return pathname.startsWith('/solicitacaodeestagio') || pathname.startsWith('/dados-1') || pathname.startsWith('/dados-2') || pathname.startsWith('/dadosdaempresa') || pathname.startsWith('/dadosdosupervisor' ) || pathname.startsWith('/dadosdorepresentante') || pathname.startsWith('/dadosdoestagio'); 
     }
     // Para outras rotas, a correspondência exata ou parcial é suficiente
     return pathname === path || pathname.startsWith(path + '/');
