@@ -20,6 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="appsettings.Test.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PontoEstagio.Application\PontoEstagio.Application.csproj" />
     <ProjectReference Include="..\PontoEstagio.Infrastructure\PontoEstagio.Infrastructure.csproj" />
     <ProjectReference Include="..\PontoEstagio.Exceptions\PontoEstagio.Exceptions.csproj" />
