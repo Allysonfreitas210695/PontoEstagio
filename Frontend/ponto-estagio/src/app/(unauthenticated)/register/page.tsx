@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import SelectTypeUser from "./components/selectTypeUser";
 import { userTypeDTO } from "@/types/user";
 import { courceDTO } from "@/types/cource";
@@ -141,8 +141,11 @@ export default function RegisterPage() {
 
   return (
     <>
-      {!userType && <SelectTypeUser onChangeUserType={handleSelectUserType} />}
-
+      {!userType && 
+          <Suspense fallback={<Loading />}>
+            <SelectTypeUser onChangeUserType={handleSelectUserType} />
+          </Suspense>
+      }
       {userType && (
         <div className="bg-white min-h-screen flex flex-col items-center relative px-4">
           <main className="flex flex-col items-center justify-center flex-1 w-full max-w-md px-4 py-8">
