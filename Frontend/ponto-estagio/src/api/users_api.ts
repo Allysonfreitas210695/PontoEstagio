@@ -14,6 +14,8 @@ export async function registerUser({
   registration,
   verificationCode,
 }: userRegisterDTO): Promise<userLoggedUserDTO> {
+  console.log();
+  
   try {
     const { data } = await api.post<userLoggedUserDTO>("/users", {
       email,
@@ -27,6 +29,7 @@ export async function registerUser({
       registration,
       verificationCode,
     });
+
     return data;
   } catch (error) {
     throw error;
@@ -42,7 +45,8 @@ export async function login({
       email,
       password: senha,
     });
-
+    console.log("Login successful:", data);
+    
     return data;
   } catch (error) {
     throw error;

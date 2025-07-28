@@ -121,6 +121,9 @@ export default function RegisterPage() {
       courseId,
       verificationCode,
     } = data;
+    console.log("Submitting data:", data);
+
+    
     try {
       await registerUser({
         type: userType!,
@@ -235,7 +238,7 @@ export default function RegisterPage() {
                     </div>
                   )}
 
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
                     Finalizar Cadastro
                   </Button>
                 </form>
