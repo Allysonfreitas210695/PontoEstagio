@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/api/users_api";
+import Loading from "@/components/loading";
 
 interface FormData {
   name: string;
@@ -50,12 +51,11 @@ export default function RegisterPage() {
   const router = useRouter();
 
   const {
-    register,
-    formState: { errors },
+    register, 
     handleSubmit,
-    setValue,
-    getValues,
+    setValue, 
     watch,
+    formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
       name: "",
@@ -72,6 +72,7 @@ export default function RegisterPage() {
   const [userType, setUserType] = useState<userTypeDTO | null>(null);
   const [availableCourses, setAvailableCourses] = useState<courceDTO[]>([]);
   const [listUniversities, setListUniversities] = useState<UniversityDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   function handleSelectUserType({ email, password, type }: HandleSelectProps) {
     setUserType(type);
@@ -80,72 +81,54 @@ export default function RegisterPage() {
   }
 
   async function loadGetAllCources() {
+    setIsLoading(true)
     try {
       const cources = await getAllCources();
       setAvailableCourses(cources);
     } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      toast.error("Erro ao carregar cursos");
+      toast.error(error instanceof Error ? error.message : "Erro ao carregar cursos");
+    }finally {
+      setIsLoading(false)
     }
   }
 
   async function loadGetAllUniversities() {
+    setIsLoading(true)
     try {
       const universities = await getAllUniversities();
       setListUniversities(universities);
     } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      toast.error("Erro ao carregar universidades");
+      toast.error(error instanceof Error ? error.message : "Erro ao carregar universidades");
+    }finally {
+      setIsLoading(false)
     }
   }
 
   const handleUniversityChange = (value: string) => {
-    setValue("universityId", value);
+    setValue("universityId", value, { shouldValidate: true });
   };
 
   const handleCourseChange = (value: string) => {
-    setValue("courseId", value);
+    setValue("courseId", value, { shouldValidate: true });
   };
 
   const universityId = watch("universityId");
   const courseId = watch("courseId");
 
-  async function onSumit(data: FormData) {
-    const {
-      email,
-      name,
-      password,
-      phone,
-      registration,
-      universityId,
-      courseId,
-      verificationCode,
-    } = data;
-    console.log("Submitting data:", data);
-
-    
+  async function onSubmit(data: FormData) {
+    setIsLoading(true);
     try {
       await registerUser({
         type: userType!,
-        email,
-        name,
-        password,
-        phone,
-        registration,
-        universityId,
+        ...data,
         isActive: true,
-        courseId,
-        verificationCode,
       });
-
       toast.success("Sucesso na operação de cadastro do usuário");
+      setTimeout(() => router.push("/login"), 500);
     } catch (error) {
-      if (error instanceof Error) return toast.error(error.message);
-      toast.error("Erro ao cadastrar usuário!");
-
-      router.push("/login");
+      toast.error(error instanceof Error ? error.message : "Erro ao cadastrar usuário!");
     } finally {
-      // ver loding
+      setIsLoading(false);
     }
   }
 
@@ -153,6 +136,8 @@ export default function RegisterPage() {
     loadGetAllCources();
     loadGetAllUniversities();
   }, []);
+
+  if (isLoading) return <Loading />;
 
   return (
     <>
@@ -163,15 +148,15 @@ export default function RegisterPage() {
           <main className="flex flex-col items-center justify-center flex-1 w-full max-w-md px-4 py-8">
             <Card className="w-full">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl text-gray-900">
-                  Cadastre-se
-                </CardTitle>
+                <CardTitle className="text-2xl text-gray-900">Cadastre-se</CardTitle>
                 <CardDescription className="text-sm text-gray-600 mt-2 text-center">
                   Preencha os campos abaixo para criar sua conta
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <form className="space-y-4" onSubmit={handleSubmit(onSumit)}>
+                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                  
+                  {/* UNIVERSIDADE */}
                   <div className="space-y-2 w-full">
                     <Label htmlFor="universityId">Universidade</Label>
                     <Select
@@ -189,9 +174,13 @@ export default function RegisterPage() {
                         ))}
                       </SelectContent>
                     </Select>
+                    {errors.universityId && (
+                      <p className="text-sm text-red-500">Selecione uma universidade.</p>
+                    )}
                   </div>
 
-                  {userType === "Intern" && (
+                  {/* CURSO */}
+                  {userType === "Coordinator" && (
                     <div className="space-y-2 w-full">
                       <Label htmlFor="courseId">Curso</Label>
                       <Select
@@ -209,32 +198,80 @@ export default function RegisterPage() {
                           ))}
                         </SelectContent>
                       </Select>
+                      {errors.courseId && (
+                        <p className="text-sm text-red-500">Selecione um curso.</p>
+                      )}
                     </div>
                   )}
 
+                  {/* NOME */}
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nome</Label>
-                    <Input {...register("name", { required: true })} />
+                    <Label htmlFor="name">{userType === "Intern" ? "Nome" : "Nome do Coordenador"}</Label>
+                    <Input
+                      {...register("name", { required: "Nome é obrigatório." })}
+                    />
+                    {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="registration">Matrícula</Label>
-                    <Input {...register("registration", { required: true })} />
-                  </div>
+                  {/* MATRÍCULA */}
+                  {userType === "Intern" && 
+                    <div className="space-y-2">
+                      <Label htmlFor="registration">Matrícula</Label>
+                      <Input
+                        {...register("registration", { required: "Matrícula é obrigatória." })}
+                      />
+                      {errors.registration && <p className="text-sm text-red-500">{errors.registration.message}</p>}
+                    </div>
+                    }
 
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Telefone</Label>
-                    <Input {...register("phone", { required: true })} />
-                  </div>
+                  {/* TELEFONE */}
+                  {userType === "Intern" && 
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Telefone</Label>
+                      <Input
+                        {...register("phone", { 
+                          required: "Telefone é obrigatório.",
+                          pattern: { value: /^[0-9]{10,11}$/, message: "Digite um telefone válido (10 ou 11 dígitos)." }
+                        })}
+                      />
+                      {errors.phone && <p className="text-sm text-red-500">{errors.phone.message}</p>}
+                    </div>
+                  }
 
+                  {/* VERIFICAÇÃO - COORDENADOR */}
                   {userType === "Coordinator" && (
                     <div className="space-y-2">
-                      <Label htmlFor="verificationCode">
-                        Código de Verificação
-                      </Label>
-                      <Input
-                        {...register("verificationCode", { required: true })}
-                      />
+                      <Label htmlFor="verificationCode">Código de Verificação</Label>
+                      <div className="flex justify-between gap-2">
+                        {[...Array(6)].map((_, index) => (
+                          <Input
+                            key={index}
+                            maxLength={1}
+                            className="w-10 text-center"
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, "");
+                              e.target.value = value;
+
+                              const currentCode = watch("verificationCode") || "";
+                              const codeArray = currentCode.padEnd(6, " ").split("");
+                              codeArray[index] = value;
+                              setValue("verificationCode", codeArray.join("").trim(), { shouldValidate: true });
+
+                              if (value && e.target.nextElementSibling) {
+                                (e.target.nextElementSibling as HTMLInputElement).focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Backspace" && !e.currentTarget.value && e.currentTarget.previousElementSibling) {
+                                (e.currentTarget.previousElementSibling as HTMLInputElement).focus();
+                              }
+                            }}
+                          />
+                        ))}
+                      </div>
+                      {errors.verificationCode && (
+                        <p className="text-sm text-red-500">Digite o código completo de 6 dígitos.</p>
+                      )}
                     </div>
                   )}
 

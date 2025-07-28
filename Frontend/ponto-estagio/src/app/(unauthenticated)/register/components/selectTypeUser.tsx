@@ -7,15 +7,13 @@ import { CheckCircle, Eye, EyeOff } from "lucide-react";
 import clsx from "clsx";
 
 import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { Input } from "@/components/ui/input";
+ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 
 import { CheckUser } from "@/api/users_api";
 import { getPasswordRules, isPasswordValid } from "@/utils/passwordRules";
-import { userTypeDTO } from "@/types/user";
-import { HandleSelectProps } from "../page";
+ import { HandleSelectProps } from "../page";
 
 type FormData = {
   email: string;
@@ -75,7 +73,7 @@ export default function SelectTypeUser({ onChangeUserType }: IProps) {
     }
 
     try {
-      await CheckUser({
+       await CheckUser({
         type: type!,
         email: data.email,
         password: data.password,
@@ -95,8 +93,10 @@ export default function SelectTypeUser({ onChangeUserType }: IProps) {
           password: data.password,
           type: "Coordinator",
         });
-    } catch (error: any) {
-      if (error instanceof Error) toast.error(error.message);
+    } catch (error) {
+       if (error instanceof Error){
+         console.log(error)
+      }
       else toast.error("Erro ao cadastrar usuário");
     }
   };

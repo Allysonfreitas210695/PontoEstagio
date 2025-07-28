@@ -12,6 +12,7 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { login } from "@/api/users_api";
+import Loading from "@/components/loading";
 
 export type LoginFormData = {
   email: string;
@@ -20,7 +21,8 @@ export type LoginFormData = {
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const {
@@ -32,8 +34,7 @@ export default function LoginPage() {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data: LoginFormData) => {
-    setLoading(true);
-
+    setIsLoading(true); 
     try {
       await login(data);
       toast.success("Login realizado com sucesso!");
@@ -45,9 +46,11 @@ export default function LoginPage() {
         toast.error("Falha ao fazer login.");
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
+
+  if(isLoading) return <Loading/>;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
@@ -112,12 +115,12 @@ export default function LoginPage() {
 
           <Button
             type="submit"
-            disabled={loading}
-            className={`w-full bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
+            disabled={isLoading}
+            className={`w-full cursor-pointer bg-blue-600 text-white py-2 rounded-md font-semibold hover:bg-blue-700 transition ${
+              isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {loading ? "Entrando..." : "Entrar"}
+            {isLoading ? "Entrando..." : "Entrar"}
           </Button>
 
           <div className="flex items-center my-4">
@@ -134,7 +137,7 @@ export default function LoginPage() {
           <Button
             onClick={() => router.push("/select")}
             type="button"
-            className="bg-gray-100 w-full border-2 border-blue-600 text-blue-600 py-2 rounded-md 
+            className="bg-gray-100 cursor-pointer w-full border-2 border-blue-600 text-blue-600 py-2 rounded-md 
             font-semibold hover:bg-blue-50 transition"
           >
             Cadastre-se Agora

@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import PasswordResetModal from "@/app/components/passwordResetModal/PasswordResetModal";
+import PasswordResetModal from "@/components/passwordResetModal";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -31,7 +31,8 @@ export default function ForgotPasswordPage() {
       toast.success("Código enviado para seu e-mail.");
       setModalOpen(true);
     } catch (error) {
-      toast.error("Erro ao enviar código de verificação.");
+      if (error instanceof Error) return toast.error(error.message);
+      toast.error("Erro ao enviar código de verificação.");  
     } finally {
       setLoading(false);
     }

@@ -44,7 +44,7 @@ export default function SelectPage() {
             onClick={() => handleNavigation("Coordinator")}
             disabled={isNavigating}
             variant="outline"
-            className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
+            className="mt-6 cursor-pointer flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
             Avançar <ArrowRight className="w-4 h-4" />
           </Button>
@@ -71,7 +71,7 @@ export default function SelectPage() {
             onClick={() => handleNavigation("Intern")}
             disabled={isNavigating}
             variant="outline"
-            className="mt-6 flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
+            className="mt-6 cursor-pointer flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
           >
             Avançar <ArrowRight className="w-4 h-4" />
           </Button>
