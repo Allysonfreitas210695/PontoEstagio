@@ -62,7 +62,7 @@ public class CheckUserExistsUseCase : ICheckUserExistsUseCase
                     id: Guid.NewGuid(),
                     email: Email.Criar(request.Email),
                     code: code,
-                    expiration: DateTime.UtcNow.AddDays(2)
+                    expiration: DateTime.UtcNow.AddMinutes(3)
                 );
 
                 await _verificationCodeWriteRepository.AddAsync(verificationCode);

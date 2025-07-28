@@ -6,8 +6,7 @@ import userImage from "../../../../public/assets/image/user.jpg";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import DashboardLayout from "./DashboardLayout";
-import { date } from "zod";
-
+ 
 export default function Dashboard() {
   interface Atividade {
     data: string;
@@ -19,9 +18,7 @@ export default function Dashboard() {
   const [atividades, setAtividades] = useState<Atividade[]>([]);
 
   useEffect(() => {
-    fetch("/api/atividades")
-      .then((res) => res.json())
-      .then((data) => setAtividades(data));
+     setAtividades([]);
   }, []);
 
   return (

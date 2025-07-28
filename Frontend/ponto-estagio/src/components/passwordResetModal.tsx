@@ -68,6 +68,7 @@ export default function PasswordResetModal({ isOpen, onClose, email }: PasswordR
       alert("Senha redefinida com sucesso!");
       onClose();
     } catch (error) {
+      console.log(error)
       alert("Erro ao redefinir senha. Por favor, tente novamente.");
     } finally {
       setIsSubmitting(false);

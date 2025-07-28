@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import Header from "@/app/components/header/page";
-import Footer from "@/app/components/footer/page";
-import PasswordResetModal from "@/app/components/passwordResetModal/PasswordResetModal";
+
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
+import PasswordResetModal from "@/components/passwordResetModal";
 
 export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,7 @@ export default function ForgotPasswordPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       toast.error("Por favor, insira seu e-mail.");
       return;
@@ -25,12 +26,13 @@ export default function ForgotPasswordPage() {
 
     try {
       // Simular chamada à API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       toast.success("Código enviado para seu e-mail.");
       setModalOpen(true);
     } catch (error) {
-      toast.error("Erro ao enviar código de verificação.");
+      if (error instanceof Error) return toast.error(error.message);
+      toast.error("Erro ao enviar código de verificação.");  
     } finally {
       setLoading(false);
     }
@@ -95,13 +97,13 @@ export default function ForgotPasswordPage() {
           </button>
         </form>
       </div>
-      
-      <PasswordResetModal 
-        isOpen={modalOpen} 
+
+      <PasswordResetModal
+        isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         email={email}
       />
-      
+
       <Footer />
     </div>
   );

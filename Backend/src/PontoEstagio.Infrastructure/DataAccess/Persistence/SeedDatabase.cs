@@ -16,6 +16,20 @@ public static class SeedDatabaseInitial
     {
         var dbContext = serviceProvider.GetRequiredService<PontoEstagioDbContext>();
 
+        // dbContext.Activitys.RemoveRange(dbContext.Activitys);
+        // dbContext.Attendances.RemoveRange(dbContext.Attendances);
+        // dbContext.UserProjects.RemoveRange(dbContext.UserProjects);
+        // dbContext.Projects.RemoveRange(dbContext.Projects);
+        // dbContext.LegalRepresentatives.RemoveRange(dbContext.LegalRepresentatives);
+        // dbContext.Companies.RemoveRange(dbContext.Companies);
+        // dbContext.Users.RemoveRange(dbContext.Users);
+        // dbContext.Courses.RemoveRange(dbContext.Courses);
+        // dbContext.Universities.RemoveRange(dbContext.Universities);
+        // dbContext.EmailTemplates.RemoveRange(dbContext.EmailTemplates);
+        // dbContext.UserRefreshTokens.RemoveRange(dbContext.UserRefreshTokens);
+
+        // await dbContext.SaveChangesAsync();
+
         await using var transaction = await dbContext.Database.BeginTransactionAsync();
 
         try
