@@ -15,6 +15,11 @@ using PontoEstagio.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsEnvironment("Test"))
+{
+    builder.Configuration.AddJsonFile("appsettings.Test.json", optional: false, reloadOnChange: true);
+}
+
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Configuration.EnsureDirectoryExists();
@@ -89,6 +94,10 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var jwtSettings = builder.Configuration.GetSection("Jwt");
+
+var jwtKey = jwtSettings.GetValue<string>("Key")!;
+var issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -100,10 +109,11 @@ builder.Services.AddAuthentication(options =>
     {
         ValidateIssuer = false,
         ValidateAudience = false,
-        ClockSkew = new TimeSpan(0),
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!))
+        ClockSkew = TimeSpan.Zero,
+        IssuerSigningKey = issuerSigningKey
     };
 });
+
 
 var app = builder.Build();
 
@@ -117,7 +127,10 @@ app.UseCors("CorsPolicy");
 
 app.UseMiddleware<CultureMiddleware>();
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthentication();
 
@@ -125,10 +138,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-if (builder.Environment.IsEnvironment("Test"))
-{
-    builder.Configuration.AddJsonFile("appsettings.Test.json", optional: false, reloadOnChange: true);
-}
 
 if (builder.Configuration.IsTestEnvironment() == false)
 {
