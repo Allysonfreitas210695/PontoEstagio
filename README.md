@@ -1,6 +1,6 @@
 # 📘 Registra
 
-**Registra** é um sistema de controle de frequência e atividades desenvolvido para estagiários, estudantes ou membros de projetos. Ele permite o registro diário de presença e tarefas, além de possibilitar o acompanhamento e validação por parte de supervisores.
+**Registra** é um sistema web desenvolvido para gerenciar o processo de solicitação, acompanhamento e validação de estágios supervisionados obrigatórios no ensino superior. A plataforma automatiza etapas burocráticas, organiza documentos essenciais e centraliza o controle das atividades realizadas pelos estagiários. O sistema permite que alunos, supervisores, representantes legais e coordenadores interajam de forma transparente, buscando promover mais agilidade e conformidade institucional.
 
 ---
 
