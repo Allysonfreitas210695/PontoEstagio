@@ -51,9 +51,9 @@ export default function RegisterPage() {
   const router = useRouter();
 
   const {
-    register, 
+    register,
     handleSubmit,
-    setValue, 
+    setValue,
     watch,
     formState: { errors },
   } = useForm<FormData>({
@@ -81,26 +81,32 @@ export default function RegisterPage() {
   }
 
   async function loadGetAllCources() {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const cources = await getAllCources();
       setAvailableCourses(cources);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Erro ao carregar cursos");
-    }finally {
-      setIsLoading(false)
+      toast.error(
+        error instanceof Error ? error.message : "Erro ao carregar cursos"
+      );
+    } finally {
+      setIsLoading(false);
     }
   }
 
   async function loadGetAllUniversities() {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const universities = await getAllUniversities();
       setListUniversities(universities);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Erro ao carregar universidades");
-    }finally {
-      setIsLoading(false)
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : "Erro ao carregar universidades"
+      );
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -126,7 +132,9 @@ export default function RegisterPage() {
       toast.success("Sucesso na operação de cadastro do usuário");
       setTimeout(() => router.push("/login"), 500);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Erro ao cadastrar usuário!");
+      toast.error(
+        error instanceof Error ? error.message : "Erro ao cadastrar usuário!"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -141,24 +149,39 @@ export default function RegisterPage() {
 
   return (
     <>
-      {!userType && 
-          <Suspense fallback={<Loading />}>
-            <SelectTypeUser onChangeUserType={handleSelectUserType} />
-          </Suspense>
-      }
+      {!userType && (
+        <Suspense fallback={<Loading />}>
+          <SelectTypeUser onChangeUserType={handleSelectUserType} />
+        </Suspense>
+      )}
       {userType && (
         <div className="bg-white min-h-screen flex flex-col items-center relative px-4">
           <main className="flex flex-col items-center justify-center flex-1 w-full max-w-md px-4 py-8">
             <Card className="w-full">
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl text-gray-900">Cadastre-se</CardTitle>
-                <CardDescription className="text-sm text-gray-600 mt-2 text-center">
-                  Preencha os campos abaixo para criar sua conta
-                </CardDescription>
+                <CardTitle className="text-2xl text-gray-900">
+                  Cadastre-se
+                </CardTitle>
+                {userType === "Intern" && (
+                  <div className="space-y-2">
+                    <CardDescription className="text-sm text-gray-600 mt-2 text-center">
+                      Preencha os dados solicitados para registrar a coordenação
+                      de curso no sistema Registra.
+                    </CardDescription>
+                  </div>
+                )}
+                {userType === "Coordinator" && (
+                  <div className="space-y-2">
+                    <CardDescription className="text-sm text-gray-600 mt-2 text-center">
+                      Preencha os campos abaixo para realizar o cadastro do
+                      coordenador e iniciar o processo de solicitação de
+                      estágio.
+                    </CardDescription>
+                  </div>
+                )}
               </CardHeader>
               <CardContent className="space-y-4">
                 <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                  
                   {/* UNIVERSIDADE */}
                   <div className="space-y-2 w-full">
                     <Label htmlFor="universityId">Universidade</Label>
@@ -178,7 +201,9 @@ export default function RegisterPage() {
                       </SelectContent>
                     </Select>
                     {errors.universityId && (
-                      <p className="text-sm text-red-500">Selecione uma universidade.</p>
+                      <p className="text-sm text-red-500">
+                        Selecione uma universidade.
+                      </p>
                     )}
                   </div>
 
@@ -202,83 +227,131 @@ export default function RegisterPage() {
                         </SelectContent>
                       </Select>
                       {errors.courseId && (
-                        <p className="text-sm text-red-500">Selecione um curso.</p>
+                        <p className="text-sm text-red-500">
+                          Selecione um curso.
+                        </p>
                       )}
                     </div>
                   )}
 
                   {/* NOME */}
                   <div className="space-y-2">
-                    <Label htmlFor="name">{userType === "Intern" ? "Nome" : "Nome do Coordenador"}</Label>
+                    <Label htmlFor="name">
+                      {userType === "Intern" ? "Nome" : "Nome do Coordenador"}
+                    </Label>
                     <Input
                       {...register("name", { required: "Nome é obrigatório." })}
                     />
-                    {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+                    {errors.name && (
+                      <p className="text-sm text-red-500">
+                        {errors.name.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* MATRÍCULA */}
-                  {userType === "Intern" && 
+                  {userType === "Intern" && (
                     <div className="space-y-2">
                       <Label htmlFor="registration">Matrícula</Label>
                       <Input
-                        {...register("registration", { required: "Matrícula é obrigatória." })}
+                        {...register("registration", {
+                          required: "Matrícula é obrigatória.",
+                        })}
                       />
-                      {errors.registration && <p className="text-sm text-red-500">{errors.registration.message}</p>}
+                      {errors.registration && (
+                        <p className="text-sm text-red-500">
+                          {errors.registration.message}
+                        </p>
+                      )}
                     </div>
-                    }
+                  )}
 
                   {/* TELEFONE */}
-                  {userType === "Intern" && 
+                  {userType === "Intern" && (
                     <div className="space-y-2">
                       <Label htmlFor="phone">Telefone</Label>
                       <Input
-                        {...register("phone", { 
+                        {...register("phone", {
                           required: "Telefone é obrigatório.",
-                          pattern: { value: /^[0-9]{10,11}$/, message: "Digite um telefone válido (10 ou 11 dígitos)." }
+                          pattern: {
+                            value: /^[0-9]{10,11}$/,
+                            message:
+                              "Digite um telefone válido (10 ou 11 dígitos).",
+                          },
                         })}
                       />
-                      {errors.phone && <p className="text-sm text-red-500">{errors.phone.message}</p>}
+                      {errors.phone && (
+                        <p className="text-sm text-red-500">
+                          {errors.phone.message}
+                        </p>
+                      )}
                     </div>
-                  }
+                  )}
 
                   {/* VERIFICAÇÃO - COORDENADOR */}
                   {userType === "Coordinator" && (
-                    <div className="space-y-2">
-                      <Label htmlFor="verificationCode">Código de Verificação</Label>
-                      <div className="flex justify-between gap-2">
+                    <div className="space-y-2 ">
+                      <Label className="flex justify-center p-5 text-lg" htmlFor="verificationCode" >
+                        Código de Verificação
+                      </Label>
+                      <div className="flex justify-between gap-2 ">
                         {[...Array(6)].map((_, index) => (
                           <Input
                             key={index}
                             maxLength={1}
-                            className="w-10 text-center"
+                            className="w-10 text-center  border-black border-b-2 p-2"
                             onChange={(e) => {
                               const value = e.target.value.replace(/\D/g, "");
                               e.target.value = value;
 
-                              const currentCode = watch("verificationCode") || "";
-                              const codeArray = currentCode.padEnd(6, " ").split("");
+                              const currentCode =
+                                watch("verificationCode") || "";
+                              const codeArray = currentCode
+                                .padEnd(6, " ")
+                                .split("");
                               codeArray[index] = value;
-                              setValue("verificationCode", codeArray.join("").trim(), { shouldValidate: true });
+                              setValue(
+                                "verificationCode",
+                                codeArray.join("").trim(),
+                                { shouldValidate: true }
+                              );
 
                               if (value && e.target.nextElementSibling) {
-                                (e.target.nextElementSibling as HTMLInputElement).focus();
+                                (
+                                  e.target
+                                    .nextElementSibling as HTMLInputElement
+                                ).focus();
                               }
                             }}
                             onKeyDown={(e) => {
-                              if (e.key === "Backspace" && !e.currentTarget.value && e.currentTarget.previousElementSibling) {
-                                (e.currentTarget.previousElementSibling as HTMLInputElement).focus();
+                              if (
+                                e.key === "Backspace" &&
+                                !e.currentTarget.value &&
+                                e.currentTarget.previousElementSibling
+                              ) {
+                                (
+                                  e.currentTarget
+                                    .previousElementSibling as HTMLInputElement
+                                ).focus();
                               }
                             }}
                           />
                         ))}
                       </div>
                       {errors.verificationCode && (
-                        <p className="text-sm text-red-500">Digite o código completo de 6 dígitos.</p>
+                        <p className="text-sm text-red-500">
+                          Digite o código completo de 6 dígitos.
+                        </p>
                       )}
                     </div>
                   )}
-
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+        <p className="text-xs text-gray-500 mb-4">
+          Enviado para: <strong>{watch("email")}</strong>
+        </p>
+                  <Button
+                    type="submit"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  >
                     Finalizar Cadastro
                   </Button>
                 </form>

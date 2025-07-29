@@ -58,12 +58,11 @@ export default function LoginPage() {
 
       <div
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
-        style={{ minWidth: "300px", maxWidth: "407px", height: "auto" }}
+        style={{ minWidth: "300px", maxWidth: "350px", height: "auto" }}
       >
         <h2 className="text-3xl font-bold mb-2 text-black">Entrar</h2>
         <p className="text-sm text-gray-600 mb-6">
-          Insira seus dados de login para acessar o Registra, seu sistema para
-          controle de ponto.
+          Insira seus dados de login para acessar o Registra, seu sistema para controle de ponto.
         </p>
 
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -130,10 +129,8 @@ export default function LoginPage() {
           </div>
 
           <p className="text-gray-600 text-sm text-center mb-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget
-            ligula eu lectus lobortis.
+            Se você ainda não possui cadastro no sistema Registra, utilize a opção abaixo para se registrar.
           </p>
-
           <Button
             onClick={() => router.push("/select")}
             type="button"
@@ -144,7 +141,6 @@ export default function LoginPage() {
           </Button>
         </form>
       </div>
-      <Footer />
     </div>
   );
 }
