@@ -24,13 +24,10 @@ export default function HomePage() {
 
       <div className="z-10 max-w-xl space-y-6 text-center md:text-left">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-800 leading-tight">
-          Transforme o <br />
-          Controle de Ponto <br />
-          em Produtividade!
+          Descomplique o <br /> Cadastro de estágio <br /> com o cegistra
         </h1>
         <p className="text-gray-700 text-base md:text-lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget
-          ligula eu lectus lobortis condimentum.
+          O Registra foi desenvolvido para modernizar o processo de solicitação e acompanhamento de estágios supervisionados no ensino superior. Com uma interface intuitiva e recursos automatizados, o sistema reduz a burocracia e garante mais eficiência, segurança e transparência.
         </p>
         <Link
           href="/login"

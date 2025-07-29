@@ -44,9 +44,9 @@ export default function ForgotPasswordPage() {
 
       <div
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md"
-        style={{ minWidth: "300px", maxWidth: "407px", height: "auto" }}
+        style={{ minWidth: "300px", maxWidth: "350px", height: "auto" }}
       >
-        <h2 className="text-3xl font-bold mb-2 text-black">Recuperar Senha</h2>
+        <h2 className="text-3xl font-bold mb-2 text-black">Recuperar <br />Senha</h2>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="relative">

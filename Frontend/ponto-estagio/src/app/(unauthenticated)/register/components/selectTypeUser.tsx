@@ -104,10 +104,10 @@ export default function SelectTypeUser({ onChangeUserType }: IProps) {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   return (
-    <div className="bg-white flex flex-col items-center min-h-screen">
+    <div className="bg-white flex flex-col items-center justify-center  min-h-screen">
       <Header />
 
-      <main className="flex-1 flex items-center justify-center px-4">
+      <main className=" flex items-center justify-center px-4 bg-white p-8 rounded-2xl shadow-lg w-full max-w-md " style={{ minWidth: "300px", maxWidth: "350px", height: "auto" }}>
         <div className="w-full max-w-md p-6 flex flex-col gap-2">
           <h1 className="text-2xl font-bold mb-2">Cadastre-se</h1>
           <p className="text-sm text-gray-600 mb-6">
@@ -161,10 +161,10 @@ export default function SelectTypeUser({ onChangeUserType }: IProps) {
               ))}
             </ul>
 
-            <p className="text-xs text-gray-600 mt-4">
+            <p className="text-xs text-black mt-7">
               Ao clicar em Aceitar e cadastrar-se, você aceita os{" "}
-              <span className="font-semibold">Termos de Uso</span> e as{" "}
-              <span className="font-semibold">Políticas de Privacidade</span>
+              <span className="font-bold underline">Termos de Uso</span> e as{" "}
+              <span className="font-bold underline">Políticas de Privacidade</span>
             </p>
 
             <Button
