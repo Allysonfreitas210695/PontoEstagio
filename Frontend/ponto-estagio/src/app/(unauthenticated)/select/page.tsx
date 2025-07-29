@@ -77,7 +77,6 @@ export default function SelectPage() {
           </Button>
         </div>
       </div>
-      <Footer />
     </section>
   );
 }

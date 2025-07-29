@@ -144,7 +144,6 @@ export default function LoginPage() {
           </Button>
         </form>
       </div>
-      <Footer />
     </div>
   );
 }

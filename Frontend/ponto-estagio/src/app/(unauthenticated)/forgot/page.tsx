@@ -103,8 +103,6 @@ export default function ForgotPasswordPage() {
         onClose={() => setModalOpen(false)}
         email={email}
       />
-
-      <Footer />
     </div>
   );
 }
