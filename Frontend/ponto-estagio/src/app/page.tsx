@@ -1,3 +1,4 @@
+import { Footer } from "@/components/footer";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,7 +25,7 @@ export default function HomePage() {
 
       <div className="z-10 max-w-xl space-y-6 text-center md:text-left">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-blue-800 leading-tight">
-          Descomplique o <br /> Cadastro de estágio <br /> com o cegistra
+          Descomplique o <br /> Cadastro de estágio <br /> com o Registra
         </h1>
         <p className="text-gray-700 text-base md:text-lg">
           O Registra foi desenvolvido para modernizar o processo de solicitação e acompanhamento de estágios supervisionados no ensino superior. Com uma interface intuitiva e recursos automatizados, o sistema reduz a burocracia e garante mais eficiência, segurança e transparência.
@@ -37,7 +38,7 @@ export default function HomePage() {
         </Link>
       </div>
 
-      <div className="relative z-19 mt-10 -bottom-20 -right-10 w-100%">
+      <div className="relative z-19 mt-10 -bottom-10 -right-10 w-100%">
         <Image
           src={"/assets/image/cliente.png"}
           alt="Mulher com notebook"
@@ -45,6 +46,9 @@ export default function HomePage() {
           height={500}
           className="w-full h-auto object-contain"
         />
+      </div>
+      <div className="absolute bottom-0 left-0 right-0 bg-white shadow-lg py-4 px-6">
+        <Footer />
       </div>
     </div>
   );
